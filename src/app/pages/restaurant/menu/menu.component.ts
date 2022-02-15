@@ -15,14 +15,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  debounceTime,
-  fromEvent,
-  map,
-  Observable,
-  Subscription,
-  throttleTime,
-} from 'rxjs';
+import { debounceTime, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
 import { ErrorsService } from 'src/app/services/local/errors.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
@@ -37,7 +30,7 @@ import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
-  restaurantId!: string;
+  @Input() storeId!: string;
   menuGroups!: Group[];
   selectedMenuGroup!: Group;
   categories!: Category[];
@@ -118,8 +111,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    this.restaurantId = this.route.snapshot.params['restaurantId'];
-    this.getMenuGroup(this.restaurantId);
+    this.getMenuGroup(this.storeId);
   }
 
   //get groups

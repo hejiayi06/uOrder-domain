@@ -16,7 +16,7 @@ const routes: Routes = [
     data: { page: 'checkout' },
   },
   {
-    path: 'restaurant/:restaurantId',
+    path: 'restaurant',
     loadChildren: () =>
       import('./restaurant/restaurant.module').then((m) => m.RestaurantModule),
     data: { page: 'store' },

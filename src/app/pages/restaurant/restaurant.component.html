@@ -8,8 +8,11 @@
   </div>
   <div class="fill-up mt-xl-4"></div>
   <!-- restaurant information conponents -->
-  <uo-restaurant-info (heightEvent)="getHeight($event)"></uo-restaurant-info>
+  <uo-restaurant-info
+    (heightEvent)="getHeight($event)"
+    [storeId]="storeId.toString()"
+  ></uo-restaurant-info>
   <!-- menu categories -->
-  <uo-menu [height]="height"></uo-menu>
+  <uo-menu [height]="height" [storeId]="storeId.toString()"></uo-menu>
 </div>
 <uo-footer></uo-footer>

@@ -37,8 +37,8 @@ import { ItemModalComponent } from '../../modals/item-modal/item-modal.component
 })
 export class UItemsComponent implements OnInit, OnDestroy {
   @Input() menuItem!: Item;
+  @Input() storeId!: string;
   @Output('item') ItemEvent = new EventEmitter<Item>();
-  restaurantId!: string;
   length: number = 0;
   cartSub!: Subscription;
   constructor(
@@ -54,23 +54,8 @@ export class UItemsComponent implements OnInit, OnDestroy {
     // this.cartSub.unsubscribe();
   }
 
-  ngOnInit(): void {
-    // this.getStoreShoppingCartLength();
-    this.restaurantId = this.route.snapshot.params['restaurantId'];
-  }
-  // getStoreShoppingCartLength(): void {
-  //   this.shoppingCartStore$
-  //     .select(selectShoppingCartFeature)
-  //     .pipe(select(getShoppingCartLength))
-  //     .subscribe((res) => {
-  //       if (res) {
-  //         console.log('getShoppingCartLength :>> ', res);
-  //         this.length = res;
-  //       } else {
-  //         this.length = 0;
-  //       }
-  //     });
-  // }
+  ngOnInit(): void {}
+
   getItem(): void {
     this.cartSub = this.shoppingCartStore$
       .select(selectShoppingCartFeature)
@@ -87,7 +72,7 @@ export class UItemsComponent implements OnInit, OnDestroy {
       // this.setItem(this.menuItem);
       this.detectStore(this.menuItem);
     } else {
-      this.menuServe.getItem(this.restaurantId, this.menuItem['id']).subscribe(
+      this.menuServe.getItem(this.storeId, this.menuItem['id']).subscribe(
         (res) => {
           if (res.data) {
             // this.setItem(res.data.item);

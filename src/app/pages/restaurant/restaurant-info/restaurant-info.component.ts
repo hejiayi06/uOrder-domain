@@ -8,6 +8,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewChecked,
+  Input,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -29,12 +30,11 @@ import { StoreInfoStoreModule } from 'src/app/state/store-info/store-info.store.
 export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
   storeData!: StoreRes;
   day!: string;
-
+  @Input() storeId!: string;
   @Output() heightEvent = new EventEmitter<number>();
   @ViewChild('info', { static: true }) private infoEl!: ElementRef;
   constructor(
     private cdr: ChangeDetectorRef,
-    private modalService: NgbModal,
     private storeServe: StoreService,
     private route: ActivatedRoute,
     private storeStore$: Store<StoreInfoStoreModule>,
@@ -106,10 +106,7 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
     //     }
     //   });
     // if (!this.storeData) {
-    const storeId = this.route.snapshot.params['restaurantId'];
-    this.winServe.setLocalStorage(storageKeys.store, storeId);
-    console.log('storeId :>> ', storeId);
-    this.storeServe.getStore(storeId).subscribe(
+    this.storeServe.getStore(this.storeId).subscribe(
       (data) => {
         console.log('getStore :>> ', data);
         if (data) {
