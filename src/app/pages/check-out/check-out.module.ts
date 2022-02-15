@@ -14,6 +14,7 @@ import { CheckoutHeaderModule } from 'src/app/layout/checkout-header/checkout-he
 import { PhonePipeModule } from 'src/app/share/pipes/phone/phone.module';
 import { CustomTipsModalModule } from '../modals/custom-tips-modal/custom-tips-modal.module';
 import { AddCouponModule } from '../modals/add-coupon/add-coupon.module';
+import { NameModalModule } from '../modals/name-modal/name-modal.module';
 @NgModule({
   declarations: [CheckOutComponent],
   imports: [
@@ -29,6 +30,7 @@ import { AddCouponModule } from '../modals/add-coupon/add-coupon.module';
     ChooseAddressesModalModule,
     CheckoutHeaderModule,
     PhonePipeModule,
+    NameModalModule,
     FooterModule,
     FormsModule,
     ReactiveFormsModule,

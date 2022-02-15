@@ -6,7 +6,6 @@ import { SizerModule } from './sizer/sizer.module';
 import { ModifyArrayModule } from './modify-array/modify-array.module';
 import { SectionArrayModule } from './section-array/section-array.module';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { HeaderModule } from 'src/app/layout/header/header.module';
 
 // const route: Routes = [
 //   {

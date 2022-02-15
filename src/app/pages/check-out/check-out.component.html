@@ -119,7 +119,7 @@
         <div class="w-100">
           <div
             class="alert-danger rounded shadow-sm text-center fw-500 p-2 user-select-none"
-            *ngIf="card_number?.errors?.['required'] || name?.errors?.['required']|| expiration_date?.errors?.['required'] || zipcode?.errors?.['required'] || cvv?.errors?.['required']"
+            *ngIf="card_number?.errors?.['required'] || cardName?.errors?.['required']|| expiration_date?.errors?.['required'] || zipcode?.errors?.['required'] || cvv?.errors?.['required']"
           >
             Credit card information missing!
           </div>
@@ -323,7 +323,7 @@
                 class="col-12 col-lg-9 d-flex flex-column justify-content-center"
               >
                 <a
-                  class="user-select-none fs-6 w-100 text-dark d-inline-flex align-items-center"
+                  class="user-select-none fs-6 w-100 text-danger d-inline-flex align-items-center"
                   (click)="changeTime()"
                 >
                   <ng-container
@@ -335,7 +335,9 @@
                     {{ checkout?.orderParams?.scheduleTime }}
                   </ng-container>
                   <ng-template #asapTemplate>
-                    <ng-container *ngIf="!loading">ASAP(35-45min)</ng-container>
+                    <ng-container *ngIf="!loading"
+                      >ASAP(35-45min) click to change.</ng-container
+                    >
                   </ng-template>
                 </a>
               </div>
@@ -350,53 +352,40 @@
             </div>
           </div>
           <!-- name -->
-          <!-- <div class="w-100 border-bottom pt-3 pb-3 d-inline-flex">
+          <div class="w-100 border-bottom pt-3 pb-3 d-inline-flex">
+            <div
+              class="flex-fill d-flex d-lg-inline-flex flex-column flex-lg-row"
+            >
+              <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+                Name
+              </div>
               <div
-                class="
-                  flex-fill
-                  d-flex d-lg-inline-flex
-                  flex-column flex-lg-row
-                "
+                class="col-12 col-lg-9 d-flex flex-column justify-content-center"
               >
-                <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
-                  Name
-                </div>
-                <div
-                  class="
-                    col-12 col-lg-9
-                    d-flex
-                    flex-column
-                    justify-content-center
-                  "
+                <ng-container
+                  *ngIf="!name?.value && !loading; else nameTemplate"
                 >
                   <a
-                    class="
-                      user-select-none
-                      fs-6
-                      w-100
-                      text-dark
-                      d-inline-flex
-                      align-items-center
-                    "
+                    class="user-select-none text-danger fs-6 w-100 d-inline-flex align-items-center"
                     (click)="changeName()"
                   >
-                    First name, Last name</a
+                    Please click to change.</a
                   >
-                </div>
+                </ng-container>
               </div>
-              <div class="d-flex align-items-center justify-content-end">
-                <a
-                  class="
-                    d-lg-none
-                    text-lg-start text-end text-danger
-                    user-select-none
-                  "
-                  (click)="changeName()"
-                >
-                  Change
-                </a>
-              </div>
-            </div> -->
+              <ng-template #nameTemplate>
+                <div class="fs-6">{{ name?.value }}</div>
+              </ng-template>
+            </div>
+            <div class="d-flex align-items-center justify-content-end">
+              <a
+                class="d-lg-none text-lg-start text-end text-danger user-select-none"
+                (click)="changeName()"
+              >
+                Change
+              </a>
+            </div>
+          </div>
           <!-- address -->
           <div
             class="w-100 border-bottom pt-3 pb-3 d-flex flex-column d-lg-inline-flex flex-lg-row"
@@ -533,7 +522,7 @@
                       class="d-none d-lg-block text-danger fs-6"
                       *ngIf="!loading"
                     >
-                      Click to change
+                      Please click to change.
                     </div>
                   </ng-container>
                   <ng-template #userAddressTemplate>
@@ -1092,7 +1081,7 @@
   <div class="w-100 mb-2 d-lg-none" *ngIf="payment_type?.value == 1">
     <div
       class="alert-danger rounded shadow-sm text-center fw-500 p-2 user-select-none"
-      *ngIf="card_number?.errors?.['required'] || name?.errors?.['required']|| expiration_date?.errors?.['required'] || zipcode?.errors?.['required'] || cvv?.errors?.['required']"
+      *ngIf="card_number?.errors?.['required'] || cardName?.errors?.['required']|| expiration_date?.errors?.['required'] || zipcode?.errors?.['required'] || cvv?.errors?.['required']"
     >
       Credit card information missing!
     </div>

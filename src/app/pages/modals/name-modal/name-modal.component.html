@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalToggleLabel">Change name</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.close(false)"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form class="modal-body" [formGroup]="nameForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="input-group">
+        <span class="input-group-text">Name</span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="name"
+          aria-label="name"
+          formControlName="name"
+          aria-describedby="name"
+        />
+      </div>
+    </div>
+  </div>
+</form>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close(false)"
+  >
+    Close
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="!nameForm.valid"
+    (click)="update()"
+  >
+    Update
+  </button>
+</div>

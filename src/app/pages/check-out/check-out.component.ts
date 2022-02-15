@@ -49,6 +49,7 @@ import { PromotionService } from 'src/app/services/apis/promotion.service';
 import { ModalDeleteComponent } from '../modals/delete/modal-delete/modal-delete.component';
 import { cloneDeep } from 'lodash';
 import { ErrorsService } from 'src/app/services/local/errors.service';
+import { NameModalComponent } from '../modals/name-modal/name-modal.component';
 
 @Component({
   selector: 'uo-check-out',
@@ -106,6 +107,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         Validators.minLength(1),
       ],
     ],
+    name: [''],
     phone_number: [
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(14)],
@@ -152,6 +154,9 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   get order_type(): AbstractControl | null {
     return this.placeOrderForm.get('order_type');
   }
+  get name(): AbstractControl | null {
+    return this.placeOrderForm.get('name');
+  }
   get phone_number(): AbstractControl | null {
     return this.placeOrderForm.get('phone_number');
   }
@@ -176,7 +181,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   get cvv(): AbstractControl | null {
     return this.credit_card.get('cvv');
   }
-  get name(): AbstractControl | null {
+  get cardName(): AbstractControl | null {
     return this.credit_card.get('name');
   }
   constructor(
@@ -480,6 +485,19 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         this.schedule_time?.patchValue(res);
         this.checkout.orderParams.scheduleTime = res;
         console.log('res :>> ', res);
+        this.cdr.markForCheck();
+      }
+    });
+  }
+  changeName(): void {
+    const modalRef = this.modalService.open(NameModalComponent, {
+      centered: true,
+      scrollable: true,
+    });
+    modalRef.closed.subscribe((res) => {
+      if (res) {
+        this.name?.setValue(res);
+        console.log('this.phone_number.value :>> ', this.name?.value);
         this.cdr.markForCheck();
       }
     });
