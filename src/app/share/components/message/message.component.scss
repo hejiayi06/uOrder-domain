@@ -1,0 +1,14 @@
+.uc-message-container {
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  z-index: 2099;
+  width: 100vw;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 16px;
+  font-variant: tabular-nums;
+  line-height: 2;
+  font-feature-settings: "tnum";
+  pointer-events: none;
+  user-select: none;
+}

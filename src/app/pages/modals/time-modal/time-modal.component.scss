@@ -1,0 +1,14 @@
+.form-select:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(#dc3545, 0.25);
+}
+
+option:hover {
+  -webkit-appearance: none;
+  background-color: #dc3545 !important;
+  color: white;
+}
+
+select {
+  -webkit-appearance: none;
+}

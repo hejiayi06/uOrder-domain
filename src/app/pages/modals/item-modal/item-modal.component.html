@@ -1,0 +1,290 @@
+<div class="modal-header">
+  <div class="modal-title fs-3 user-select-none">
+    {{ quantity }} &times; {{ sItem?.name }}
+  </div>
+  <button
+    (click)="activeModal.dismiss(false)"
+    [disabled]="loading"
+    type="button"
+    class="btn-close user-select-none"
+    aria-label="Close"
+  ></button>
+</div>
+
+<form
+  class="modal-body"
+  [formGroup]="itemForm"
+  aria-labelledby="itemModalLabel"
+  aria-hidden="true"
+>
+  <div class="item-detail gx-0 pb-2">
+    <div class="row">
+      <div class="item-description text-secondary text-wrap col-12">
+        {{ sItem?.description }}
+      </div>
+    </div>
+    <!-- picture -->
+    <div class="row mt-2 mb-2" *ngIf="sItem?.icon">
+      <picture class="item-detail-pic col-12 user-select-none">
+        <source srcset="{{sItem?.icon}}" />
+        <img class="rounded" src="{{ sItem?.icon }}" alt="item-picture" />
+      </picture>
+    </div>
+    <!-- options -->
+    <div class="row mb-2">
+      <!-- modify -->
+      <div
+        [ngClass]="{ 'border-bottom': sItem?.menu_item_to_modifies?.length }"
+        class="col-12 pt-2 pb-2"
+        *ngIf="sItem?.menu_item_to_modifies?.length"
+      >
+        <div class="option-header row">
+          <div class="option-header-left col-9">
+            <div class="option-name text-dark user-select-none">Optional</div>
+            <!-- select numbers -->
+            <!-- <div class="option-select text-wrap">
+                  select 3
+                </div> -->
+          </div>
+          <!-- required  -->
+          <!-- <div class="option-header-right col-3">
+                <span class="text-wrap text-center bg-danger shadow-sm required-tag">Required</span>
+              </div> -->
+        </div>
+        <uo-modify-array formControlName="itemModifies">
+          <div
+            class="row mt-1"
+            *ngFor="let modify of sItem?.menu_item_to_modifies"
+          >
+            <div class="col-9 user-select-none">
+              <div class="form-check user-select-none">
+                <uo-modify-check
+                  [modify]="modify"
+                  [value]="modify"
+                  [(ngModel)]="modify.checked"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ngModelChange)="
+                    modifyChange($event, (modify?.menu_modify)![0]?.price!)
+                  "
+                >
+                </uo-modify-check>
+              </div>
+            </div>
+            <div class="col-3 text-end user-select-none">
+              ${{ (modify?.menu_modify)![0]?.price }}
+            </div>
+          </div>
+        </uo-modify-array>
+      </div>
+
+      <!-- section -->
+      <div
+        formArrayName="itemSections"
+        *ngIf="sItem?.menu_item_to_sections?.length"
+      >
+        <div
+          class="col-12 border-bottom pt-2 pb-2"
+          *ngFor="let sec of sItem?.menu_item_to_sections!; let si = index"
+        >
+          <uo-section-array [formControlName]="si" [section]="sec" [index]="si">
+            <!-- section items -->
+            <div
+              class="row mt-1"
+              *ngFor="let secItem of sec.menu_section?.menu_section_items"
+            >
+              <div class="col-9 user-select-none">
+                <div class="form-check user-select-none">
+                  <uo-section-check
+                    [sectionItem]="secItem"
+                    [(ngModel)]="secItem.checked"
+                    [ngModelOptions]="{ standalone: true }"
+                    [repeats]="sec.repeats"
+                    (ngModelChange)="sectionOptionChange(secItem, true, $event)"
+                    [disabled]="sec.isMax"
+                  >
+                  </uo-section-check>
+                </div>
+              </div>
+              <div
+                class="col-3 text-end user-select-none"
+                *ngIf="secItem.price_active; else elseItemPrice"
+              >
+                ${{ secItem?.price }}
+              </div>
+              <ng-template #elseItemPrice>
+                <div class="col-3 text-end user-select-none">
+                  ${{ secItem?.item?.price }}
+                </div>
+              </ng-template>
+            </div>
+            <!-- section modifies -->
+            <div
+              class="row mt-1"
+              *ngFor="let secModify of sec.menu_section?.menu_section_modifies"
+            >
+              <div class="col-9 user-select-none">
+                <div class="form-check user-select-none">
+                  <uo-section-check
+                    [sectionModify]="secModify"
+                    [(ngModel)]="secModify.checked"
+                    [ngModelOptions]="{ standalone: true }"
+                    [repeats]="sec.repeats"
+                    (ngModelChange)="
+                      sectionOptionChange(secModify, false, $event)
+                    "
+                    [disabled]="sec.isMax"
+                  >
+                  </uo-section-check>
+                </div>
+              </div>
+              <div
+                class="col-3 text-end user-select-none"
+                *ngIf="secModify?.price_active; else elseItemPrice"
+              >
+                ${{ secModify?.price }}
+              </div>
+              <ng-template #elseItemPrice>
+                <div class="col-3 text-end user-select-none">
+                  ${{ secModify?.modify?.price }}
+                </div>
+              </ng-template>
+            </div>
+          </uo-section-array>
+        </div>
+      </div>
+
+      <!-- variant -->
+      <div
+        [ngClass]="{ 'border-bottom': sItem?.menu_item_variants?.length }"
+        class="col-12 pt-2 pb-2"
+        *ngIf="sItem?.menu_item_variants?.length"
+      >
+        <div class="option-header row">
+          <div class="option-header-left col-9">
+            <div class="option-name user-select-none">Size</div>
+            <!-- <div
+                class="option-select text-wrap user-select-none"
+                *ngIf="itemVariant?.errors as errors"
+              >
+                select 1
+              </div> -->
+          </div>
+          <div class="option-header-right col-3 user-select-none">
+            <span
+              *ngIf="itemVariant?.errors as errors"
+              class="text-wrap text-center bg-danger shadow-sm required-tag user-select-none"
+              >Required</span
+            >
+          </div>
+        </div>
+        <div class="row mt-1" *ngFor="let variant of sItem?.menu_item_variants">
+          <div class="col-9">
+            <div class="form-check user-select-none">
+              <!--   -->
+              <input
+                class="form-check-input user-select-none"
+                type="radio"
+                name="itemVariant"
+                [attr.data-value]="variant.id"
+                [id]="'v-' + variant?.id"
+                (change)="variantChange($event)"
+              />
+              <label
+                class="form-check-label user-select-none"
+                [for]="'v-' + variant?.id"
+              >
+                {{ variant?.name }}
+              </label>
+            </div>
+          </div>
+          <div class="col-3 text-end user-select-none">
+            ${{ variant?.price }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- instructions -->
+    <div class="row mb-2">
+      <div class="col-12">
+        <div class="option-header row">
+          <div class="option-header-left col-4">
+            <div class="option-name user-select-none mb-1">Instructions</div>
+          </div>
+          <div class="option-header-right col-8 text-end">
+            <span class="text-end user-select-none"
+              >List any special requests</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-12 user-select-none">
+        <textarea
+          class="form-control"
+          id="itemInstructions"
+          rows="3"
+          formControlName="itemInstructions"
+        ></textarea>
+      </div>
+    </div>
+    <!-- total amount -->
+    <div class="row mt-4">
+      <!-- <div class="item-cal col-12 text-end user-select-none">
+            (3000 Cal.) per serve
+          </div> -->
+      <!-- <div class="item-cal col-12 text-end user-select-none">
+            $8888.88 &times; {{itemQuantity}}
+          </div> -->
+      <div class="item-cal col-12 text-end user-select-none fw-bold fs-6">
+        Total: ${{ totalPrice }}
+      </div>
+    </div>
+  </div>
+</form>
+<div class="modal-footer">
+  <div class="d-inline-flex justify-content-end">
+    <button (click)="onMinus()" type="button" class="btn">
+      <span> <i class="bi bi-dash-circle"></i> </span>
+    </button>
+    <div class="quantityInput input-group user-select-none">
+      <!-- <span class="input-group-text" id="inputGroup-sizing-lg">Large</span> -->
+      <input
+        type="number"
+        [(ngModel)]="quantity"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control user-select-none ms-2 me-2"
+        (input)="onInput($event)"
+        tabindex="0"
+        min="1"
+        aria-live="polite"
+        aria-label="quantity"
+        max="1000"
+        value="1"
+        pattern="[0-9]*"
+        aria-describedby="quantity"
+      />
+    </div>
+    <button (click)="onPlus()" type="button" class="btn">
+      <span> <i class="bi bi-plus-circle"></i> </span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger add-to-cart-button ms-2"
+      [disabled]="loading || !itemForm.valid"
+      (click)="onSubmit()"
+    >
+      <span
+        *ngIf="!loading; else loadingTemplate"
+        class="user-select-none text-nowrap"
+        >Add to cart
+      </span>
+      <ng-template #loadingTemplate>
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </ng-template>
+    </button>
+  </div>
+</div>

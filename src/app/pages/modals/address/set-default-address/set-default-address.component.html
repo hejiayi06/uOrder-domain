@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h5 class="modal-title">Set default address</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.close(false)"
+  >
+    <div aria-hidden="true">&times;</div>
+  </button>
+</div>
+<div class="modal-body fs-6 fw-500">
+  <ng-container
+    >{{ address?.address + "," }}&nbsp;
+    <ng-container *ngIf="address?.optional"
+      >{{ address?.optional + "," }}&nbsp;</ng-container
+    >
+    {{ address?.city + "," | titlecase }}&nbsp;{{
+      address?.state + "," | uppercase
+    }}&nbsp;{{ address?.zipcode }}</ng-container
+  >
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close(false)"
+  >
+    Close
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="loading"
+    (click)="setDefault()"
+  >
+    <div *ngIf="!loading; else loadingTemplate" class="user-select-none">
+      Set
+    </div>
+  </button>
+</div>
+<ng-template #loadingTemplate>
+  <span
+    class="spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+</ng-template>

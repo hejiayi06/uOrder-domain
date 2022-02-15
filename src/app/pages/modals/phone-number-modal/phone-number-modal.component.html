@@ -1,0 +1,47 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalToggleLabel">Change phone number</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.close(false)"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form class="modal-body" [formGroup]="phoneForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="input-group">
+        <span class="input-group-text">Phone number</span>
+        <input
+          phoneMask
+          maxlength="14"
+          type="tel"
+          class="form-control"
+          placeholder="phone number"
+          aria-label="phoneNumber"
+          formControlName="phoneNumber"
+          aria-describedby="phone number input"
+        />
+      </div>
+    </div>
+  </div>
+</form>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.close(false)"
+  >
+    Close
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="!phoneForm.valid"
+    (click)="update()"
+  >
+    Update
+  </button>
+</div>

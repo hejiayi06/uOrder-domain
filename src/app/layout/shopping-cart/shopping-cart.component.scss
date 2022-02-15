@@ -1,0 +1,23 @@
+.empty-img {
+  background-image: url();
+}
+.shopping-cart {
+  visibility: visible;
+  transform: none;
+}
+.fw-800 {
+  font-weight: 800;
+}
+.ls-04 {
+  letter-spacing: -0.04ch;
+}
+.options {
+  line-height: 1rem;
+  letter-spacing: -0.04ch;
+  text-transform: none;
+  text-overflow: ellipsis !important;
+  font-variant-ligatures: no-common-ligatures;
+  // -webkit-line-clamp: 1;
+  // -webkit-box-orient: horizontal;
+  // flex-grow: 1;
+}

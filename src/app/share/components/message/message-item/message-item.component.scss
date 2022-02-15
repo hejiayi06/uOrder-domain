@@ -1,0 +1,45 @@
+.message-wrap {
+  margin-top: -12px;
+  text-align: center;
+  padding: 8px;
+  transition: transform 0.2s;
+
+  &:hover {
+    .uo-message {
+      transform: scale(1.04);
+    }
+  }
+  // .message {
+  //   display: inline-block;
+  //   padding: 8px 12px;
+  //   background-color: #adb5bd;
+  //   color: #fff;
+  //   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+  //     0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  //   pointer-events: auto;
+  //   transition: transform 0.2s;
+  //   .content {
+  //     float: left;
+  //     margin-right: 12px;
+  //   }
+  //   .close {
+  //     float: right;
+  //     cursor: pointer;
+  //   }
+  //   &.primary {
+  //     background-color: #198754;
+  //   }
+  //   &.warning {
+  //     background-color: #ffc107;
+  //   }
+  //   &.error {
+  //     background-color: #dc3545;
+  //   }
+  //   &.info {
+  //     background-color: #0d6efd;
+  //   }
+  //   &.danger {
+  //     background-color: #dc3545;
+  //   }
+  // }
+}

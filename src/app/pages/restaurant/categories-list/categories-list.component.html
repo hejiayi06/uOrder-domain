@@ -1,0 +1,53 @@
+<div
+  class="offcanvas offcanvas-start"
+  tabindex="-1"
+  id="categoryList"
+  aria-labelledby="offcanvasExampleLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title user-select-none" id="offcanvasExampleLabel">
+      Menu
+    </h5>
+    <button
+      type="button"
+      class="btn-close text-reset user-select-none"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body user-select-none overflow-scroll">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 pb-1" *ngFor="let item of menuList">
+          <button
+            class="category text-decoration-none bg-white btn gx-0 mt-1"
+            (click)="onCategory(item)"
+            data-bs-dismiss="offcanvas"
+          >
+            <div class="category-wrap row">
+              <div
+                class="text-start text-dark text-nowrap fw-bold overflow-hidden ellipsis col-10"
+              >
+                {{ item.name }}
+              </div>
+              <div
+                class="text-secondary text-end text-nowrap fw-bold ellipsis col-2"
+              >
+                {{ item.menu_list?.length }}
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- <button class="category btn gx-0 mt-1">
+        <div class="category-wrap row">
+          <div class="category-name col-10">
+            Appetizer
+            </div>
+          <div class="category-number col-2">1234</div>
+        </div>
+      </button> -->
+    </div>
+  </div>
+</div>

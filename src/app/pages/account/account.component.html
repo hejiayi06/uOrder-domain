@@ -1,0 +1,48 @@
+<uo-header></uo-header>
+<div class="container-fluid pt-35 gx-0">
+  <!-- spinner -->
+  <div class="clearfix" *ngIf="loading">
+    <div class="spinner-wrap fixed-top">
+      <div class="spinner-border spinner fixed-top" role="status"></div>
+    </div>
+  </div>
+  <div class="row min-vh-100 gx-0">
+    <div class="border-end col-lg-2 d-none d-lg-block d-flex flex-column">
+      <div class="account-header text-start fs-3 fw-bolder p-4">Account</div>
+      <div class="account-list">
+        <div
+          class="list-item text-start fs-6 fw-500 ps-4 pt-3 text-dark"
+          *ngFor="let item of accountList"
+        >
+          <a
+            routerLink="/account/{{ item.listName | lowercase }}"
+            routerLinkActive="text-danger"
+            >{{ item.listName }}</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-10 pt-2">
+      <div
+        class="
+          w-100
+          overflow-scroll
+          d-inline-flex d-lg-none
+          align-items-center
+          border-bottom
+        "
+      >
+        <a
+          class="text-nowrap fs-6 fw-500 p-3"
+          routerLink="/account/{{ item.listName | lowercase }}"
+          routerLinkActive="text-danger"
+          *ngFor="let item of accountList"
+        >
+          {{ item.listName }}
+        </a>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+<uo-footer></uo-footer>

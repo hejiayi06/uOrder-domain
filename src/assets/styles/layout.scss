@@ -1,0 +1,128 @@
+img {
+  display: inline-block;
+  width: 100%;
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, " Noto Sans",
+    sans-serif, " Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.overlay-container {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1040;
+  &.overlay-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .overlay-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // pointer-events: auto;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.32);
+    &.overlay-mask-show {
+      opacity: 1;
+    }
+  }
+}
+.pt-35 {
+  padding-top: 3.5rem !important;
+}
+.toe {
+  text-overflow: ellipsis;
+}
+.fw-500 {
+  font-weight: 500 !important;
+}
+.scroll-x {
+  overflow-x: scroll !important;
+}
+.scroll-y {
+  overflow-x: scroll !important;
+}
+.scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.bg-nav {
+  background: rgba($color: #9ecbd9, $alpha: 0.05);
+}
+
+.bg-opacity-5 {
+  --bs-bg-opacity: 0.05;
+}
+.bg-opacity-2 {
+  --bs-bg-opacity: 0.02;
+}
+.z-1095 {
+  z-index: 1095 !important;
+}
+.z-1099 {
+  z-index: 1099 !important;
+}
+.mt-35r {
+  margin-top: 3.5rem;
+}
+//delete boostrap btn box shadow
+.btn:focus {
+  box-shadow: none !important;
+}
+.fs-7 {
+  font-size: 0.75rem !important;
+}
+.fs-8 {
+  font-size: 0.5rem !important;
+}
+.spinner-wrap {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: #000000, $alpha: 0.3);
+  z-index: 1099;
+}
+.spinner {
+  top: 50%;
+  left: 50%;
+}
+.form-check-input:checked {
+  border-color: #dc3545;
+  background-color: #dc3545;
+}
+.form-check-input:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(#dc3545, 0.25);
+}
+// .form-check-input:focus {
+//   border-color:#dc3545;
+//   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 12px rgba(#dc3545, 0.5);
+// }
+.form-control:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(#dc3545, 0.25);
+}

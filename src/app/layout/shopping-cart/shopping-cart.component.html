@@ -1,0 +1,162 @@
+<div
+  class="wrap offcanvas offcanvas-end"
+  *ngIf="visible"
+  [ngClass]="{ 'shopping-cart': visible }"
+  @offcanvas
+  (@offcanvas.done)="animationDone($event)"
+>
+  <div class="offcanvas-header user-select-none" tabindex="-1">
+    <h5 *ngIf="isEmpty(items)">Shopping Cart</h5>
+    <button
+      type="button"
+      class="btn-close text-reset user-select-none"
+      aria-label="Close"
+      (click)="hide.emit()"
+    ></button>
+  </div>
+  <div
+    class="offcanvas-body container-fluid"
+    *ngIf="isEmpty(items); else emptyTemplate"
+  >
+    <ng-container *ngIf="isStore(); else storeChooseTemplate">
+      <div class="row">
+        <div class="col-12">
+          <div class="fs-4 fw-800 user-select-none">Your Order</div>
+        </div>
+        <div class="text-danger col-12 mt-1">
+          <div class="user-select-none fs-5 fw-bold">{{ storeName }}</div>
+        </div>
+        <div class="d-block fw-bold col-6 mt-1">
+          <div class="fs-6 user-select-none">Items subtotal:</div>
+        </div>
+        <div class="d-block fw-bold text-end col-6 mt-1 user-select-none">
+          ${{ total | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mt-4 mb-4">
+        <div class="col-12">
+          <button
+            class="btn btn-danger w-100 fw-bold"
+            [disabled]="length === 0 || loading"
+            (click)="toCheckout()"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+      <!-- item -->
+      <div>
+        <div class="border-top row mt-2 pt-2" *ngFor="let item of items">
+          <!-- <div class=" col-2 user-select-none" >{{data.quantity}}</div> -->
+          <div class="w-100 d-inline-flex align-items-center">
+            <div class="fw-bold fs-6 user-select-none flex-fill">
+              {{ item?.name }}&nbsp;x&nbsp;{{ item?.quantity }}
+            </div>
+            <div class="fw-500 text-end overflow-hidden user-select-none">
+              ${{ item?.total | number: "1.2-2" }}
+            </div>
+          </div>
+          <div class="w-100 d-inline-flex align-items-center">
+            <div
+              class="fw-500 options flex-fill d-inline-flex align-items-center text-secondary overflow-hidden"
+              *ngIf="item?.options"
+            >
+              <ng-container
+                *ngFor="let modify of item?.options?.itemModifies; index as i"
+              >
+                <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+                {{ modify?.name }}
+              </ng-container>
+              <ng-container *ngIf="item?.options?.itemModifies?.length">
+                &nbsp;•&nbsp;</ng-container
+              >
+              <ng-container *ngFor="let section of item?.options?.itemSections">
+                <ng-container
+                  *ngFor="let sectionItem of section?.sectionItems; index as i"
+                >
+                  <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+                  {{ sectionItem?.item?.name }}
+                </ng-container>
+                <ng-container *ngIf="section?.sectionItems?.length">
+                  &nbsp;•&nbsp;</ng-container
+                >
+                <ng-container
+                  *ngFor="
+                    let sectionModify of section?.sectionModifiers;
+                    index as i
+                  "
+                >
+                  <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+                  {{ sectionModify?.modify?.name }}
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="(item?.options)!.itemVariant[0]!">
+                ({{ (item?.options)!.itemVariant[0]?.name }} ${{
+                  (item?.options)!.itemVariant[0]?.price
+                }})
+              </ng-container>
+              <ng-container *ngIf="item?.options?.itemInstructions">
+                {{ item?.options?.itemInstructions }}
+              </ng-container>
+            </div>
+            <div class="d-flex align-items-start justify-content-center">
+              <!-- (click)="deleteAllItems()" -->
+              <!-- (click)="deleteItem(data.unique_id)" -->
+
+              <button
+                class="btn btn-outline-danger border-0"
+                (click)="deleteItem(item)"
+                [disabled]="loading"
+              >
+                <ng-container
+                  *ngIf="
+                    loading && deleteLoadingId == item.unique_id;
+                    else deleteBtnTemplate
+                  "
+                >
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<ng-template #deleteBtnTemplate>
+  <div class="d-flex align-items-center justify-content-center">
+    <i class="bi bi-trash"></i>
+  </div>
+</ng-template>
+<ng-template #emptyTemplate>
+  <div class="row mt-4">
+    <!-- <div class="col-12">uorder empty svg</div> -->
+    <div class="col-12 text-secondary text-center h3">
+      Your shopping cart is empty!
+    </div>
+    <div class="col-12 text-secondary text-center h4">Please add items!</div>
+  </div>
+</ng-template>
+<ng-template #storeChooseTemplate>
+  <div class="col-12 text-dark text-center fs-3 fw-bold mb-2">
+    You already have an active order at {{ storeName }}
+  </div>
+  <div class="col-12 text-secondary text-center fs-5 fw-500">
+    Are you sure you want to clear your order?
+  </div>
+  <ng-container>
+    <div class="d-flex flex-column">
+      <button class="btn btn-secondary mt-5 fw-500" (click)="returnToOrder()">
+        Return to order
+      </button>
+      <button class="btn btn-outline-danger mt-3 fw-500" (click)="cleanOrder()">
+        Clean order
+      </button>
+    </div>
+  </ng-container>
+</ng-template>

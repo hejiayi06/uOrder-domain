@@ -1,0 +1,207 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm border-bottom w-100"
+>
+  <div class="container-fluid">
+    <button
+      class="btn border d-lg-none shadow-sm"
+      type="button"
+      (click)="showNavbar = !showNavbar"
+      aria-controls="navbarToggler"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon user-select-none"></span>
+    </button>
+    <a class="navbar-brand" [routerLink]="['/home']">
+      <b class="text-danger user-select-none">uOrder</b>
+    </a>
+    <div
+      (click)="handleOutsideClick($event)"
+      class="collapse navbar-collapse mt-1 bg-light border-end"
+      id="navbarToggler"
+    >
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link user-select-none" aria-current="page">{{
+            rName
+          }}</a>
+        </li> -->
+        <li *ngIf="!isLog; else accountTemplate" class="nav-item">
+          <a
+            class="nav-link user-select-none fw-500 fs-6"
+            [routerLink]="['/sign-in']"
+            >Sign-in</a
+          >
+        </li>
+
+        <!-- <li *ngIf="!isLog" class="nav-item">
+          <a class="nav-link" [routerLink]="['/sign-up']">Sign-up</a>
+        </li> -->
+        <ng-template #accountTemplate>
+          <li ngbDropdown class="nav-item w-100">
+            <a
+              (click)="isAccount = !isAccount; $event.preventDefault()"
+              class="nav-link fw-500 fs-6"
+              ngbDropdownToggle
+              >Account</a
+            >
+            <div ngbDropdownMenu>
+              <a ngbDropdownItem [routerLink]="['/account/orders']">Orders</a>
+              <!-- <a ngbDropdownItem [routerLink]="['/account/gift-cards']"
+                >Gift cards</a
+              > -->
+              <a ngbDropdownItem [routerLink]="['/account/address']">Address</a>
+              <!-- <a ngbDropdownItem [routerLink]="['/account/payments']"
+                >Payments</a
+              > -->
+              <a ngbDropdownItem [routerLink]="['/account/profile']">Profile</a>
+              <a ngbDropdownItem (click)="logout()">Log out</a>
+            </div>
+          </li>
+        </ng-template>
+      </ul>
+      <!-- <form class="d-flex me-2 user-select-none">
+        <input
+          class="form-control me-1 user-select-none"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button
+          class="btn btn-outline-secondary shadow-sm user-select-none"
+          type="submit"
+        >
+          <i class="bi bi-search"></i>
+        </button>
+      </form> -->
+    </div>
+    <ng-container *ngIf="isLog; else anonymousTemplate">
+      <button
+        class="shoppping-cart-button btn btn-danger shadow-sm"
+        type="button"
+        (click)="getShoppingCart()"
+      >
+        <div class="pointer-event align-items-center d-flex">
+          <i class="bi bi-cart"></i>
+          <ng-container *ngIf="!loading; else loadingTemplate">
+            <span class="fw-bold ms-2">{{ length || 0 }}</span>
+          </ng-container>
+        </div>
+      </button>
+    </ng-container>
+
+    <ng-template #anonymousTemplate>
+      <button
+        class="shoppping-cart-button btn btn-danger shadow-sm"
+        type="button"
+        (click)="getAnonymousShoppingCart()"
+      >
+        <div class="pointer-event align-items-center d-flex">
+          <i class="bi bi-cart"></i>
+          <ng-container *ngIf="!loading; else loadingTemplate">
+            <span class="fw-bold ms-2">{{ length || 0 }}</span></ng-container
+          >
+        </div>
+      </button>
+    </ng-template>
+  </div>
+</nav>
+<div
+  [ngClass]="{ visible: showNavbar }"
+  class="offcanvas offcanvas-start d-lg-none"
+  aria-labelledby="navOffcanvas"
+>
+  <div class="offcanvas-header">
+    <a class="offcanvas-title fs-2 fw-bold text-danger" [routerLink]="['/home']"
+      >uOrder</a
+    >
+    <button
+      type="button"
+      class="btn-close text-reset"
+      (click)="showNavbar = false"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <ng-container *ngIf="!isLog; else accountNavTemplate">
+      <a
+        class="nav-link user-select-none fw-500 fs-5 text-dark"
+        [routerLink]="['/sign-in']"
+        >Sign-in</a
+      ></ng-container
+    >
+    <ng-template #accountNavTemplate>
+      <button
+        class="btn text-dark fs-5 fw-bold"
+        type="button"
+        (click)="isAccount = !isAccount; $event.stopPropagation()"
+      >
+        Account
+        <ng-container *ngIf="isAccount; else elseTemplate">
+          <i class="bi bi-caret-down ms-2"></i>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <i class="bi bi-caret-left ms-2"></i>
+        </ng-template>
+      </button>
+      <div
+        class="d-flex flex-column text-dark fs-6 ps-3 fw-500"
+        *ngIf="isAccount"
+      >
+        <a
+          (click)="showNavbar = false"
+          class="pb-2"
+          [routerLinkActive]="['text-danger', 'fw-bold']"
+          [routerLink]="['/account/orders']"
+          >Orders</a
+        >
+        <!-- <a
+        (click)="showNavbar = false"
+        class="pb-2"
+        [routerLinkActive]="['text-danger', 'fw-bold']"
+        [routerLink]="['/account/gift-cards']"
+        >Gift cards</a
+      > -->
+        <a
+          (click)="showNavbar = false"
+          class="pb-2"
+          [routerLinkActive]="['text-danger', 'fw-bold']"
+          [routerLink]="['/account/address']"
+          >Address</a
+        >
+        <!-- <a
+        (click)="showNavbar = false"
+        class="pb-2"
+        [routerLinkActive]="['text-danger', 'fw-bold']"
+        [routerLink]="['/account/payments']"
+        >Payments</a
+      > -->
+        <a
+          (click)="showNavbar = false"
+          class="pb-2"
+          [routerLinkActive]="['text-danger', 'fw-bold']"
+          [routerLink]="['/account/profile']"
+          >Profile</a
+        >
+        <a (click)="logout(); showNavbar = false">Log out</a>
+      </div></ng-template
+    >
+  </div>
+</div>
+
+<uo-shopping-cart
+  #shoppingCart
+  [items]="shoppingCartRes"
+  [storeName]="storeName"
+  [shoppingCartStoreId]="shoppingCartStoreId"
+  [total]="total"
+  [length]="length"
+  [isLog]="isLog"
+  [show]="showShoppingCart"
+  (hide)="showShoppingCart = false"
+></uo-shopping-cart>
+<ng-template #loadingTemplate>
+  <div class="spinner-border spinner-border-sm ms-2" role="status">
+    <span class="visually-hidden">...</span>
+  </div></ng-template
+>

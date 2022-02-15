@@ -1,0 +1,17 @@
+<div
+  class="
+    z-1099
+    fixed-top
+    h-100
+    w-100
+    d-flex
+    justify-content-center
+    align-items-center
+  "
+  *ngIf="visible"
+  [ngClass]="{ visible: visible }"
+  @loading
+  (@loading.done)="animationDone($event)"
+>
+  <ng-content></ng-content>
+</div>

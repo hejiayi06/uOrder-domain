@@ -1,0 +1,60 @@
+<div *ngIf="secItem">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    [checked]="checked"
+    [id]="'si-' + '-' + secItem?.id + '-' + secItem?.item?.id!"
+    (change)="onSectionOptionCheck($event)"
+    [disabled]="disabled && !checked"
+  />
+  <label
+    class="form-check-label user-select-none"
+    [for]="'si-' + '-' + secItem?.id + '-' + secItem?.item?.id"
+  >
+    {{ secItem?.item?.name }}
+    <!-- option quantity adjust -->
+    <uo-section-sizer
+      *ngIf="option?.quantity && repeats"
+      [option]="option"
+      (checkEvent)="checkChange($event)"
+      [(ngModel)]="option.quantity"
+      [dis]="disabled"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="sizerChange($event)"
+      (click)="stopPropagation($event)"
+      [price]="secItem?.price_active ? secItem?.price! : secItem?.item?.price!"
+    >
+    </uo-section-sizer>
+  </label>
+</div>
+<div *ngIf="secModify">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    [checked]="checked"
+    [id]="'si-' + '-' + secModify?.id + '-' + secModify?.modify?.id!"
+    (change)="onSectionOptionCheck($event)"
+    [disabled]="disabled && !checked"
+  />
+  <label
+    class="form-check-label user-select-none"
+    [for]="'si-' + '-' + secModify?.id + '-' + secModify?.modify?.id"
+  >
+    {{ secModify?.modify?.name }}
+    <!-- option quantity adjust -->
+    <uo-section-sizer
+      *ngIf="option?.quantity && repeats"
+      [option]="option"
+      (checkEvent)="checkChange($event)"
+      [(ngModel)]="option.quantity"
+      [dis]="disabled"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="sizerChange($event)"
+      (click)="stopPropagation($event)"
+      [price]="
+        secModify?.price_active ? secModify?.price! : secModify?.modify?.price!
+      "
+    >
+    </uo-section-sizer>
+  </label>
+</div>

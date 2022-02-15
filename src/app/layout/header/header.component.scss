@@ -1,0 +1,12 @@
+@media print {
+  nav {
+    display: none;
+  }
+}
+nav {
+  height: 3.5rem;
+}
+.visible {
+  visibility: visible;
+  transform: none;
+}

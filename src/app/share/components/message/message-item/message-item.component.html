@@ -1,0 +1,19 @@
+<div
+  class="message-wrap d-flex align-items-center justify-content-center"
+  (mouseenter)="enter()"
+  (mouseleave)="leave()"
+  [@.disabled]="!message.options!.animate"
+  [@moveUpMotion]="message.state"
+  (@moveUpMotion.done)="animationDone($event)"
+>
+  <div
+    [class]="itemClass"
+    class="alert ps-3 pe-3 pt-1 pb-1 text-center fade show rounded"
+    role="alert"
+  >
+    {{ message.content }}
+    <div class="d-inline-flex" *ngIf="countDown > 0">
+      in {{ countDown }} seconds
+    </div>
+  </div>
+</div>

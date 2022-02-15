@@ -1,0 +1,89 @@
+<div #menuDiv [ngClass]="{ 'fixed-menu': onScroll() }">
+  <nav class="container-xl pt-2 pb-2 border-bottom">
+    <!-- first row -->
+    <div class="row mt-2">
+      <div class="col-12 d-inline-flex">
+        <!-- menu group select -->
+        <div
+          class="d-inline-flex align-items-center overflow-scroll categories pt-1 pb-1"
+        >
+          <div
+            class="ms-2 me-2"
+            *ngFor="let menuGroup of menuGroups! | sortBySort"
+          >
+            <button
+              type="button"
+              [ngClass]="{
+                'text-danger': menuGroup['id'] == selectedMenuGroup['id']
+              }"
+              class="btn btn-sm border rounded fw-bold text-nowrap"
+              (click)="changeGroup(menuGroup)"
+            >
+              {{ menuGroup?.name }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- second row -->
+    <!-- [disabled]="cDiv.nativeElement.scrollLeft <= 0" -->
+    <div class="row">
+      <div class="col-12 d-inline-flex gx-0 gx-lg-4 menu-nav">
+        <div class="me-1 d-flex align-items-center">
+          <button class="btn categories-button p-1" (click)="onCategoryLeft()">
+            <i class="bi bi-caret-left"></i>
+          </button>
+        </div>
+        <div class="categories d-inline-flex" #categoriesDiv>
+          <div
+            class="category-item d-flex align-items-center justify-content-center ms-1 me-1"
+            *ngFor="let category of categories | sortBySort"
+          >
+            <ng-container *ngIf="category.menu_list?.length">
+              <button
+                [ngClass]="{
+                  'text-danger': changeColor(category)
+                }"
+                class="btn category-item-button p-1 nowrap user-select-none border-0"
+                (click)="onCategory(category)"
+              >
+                {{ category.name }}
+              </button>
+            </ng-container>
+          </div>
+        </div>
+        <div class="ms-1 d-flex align-items-center">
+          <button class="btn categories-button p-1" (click)="onCategoryRight()">
+            <i class="bi bi-caret-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<div [ngClass]="{ 'fill-up': onScroll() }"></div>
+<div class="container-xl">
+  <div
+    class="list-wrap"
+    *ngFor="let category of categories | sortBySort"
+    id="{{ category.id }}"
+    #categories
+  >
+    <ng-container *ngIf="category.menu_list?.length">
+      <div class="row mt-3 mb-3">
+        <div class="col-12">
+          <h4 class="user-select-none">{{ category.name }}</h4>
+        </div>
+      </div>
+      <div class="menuItem row mt-2 mb-2">
+        <div
+          class="col-12 col-sm-6 col-xl-4 mb-2 mb-sm-4"
+          *ngFor="let item of category.menu_list | sortBySort"
+        >
+          <uo-u-items [menuItem]="item"></uo-u-items>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h5 class="modal-title">Enter coupon code</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.dismiss(false)"
+  >
+    <div aria-hidden="true">&times;</div>
+  </button>
+</div>
+<div class="modal-body fs-6 fw-500">
+  <ng-container>
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="coupon"
+        placeholder="please input coupon"
+        aria-label="coupon"
+      />
+    </div>
+  </ng-container>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.dismiss(false)"
+  >
+    Close
+  </button>
+  <!-- [disabled]=" loading" -->
+  <button
+    type="submit"
+    class="btn btn-danger"
+    [disabled]="loading"
+    (click)="applyCoupon()"
+  >
+    <div class="user-select-none">Apply</div>
+  </button>
+</div>

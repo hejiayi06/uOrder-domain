@@ -1,0 +1,15 @@
+<uo-header [length]="itemLength"></uo-header>
+<div class="min-vh-100">
+  <!-- spinner -->
+  <div class="clearfix" *ngIf="loading">
+    <div class="spinner-wrap fixed-top">
+      <div class="spinner-border spinner fixed-top" role="status"></div>
+    </div>
+  </div>
+  <div class="fill-up mt-xl-4"></div>
+  <!-- restaurant information conponents -->
+  <uo-restaurant-info (heightEvent)="getHeight($event)"></uo-restaurant-info>
+  <!-- menu categories -->
+  <uo-menu [height]="height"></uo-menu>
+</div>
+<uo-footer></uo-footer>

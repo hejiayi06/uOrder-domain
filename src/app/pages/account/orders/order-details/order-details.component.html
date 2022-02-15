@@ -1,0 +1,163 @@
+<div class="container" *ngIf="orderStatus">
+  <div class="mt-2 ms-2 float-start back-link text-nowrap">
+    <a class="fs-6" routerLink="/account/orders">
+      <i class="bi bi-arrow-left"></i>
+      back to orders
+    </a>
+  </div>
+  <div class="d-inline-flex align-items-center justify-content-center w-100">
+    <div class="w-100 fs-4 fw-bold flex-fill text-center">Order details</div>
+  </div>
+  <div class="row border-bottom p-2 gx-0">
+    <div class="w-100 fs-6 fw-500">Ordered from:</div>
+    <div class="w-100 fs-4 fw-bold">
+      {{ orderStatus?.order_store?.store_name }}
+    </div>
+    <div class="w-100 fs-6 fw-500">
+      Address: {{ orderStatus?.order_store?.address }},&nbsp;<ng-container
+        *ngIf="orderStatus?.order_store?.optional"
+        >{{ orderStatus?.order_store?.optional }},&nbsp;</ng-container
+      >{{ orderStatus?.order_store?.city | titlecase }},&nbsp;
+      {{ orderStatus?.order_store?.state | uppercase }},&nbsp;{{
+        orderStatus?.order_store?.zipcode
+      }}
+    </div>
+    <div class="w-100 fs-6 fw-500">
+      Phone: {{ orderStatus?.order_store?.phone! | phone }}
+    </div>
+    <!-- <div class="col-12">Rate & review</div> -->
+  </div>
+  <!-- <div class="row border-bottom pt-2 pb-2 gx-0">
+    <div class="col-12 mt-2 fs-6 fw-500">Pickup Estimate:</div>
+    <div class="col-12 fs-4 fw-bold">7:05pm - 7:15pm</div>
+  </div> -->
+  <div class="row border-bottom p-2 gx-0">
+    <ng-container *ngIf="orderStatus?.order_type; else orderTypeTemplate">
+      <div class="w-100 fs-6 fw-500">Delivery for:</div>
+    </ng-container>
+    <ng-template #orderTypeTemplate>
+      <div class="w-100 fs-6 fw-500">Pick-up for:</div>
+    </ng-template>
+    <div class="w-100 fs-5 fw-bold">
+      <ng-container
+        *ngIf="details?.orderParams?.scheduleTime; else ASAPTemplate"
+      >
+        {{ details?.orderParams?.scheduleTime }}
+      </ng-container>
+      <ng-template #ASAPTemplate> ASAP </ng-template>
+    </div>
+    <div class="w-100 fs-5 fw-bold">{{ orderStatus?.phone! | phone }}</div>
+
+    <ng-container *ngIf="orderStatus?.order_type == 1">
+      <div class="w-100 fs-5 fw-bold">
+        {{ orderStatus?.delivery_address }}
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="row border-bottom p-2 gx-0">
+    <div class="col-12 col-md-6">
+      <div class="w-100 fs-6 fw-500">Your order</div>
+      <div class="w-100 fw-500">
+        {{ orderStatus?.created_at | date: "MMMM d, y, h:mm:ss a z" }}
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="w-100 d-flex justify-content-md-end">
+        <a class="fw-bold" (click)="onPrint()">Print receipt</a>
+      </div>
+      <div class="w-100 text-md-end text-secondary fw-500">
+        order #{{ orderStatus?.id }}
+      </div>
+    </div>
+    <!-- item -->
+    <div
+      class="w-100"
+      *ngFor="let item of orderStatus?.order_items; let i = index"
+    >
+      <div
+        class="d-inline-flex w-100 pt-3 pb-3 border-bottom"
+        [ngClass]="{
+          'border-bottom': i < orderStatus?.order_items?.length! - 1
+        }"
+      >
+        <!-- <div class="col-lg-1 d-none d-lg-block pe-2 pt-1">
+          <div class="restaurant-pic rounded">
+            <picture>
+              <source src="../../../assets/images/example/bigPic1.jpg" />
+              <img src="../../../assets/images/example/bigPic1.jpg" alt="" />
+            </picture>
+          </div>
+        </div> -->
+        <div class="flex-fill col-md-9 col-lg-8">
+          <div class="w-100 fs-6 fw-500 d-flex">
+            <div class="flex-fill">
+              {{ item.item_name }}&nbsp;&times;&nbsp;{{ item.quantity }}
+            </div>
+
+            <div class="text-end ms-2">${{ item.total }}</div>
+          </div>
+
+          <div
+            class="col-12 text-secondary fw-500"
+            *ngFor="let option of item.order_item_additional"
+          >
+            {{ option.item_name }}(${{ option.subtotal }})&nbsp;&times;&nbsp;{{
+              option.quantity
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row border-bottom p-2 gx-0">
+    <div class="w-100 fs-6 fw-500">
+      <div class="row mb-2 mb-md-0 gx-0">
+        <div class="col-6">Items subtotal:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.subtotal | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mb-2 mb-md-0 gx-0">
+        <div class="col-6">Services fees:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.fees | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mb-2 mb-md-0 gx-0">
+        <div class="col-6">Delivery fees:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.delivery_fee | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mb-2 mb-md-0 gx-0">
+        <div class="col-6">Discount:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.discount | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mb-2 mb-md-0 gx-0">
+        <div class="col-6">Sales tax:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.tax | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row mb-2 gx-0">
+        <div class="col-6">Tip:</div>
+        <div class="col-6 text-end">
+          ${{ orderStatus?.tips | number: "1.2-2" }}
+        </div>
+      </div>
+      <div class="row pt-3 pb-3 mb-5 mb-md-0 gx-0 border-top pt-2">
+        <div class="col-6 fs-5 fw-bold">Total:</div>
+        <div class="col-6 text-end fs-5 fw-bold">
+          ${{ orderStatus?.total | number: "1.2-2" }}
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 fs-6 fw-500">
+      <div class="col-12">Payment method</div>
+      <div class="col-12">Credit card: xxxx xxxx xxxx 1234</div>
+    </div> -->
+  </div>
+</div>

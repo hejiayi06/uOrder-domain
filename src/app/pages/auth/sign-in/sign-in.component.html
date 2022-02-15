@@ -1,0 +1,175 @@
+<div class="wrap">
+  <uo-simple-header></uo-simple-header>
+  <div class="fill-up"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center pt-4 pb-4">
+        <h1 class="user-select-none">Sign in</h1>
+      </div>
+    </div>
+    <form [formGroup]="loginForm" method="post" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <b class="user-select-none">Email</b>
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group">
+            <input
+              type="email"
+              autocomplete="email"
+              [class.is-invalid]="email!.touched && email!.invalid"
+              [class.is-valid]="email!.touched && email!.valid"
+              pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+              formControlName="email"
+              class="form-control"
+              placeholder="email"
+              aria-label="email"
+              aria-describedby="email"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="email!.dirty && email!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Email is required</span
+          >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors['email'] || errors['pattern']"
+            >Please input valid email address</span
+          >
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-6 col-md-3 offset-md-3 col-lg-2 offset-lg-4">
+          <b class="user-select-none">Password</b>
+        </div>
+        <div class="col-6 col-md-3 col-lg-2 mb-1 d-flex justify-content-end">
+          <a routerLink="/forgot-password" class="user-select-none"
+            >Forgot password?</a
+          >
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group">
+            <input
+              autocomplete="current-password"
+              [type]="pwToggle ? 'password' : 'text'"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d-=_~`+!@#$^%&*()]{8,}$"
+              [class.is-invalid]="password!.touched && password!.invalid"
+              [class.is-valid]="password!.touched && password!.valid"
+              formControlName="password"
+              class="form-control rounded-0 rounded-start"
+              placeholder="password"
+              aria-label="password"
+              aria-describedby="password"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              (click)="pwToggle = !pwToggle"
+              type="button"
+            >
+              <p *ngIf="pwToggle">Show</p>
+              <p *ngIf="!pwToggle">Hide</p>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="password!.dirty && password!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Password is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 8 characters</span
+          >
+          <div class="text-danger user-select-none" *ngIf="errors['pattern']">
+            Must contain at least one uppercase letter, one lowercase letter and
+            one number
+          </div>
+        </div>
+      </div>
+      <div class="row user-select-none">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <div
+            class="alert alert-danger mt-2 mb-2 user-select-none"
+            role="alert"
+            *ngIf="errCode >= 0"
+          >
+            <div *ngIf="errCode != 429">
+              Please check your email and password
+            </div>
+            <div *ngIf="errCode == 429">Please try later</div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <button
+            class="btn btn-danger w-100"
+            type="submit"
+            [disabled]="!loginForm.valid || loading"
+          >
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loading"
+            ></span>
+
+            <b>Sign in</b>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-12 pt-2 text-center user-select-none">or</div>
+      <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button class="btn w-100 gg-btn" (click)="testToken()">
+          <i class="me-2 bi bi-google"></i>
+
+          <b>google</b>
+        </button>
+      </div>
+      <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button class="btn w-100 fb-btn">
+          <i class="me-2 bi bi-facebook"></i>
+          <b>facebook</b>
+        </button>
+      </div>
+      <!-- <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button class="btn w-100 ap-btn">
+          <b>apple</b>
+        </button>
+      </div> -->
+    </div>
+    <div class="row mt-2 mb-4">
+      <div class="col-12 text-center">
+        <div class="d-flex justify-content-center">
+          <a routerLink="/sign-up" class="ms-2">
+            <h6 class="user-select-none">Create your account</h6>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <uo-footer class="fixed-bottom"></uo-footer>
+</div>

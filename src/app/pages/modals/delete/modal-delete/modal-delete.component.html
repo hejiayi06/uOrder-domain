@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h4 class="modal-title">Delete this {{ modalType | typePipe }}?</h4>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    [disabled]="loading"
+    (click)="activeModal.close(false)"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div
+        class="col-12 d-inline-flex align-items-center justify-content-center"
+      >
+        <button
+          class="btn btn-outline-secondary"
+          [disabled]="loading"
+          (click)="activeModal.close(false)"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger ms-4"
+          *ngIf="modalType == 18"
+          [disabled]="loading"
+          (click)="deleteAddress()"
+        >
+          <span *ngIf="!loading; else loadingTemplate" class="user-select-none"
+            >Delete
+          </span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger ms-4"
+          *ngIf="modalType == 21"
+          [disabled]="loading"
+          (click)="deleteCoupon()"
+        >
+          <span *ngIf="!loading; else loadingTemplate" class="user-select-none"
+            >Delete
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loadingTemplate>
+  <span
+    class="spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+</ng-template>

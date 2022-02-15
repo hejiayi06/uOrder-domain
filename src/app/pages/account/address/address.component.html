@@ -1,0 +1,76 @@
+<div class="container-fluid gx-0">
+  <div class="w-100 border-bottom p-4 mt-1 fs-5 fw-bold">
+    Addresses
+    <i class="bi bi-plus-square ps-2 pe-2" (click)="addAddress()"></i>
+  </div>
+  <!-- address  -->
+  <div class="w-100">
+    <div
+      class="w-100 p-4 d-inline-flex border-bottom"
+      *ngFor="let address of addresses"
+    >
+      <div class="d-flex flex-column flex-fill">
+        <div class="fs-6 fw-500 mb-2 text-nowrap overflow-hidden toe">
+          {{ address?.phone }}
+        </div>
+        <div>
+          {{ address?.address + "," }}&nbsp;
+          <ng-container *ngIf="address?.optional"
+            >{{ address?.optional + "," }}&nbsp;</ng-container
+          >
+          {{ address?.city + "," | titlecase }}&nbsp;{{
+            address?.state + "," | uppercase
+          }}&nbsp;{{ address?.zipcode }}
+        </div>
+      </div>
+      <div
+        class="
+          align-items-center
+          justify-content-center
+          d-flex
+          flex-column
+          d-lg-inline-flex
+          flex-lg-row
+        "
+      >
+        <!-- <ng-container *ngIf="expression; else elseTemplate"> </ng-container>
+        <ng-template #elseTemplate> </ng-template> -->
+        <ng-container *ngIf="!address.is_default">
+          <a
+            class="ms-2 mb-2 mb-lg-0 text-secondary fw-500 d-inline-flex"
+            (click)="setDefault(address)"
+          >
+            <i class="bi bi-pencil-square me-1"></i>Set default
+          </a></ng-container
+        >
+
+        <a
+          class="ms-2 mb-2 mb-lg-0 text-secondary fw-500 d-inline-flex"
+          (click)="editAddress(address)"
+        >
+          <i class="bi bi-pencil-square me-1"></i>Edit
+        </a>
+        <a
+          class="ms-2 text-danger fw-500 d-inline-flex"
+          (click)="deleteAddress(18, address?.id!)"
+        >
+          <i class="bi bi-trash me-1"></i>Delete
+        </a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="
+      w-100
+      p-4
+      d-flex
+      flex-column
+      align-items-center
+      justify-content-center
+    "
+  >
+    <a class="p-2 text-danger fs-6 fw-bold" (click)="addAddress()">
+      <i class="bi bi-plus-square me-2"></i> Add a new address</a
+    >
+  </div>
+</div>

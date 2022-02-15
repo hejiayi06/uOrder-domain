@@ -1,0 +1,59 @@
+<button
+  class="card-item border rounded w-100"
+  type="button"
+  (click)="getItem()"
+>
+  <div
+    class="item-container rounded shadow-sm container position-relative gx-0"
+  >
+    <div class="row">
+      <div
+        [class.col-12]="!menuItem.icon"
+        [class.col-8]="menuItem.icon"
+        class="user-select-none"
+      >
+        <div class="d-flex flex-column text-start justify-content-center p-3">
+          <div
+            class="fs-6 fw-bolder text-nowrap toe overflow-hidden mb-1 user-select-none"
+          >
+            {{ menuItem.name }}
+          </div>
+          <div
+            class="mw-100 overflow-hidden toe item-description text-secondary user-select-none"
+          >
+            {{ menuItem.description }}
+          </div>
+          <div class="fw-500 mt-1 user-select-none">
+            $
+
+            <ng-container
+              *ngIf="menuItem.menu_item_variants?.length; else priceTemplate"
+            >
+              {{ menuItem.menu_item_variants![0].price }}&nbsp;~&nbsp;{{
+                menuItem.menu_item_variants![
+                  menuItem.menu_item_variants!.length - 1
+                ].price
+              }}
+            </ng-container>
+            <ng-template #priceTemplate>{{ menuItem.price }} </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="menuItem.icon">
+        <img src="{{ menuItem.icon }}" alt="{{ menuItem.name }}" />
+      </div>
+    </div>
+    <div
+      class="note-tag no-gutters p-1 rounded position-absolute user-select-none"
+    >
+      <span
+        class="note-text user-select-none"
+        *ngIf="
+          menuItem.quantity == 1 ||
+          (menuItem.inventory && menuItem.quantity <= 0)
+        "
+        >out of stock</span
+      >
+    </div>
+  </div>
+</button>

@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h5 class="modal-title">Enter a custom tip</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.dismiss(false)"
+  >
+    <div aria-hidden="true">&times;</div>
+  </button>
+</div>
+<div class="modal-body fs-6 fw-500">
+  <ng-container>
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input
+        type="number"
+        class="form-control"
+        [(ngModel)]="tipsAmount"
+        placeholder="please input amount"
+        aria-label="tips_amount"
+      />
+    </div>
+  </ng-container>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.dismiss(false)"
+  >
+    Close
+  </button>
+  <!-- [disabled]=" loading" -->
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="loading"
+    (click)="updateTips()"
+  >
+    <div class="user-select-none">Update tips</div>
+  </button>
+</div>

@@ -1,0 +1,307 @@
+<div class="wrap">
+  <uo-simple-header></uo-simple-header>
+  <div class="fill-up"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center pt-4 pb-4">
+        <h1 class="user-select-none">Create Account</h1>
+      </div>
+    </div>
+    <form [formGroup]="registerForm" method="post" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <b class="user-select-none">First Name</b>
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              autocomplete="off"
+              [class.is-invalid]="firstName!.touched && firstName!.invalid"
+              [class.is-valid]="firstName!.touched && firstName!.valid"
+              formControlName="first_name"
+              class="form-control"
+              placeholder="First name"
+              aria-label="Firstname"
+              aria-describedby="Firstname"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="firstName!.dirty && firstName!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >First name is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 2 characters</span
+          >
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <b class="user-select-none">Last Name</b>
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              autocomplete="off"
+              [class.is-invalid]="lastName!.touched && lastName!.invalid"
+              [class.is-valid]="lastName!.touched && lastName!.valid"
+              formControlName="last_name"
+              class="form-control"
+              placeholder="Last name"
+              aria-label="Lastname"
+              aria-describedby="Lastname"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="lastName!.dirty && lastName!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Last name is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 2 characters</span
+          >
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <b class="user-select-none">Email</b>
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group has-validation">
+            <!-- <span class="input-group-text" id="basic-addon1">Username</span> -->
+            <input
+              type="email"
+              autocomplete="off"
+              [(ngModel)]="emailInput"
+              email
+              (keyup)="emailCheck(emailInput)"
+              [class.is-invalid]="
+                email!.touched && (email!.invalid || !emailToggle)
+              "
+              [class.is-valid]="email!.touched && email!.valid && emailToggle"
+              formControlName="email"
+              pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+              class="form-control"
+              placeholder="email"
+              aria-label="email"
+              aria-describedby="email"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="email!.dirty && email!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+        >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="!emailToggle && !errors['pattern']"
+          >
+            Email address has been used</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Email is required</span
+          >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors['email'] || errors['pattern']"
+            >Please input valid email address</span
+          >
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <b class="user-select-none">Password</b>
+        </div>
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div class="input-group">
+            <input
+              [type]="pwToggle ? 'password' : 'text'"
+              autocomplete="off"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d-=_~`+!@#$^%&*()]{8,}$"
+              [class.is-invalid]="password!.touched && password!.invalid"
+              [class.is-valid]="password!.touched && password!.valid"
+              formControlName="password"
+              class="form-control rounded-0 rounded-start"
+              placeholder="password"
+              aria-label="password"
+              aria-describedby="password"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              (click)="pwToggle = !pwToggle"
+              type="button"
+              id="button-show-password"
+            >
+              <p *ngIf="pwToggle">Show</p>
+              <p *ngIf="!pwToggle">Hide</p>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="password!.dirty && password!.errors as errors"
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Password is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 8 characters</span
+          >
+          <div class="text-danger user-select-none" *ngIf="errors['pattern']">
+            Must contain at least one uppercase letter, one lowercase letter and
+            one number
+          </div>
+        </div>
+      </div>
+      <div class="row user-select-none">
+        <div
+          class="
+            col-12 col-md-6
+            offset-md-3
+            col-lg-4
+            offset-lg-4
+            user-select-none
+          "
+        >
+          <div
+            class="alert alert-danger mt-2 mb-2 user-select-none"
+            role="alert"
+            *ngIf="errCode >= 0"
+          >
+            <div
+              *ngIf="errCode == 429; else otherCase"
+              class="user-select-none"
+            >
+              Please try later
+            </div>
+            <ng-template #otherCase>
+              <div class="user-select-none">
+                Failed! Please check your input
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+          <button
+            class="
+              btn btn-danger
+              w-100
+              d-flex
+              justify-content-center
+              align-items-center
+            "
+            type="submit"
+            [disabled]="!registerForm.valid || !emailToggle || loading"
+          >
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+              *ngIf="loading"
+            ></span>
+            <b>Create</b>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-12 pt-2 text-center user-select-none">or</div>
+      <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button
+          class="
+            btn
+            w-100
+            gg-btn
+            d-inline-flex
+            align-items-center
+            justify-content-center
+          "
+        >
+          <i class="me-2 bi bi-google"></i>
+
+          <div class="fs-6 fw-500">google</div>
+        </button>
+      </div>
+      <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button
+          class="
+            btn
+            w-100
+            fb-btn
+            d-inline-flex
+            align-items-center
+            justify-content-center
+          "
+        >
+          <i class="me-2 bi bi-facebook"></i>
+          <div class="fs-6 fw-500">facebook</div>
+        </button>
+      </div>
+      <!-- <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+        <button class="btn w-100 ap-btn">
+          <b>apple</b>
+        </button>
+      </div> -->
+    </div>
+    <div class="row mt-2">
+      <div class="col-12 text-center">
+        <div class="d-flex justify-content-center user-select-none">
+          Already have an account?
+          <a routerLink="/sign-in" class="ms-2">
+            <h6>Sign in</h6>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4 mb-4">
+      <div class="col-12 text-center user-select-none">
+        By creating uOrder account, you agree to the
+        <a routerLink="/terms"> terms of use </a>
+        and
+        <a routerLink="/privacy"> privacy policy </a>
+      </div>
+    </div>
+  </div>
+</div>

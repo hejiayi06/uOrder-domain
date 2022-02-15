@@ -1,0 +1,343 @@
+<div class="container-fluid gx-0">
+  <div class="w-100 border-bottom p-4 mt-1 fs-5 fw-bold">Profile</div>
+  <!-- name  -->
+  <div class="p-4 border-bottom" *ngIf="!isName">
+    <div class="w-100 d-flex flex-column">
+      <div class="d-inline-flex align-items-center fs-6 fw-bold">
+        Name
+        <a
+          class="text-secondary fw-500 ms-2 d-inline-flex align-items-center"
+          (click)="editNameForm()"
+          >Edit<i class="bi bi-pencil-square ms-1"></i>
+        </a>
+      </div>
+      <div class="fw-500">
+        {{ user?.first_name
+        }}<ng-container *ngIf="user">,</ng-container> &nbsp;{{
+          user?.last_name
+        }}
+      </div>
+    </div>
+  </div>
+  <!-- change name -->
+  <div *ngIf="isName" class="p-4 border-bottom">
+    <div class="w-100 fs-6 fw-bold">Edit name</div>
+    <form class="col-12 col-sm-6 col-xl-4 col-xxl-3" [formGroup]="nameForm">
+      <ng-container>
+        <div class="w-100 user-select-none fw-500">First Name</div>
+        <div class="col-12 user-select-none">
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              autocomplete="off"
+              [class.is-invalid]="firstName!.touched && firstName!.invalid"
+              [class.is-valid]="firstName!.touched && firstName!.valid"
+              minlength="2"
+              formControlName="first_name"
+              maxlength="20"
+              class="form-control"
+              placeholder="First name"
+              aria-label="Firstname"
+              aria-describedby="Firstname"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="firstName!.dirty && firstName!.errors as errors"
+          class="w-100"
+        >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors?.['required']"
+            >First name is required</span
+          >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors?.['minlength']"
+            >Please input at least 2 characters</span
+          >
+        </div></ng-container
+      >
+      <ng-container>
+        <div class="w-100 fw-500 user-select-none">Last Name</div>
+        <div class="w-100 user-select-none">
+          <div class="input-group has-validation">
+            <input
+              type="text"
+              autocomplete="off"
+              [class.is-invalid]="lastName!.touched && lastName!.invalid"
+              [class.is-valid]="lastName!.touched && lastName!.valid"
+              minlength="2"
+              formControlName="last_name"
+              maxlength="20"
+              class="form-control"
+              placeholder="Last name"
+              aria-label="Lastname"
+              aria-describedby="Lastname"
+            />
+          </div>
+        </div>
+        <div
+          *ngIf="lastName!.dirty && lastName!.errors as errors"
+          class="w-100 text-danger"
+        >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors?.['required']"
+            >Last name is required</span
+          >
+          <span
+            class="text-danger user-select-none"
+            *ngIf="errors?.['minlength']"
+            >Please input at least 2 characters</span
+          >
+        </div></ng-container
+      >
+    </form>
+    <div class="w-100 d-flex flex-row mt-2">
+      <button class="btn btn-secondary me-2" (click)="isName = !isName">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        [disabled]="!nameForm.valid || loading"
+        (click)="updateName()"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+
+  <!-- password  -->
+  <div class="p-4 border-bottom" *ngIf="!isPassword">
+    <div class="w-100 d-flex flex-column">
+      <div class="d-inline-flex align-items-center fs-6 fw-bold">
+        Password
+        <a
+          class="text-secondary fw-500 ms-2 d-inline-flex align-items-center"
+          (click)="editPasswordForm()"
+          >Edit<i class="bi bi-pencil-square ms-1"></i>
+        </a>
+      </div>
+      <div class="fw-500">********</div>
+    </div>
+  </div>
+  <!-- change password -->
+  <div *ngIf="isPassword" class="p-4 border-bottom">
+    <div class="col-12 fs-6 fw-bold">Edit password</div>
+    <form class="col-12 col-sm-6 col-xl-4 col-xxl-3" [formGroup]="passwordForm">
+      <ng-container>
+        <div class="w-100 user-select-none fw-500">Old password</div>
+        <div class="col-12 user-select-none">
+          <div class="input-group has-validation">
+            <input
+              [type]="oldPasswordToggle ? 'password' : 'text'"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d-=_~`+!@#$^%&*()]{8,}$"
+              autocomplete="off"
+              [class.is-invalid]="oldPassword!.touched && oldPassword!.invalid"
+              [class.is-valid]="oldPassword!.touched && oldPassword!.valid"
+              minlength="2"
+              formControlName="old_password"
+              maxlength="20"
+              class="form-control rounded-0 rounded-start"
+              placeholder="Old password"
+              aria-label="old_password"
+              aria-describedby="old password"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              (click)="oldPasswordToggle = !oldPasswordToggle"
+              type="button"
+            >
+              <p *ngIf="oldPasswordToggle">Show</p>
+              <p *ngIf="!oldPasswordToggle">Hide</p>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="oldPassword!.dirty && oldPassword!.errors as errors"
+          class="w-100"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Old password is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 8 characters</span
+          >
+          <div class="text-danger user-select-none" *ngIf="errors['pattern']">
+            Must contain at least one uppercase letter, one lowercase letter and
+            one number
+          </div>
+          <div class="text-danger user-select-none" *ngIf="errors['incorrect']">
+            {{ errors["incorrect"] }}
+          </div>
+        </div></ng-container
+      >
+      <ng-container>
+        <div class="w-100 user-select-none fw-500">New password</div>
+        <div class="col-12 user-select-none">
+          <div class="input-group has-validation">
+            <input
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d-=_~`+!@#$^%&*()]{8,}$"
+              [type]="newPasswordToggle ? 'password' : 'text'"
+              autocomplete="off"
+              [class.is-invalid]="password!.touched && password!.invalid"
+              [class.is-valid]="password!.touched && password!.valid"
+              minlength="2"
+              formControlName="password"
+              maxlength="20"
+              class="form-control rounded-0 rounded-start"
+              placeholder="New password"
+              aria-label="new-password"
+              aria-describedby="new password"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              (click)="newPasswordToggle = !newPasswordToggle"
+              type="button"
+            >
+              <p *ngIf="newPasswordToggle">Show</p>
+              <p *ngIf="!newPasswordToggle">Hide</p>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="password!.dirty && password!.errors as errors"
+          class="w-100"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >New password is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 8 characters</span
+          >
+          <div class="text-danger user-select-none" *ngIf="errors['pattern']">
+            Must contain at least one uppercase letter, one lowercase letter and
+            one number
+          </div>
+          <div class="text-danger user-select-none" *ngIf="errors['password']">
+            {{ errors["password"] }}
+          </div>
+        </div></ng-container
+      >
+      <ng-container>
+        <div class="w-100 user-select-none fw-500">Password confirmation</div>
+        <div class="col-12 user-select-none">
+          <div class="input-group has-validation">
+            <input
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d-=_~`+!@#$^%&*()]{8,}$"
+              [type]="confirmdPaswordToggle ? 'password' : 'text'"
+              autocomplete="off"
+              [class.is-invalid]="
+                passwordConfirmation!.touched && passwordConfirmation!.invalid
+              "
+              [class.is-valid]="
+                passwordConfirmation!.touched && passwordConfirmation!.valid
+              "
+              minlength="2"
+              formControlName="password_confirmation"
+              maxlength="20"
+              class="form-control rounded-0 rounded-start"
+              placeholder="Password confirmation"
+              aria-label="passwordConfirmation"
+              aria-describedby="password confirmation"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              (click)="confirmdPaswordToggle = !confirmdPaswordToggle"
+              type="button"
+            >
+              <p *ngIf="confirmdPaswordToggle">Show</p>
+              <p *ngIf="!confirmdPaswordToggle">Hide</p>
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="
+            passwordConfirmation!.dirty &&
+            passwordConfirmation!.errors as errors
+          "
+          class="w-100"
+        >
+          <span class="text-danger user-select-none" *ngIf="errors['required']"
+            >Confirmed password is required</span
+          >
+          <span class="text-danger user-select-none" *ngIf="errors['minlength']"
+            >Please input at least 8 characters</span
+          >
+          <div class="text-danger user-select-none" *ngIf="errors['pattern']">
+            Must contain at least one uppercase letter, one lowercase letter and
+            one number
+          </div>
+          <div class="text-danger user-select-none" *ngIf="errors['password']">
+            {{ errors["password"] }}
+          </div>
+        </div></ng-container
+      >
+    </form>
+    <div class="w-100 d-flex flex-row mt-2">
+      <button class="btn btn-secondary me-2" (click)="isPassword = !isPassword">
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        [disabled]="!passwordForm.valid || loading"
+        (click)="updatePassword()"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+
+  <!-- facebook  -->
+  <!-- <div
+    class="
+      col-12
+      p-4
+      d-flex
+      flex-column
+      border-bottom
+      align-items-center
+      justify-content-center
+    "
+  >
+    <button
+      class="
+        btn
+        d-inline-flex
+        align-items-center
+        justify-content-center
+        fb-btn
+        fw-500
+      "
+    >
+      <i class="me-2 bi bi-facebook"></i>facebook
+    </button>
+  </div> -->
+  <!-- google  -->
+  <!-- <div
+    class="
+      col-12
+      p-4
+      d-flex
+      flex-column
+      align-items-center
+      justify-content-center
+    "
+  >
+    <button
+      class="
+        btn
+        d-inline-flex
+        align-items-center
+        justify-content-center
+        fw-500
+        gg-btn
+      "
+    >
+      <i class="me-2 bi bi-google"></i>google
+    </button>
+  </div> -->
+</div>

@@ -1,0 +1,39 @@
+.text-wrap {
+  font-weight: 500;
+  letter-spacing: 0ch;
+  text-transform: none;
+  display: block;
+  font-variant-ligatures: no-common-ligatures;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.option-select {
+  font-size: 0.75rem;
+  line-height: 1.3rem;
+}
+
+.required-tag {
+  height: 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.4rem;
+  letter-spacing: -0.04ch;
+  align-items: center;
+  -webkit-box-align: center;
+  color: white;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 2px;
+}
+
+.option-name {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: -0.04ch;
+  text-transform: none;
+  display: block;
+  font-variant-ligatures: no-common-ligatures;
+}
