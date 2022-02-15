@@ -1,5 +1,14 @@
 <div class="container-fluid gx-0">
   <div class="w-100 border-bottom p-4 mt-1 fs-5 fw-bold">Profile</div>
+  <!-- email  -->
+  <div class="p-4 border-bottom">
+    <div class="w-100 d-flex flex-column">
+      <div class="d-inline-flex align-items-center fs-6 fw-bold">Email</div>
+      <div class="fw-500">
+        {{ user?.email }}
+      </div>
+    </div>
+  </div>
   <!-- name  -->
   <div class="p-4 border-bottom" *ngIf="!isName">
     <div class="w-100 d-flex flex-column">
