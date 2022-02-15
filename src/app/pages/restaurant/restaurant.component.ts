@@ -4,6 +4,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  Inject,
 } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -39,10 +40,15 @@ export class RestaurantComponent implements OnInit, OnDestroy {
     this.loadingSub.unsubscribe();
   }
   ngOnInit(): void {
+    this.getDomain();
+
     this.getLoading();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
     // this.initScroll();
+  }
+  getDomain(): void {
+    console.log('hostname :>> ', window.location.hostname);
   }
   initScroll(): void {
     this.router.events.subscribe((evt) => {

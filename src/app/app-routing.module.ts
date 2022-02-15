@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/restaurant',
     pathMatch: 'full',
   }, //redirection to home page
   {

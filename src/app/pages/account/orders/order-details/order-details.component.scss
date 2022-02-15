@@ -3,9 +3,12 @@
     display: none;
   }
   header {
-    display:none;
+    display: none;
   }
   .back-link {
+    display: none;
+  }
+  footer {
     display: none;
   }
 }
@@ -27,5 +30,5 @@
 
 .bi {
   display: inline-block;
-  vertical-align: -.1em;
+  vertical-align: -0.1em;
 }

@@ -1,9 +1,14 @@
 <div class="container" *ngIf="orderStatus">
-  <div class="mt-2 ms-2 float-start back-link text-nowrap">
-    <a class="fs-6" routerLink="/account/orders">
-      <i class="bi bi-arrow-left"></i>
-      back to orders
-    </a>
+  <div class="d-inline-flex w-100">
+    <div class="flex-fill m-2 float-start back-link text-nowrap">
+      <a class="fs-6 fw-500" routerLink="/account/orders">
+        <i class="bi bi-arrow-left"></i>
+        back to orders
+      </a>
+    </div>
+    <div class="d-flex align-items-center m-2">
+      <a class="fs-6 fw-500" (click)="onPrint()">Print receipt</a>
+    </div>
   </div>
   <div class="d-inline-flex align-items-center justify-content-center w-100">
     <div class="w-100 fs-4 fw-bold flex-fill text-center">Order details</div>
@@ -63,9 +68,6 @@
       </div>
     </div>
     <div class="col-12 col-md-6">
-      <div class="w-100 d-flex justify-content-md-end">
-        <a class="fw-bold" (click)="onPrint()">Print receipt</a>
-      </div>
       <div class="w-100 text-md-end text-secondary fw-500">
         order #{{ orderStatus?.id }}
       </div>

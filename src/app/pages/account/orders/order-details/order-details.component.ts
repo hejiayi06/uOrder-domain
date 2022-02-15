@@ -10,7 +10,6 @@ import { OrderService } from 'src/app/services/apis/order.service';
 import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
-import { storageKeys } from 'src/app/share/configs';
 import {
   Checkout,
   OrderItem,
@@ -35,7 +34,6 @@ export class OrderDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private orderServe: OrderService,
-    private winServe: WindowService,
     private messageServe: MessageService,
     private cdr: ChangeDetectorRef,
     private loadingStore$: Store<LoadingStoreModule>,
