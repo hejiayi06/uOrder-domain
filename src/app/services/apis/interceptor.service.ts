@@ -12,6 +12,7 @@ import { catchError } from 'rxjs/operators';
 import { WindowService } from '../local/window.service';
 import { storageKeys } from 'src/app/share/configs';
 import { MessageService } from 'src/app/share/components/message/message.service';
+import { ErrorsService } from '../local/errors.service';
 
 interface CustomHttpConfig {
   headers?: HttpHeaders;
@@ -21,7 +22,7 @@ interface CustomHttpConfig {
 export class InterceptorService implements HttpInterceptor {
   constructor(
     private windowServe: WindowService,
-    private messageServe: MessageService
+    private errorServe: ErrorsService
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -67,7 +68,7 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
-    // this.messageServe.error(error.message);
+    this.errorServe.errorHandler(error);
     return throwError(error);
   }
 }

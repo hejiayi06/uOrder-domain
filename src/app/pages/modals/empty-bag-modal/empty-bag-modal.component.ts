@@ -50,7 +50,6 @@ export class EmptyBagModalComponent implements OnInit {
             this.cdr.markForCheck();
           },
           (err) => {
-            this.errorServe.errorHandler(err);
             this.loading = false;
             this.cdr.markForCheck();
           }
@@ -69,7 +68,6 @@ export class EmptyBagModalComponent implements OnInit {
           this.cdr.markForCheck();
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loading = false;
           this.cdr.markForCheck();
         }

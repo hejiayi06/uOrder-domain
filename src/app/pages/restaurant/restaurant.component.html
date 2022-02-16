@@ -8,11 +8,10 @@
   </div>
   <div class="fill-up mt-xl-4"></div>
   <!-- restaurant information conponents -->
-  <uo-restaurant-info
-    (heightEvent)="getHeight($event)"
-    [storeId]="storeId.toString()"
-  ></uo-restaurant-info>
+  <ng-container>
+    <uo-restaurant-info (heightEvent)="getHeight($event)"></uo-restaurant-info>
+    <uo-menu [height]="height"></uo-menu>
+  </ng-container>
   <!-- menu categories -->
-  <uo-menu [height]="height" [storeId]="storeId.toString()"></uo-menu>
 </div>
-<uo-footer></uo-footer>
+<uo-full-footer></uo-full-footer>

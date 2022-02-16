@@ -87,7 +87,6 @@ export class ProfileComponent implements OnInit {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );
@@ -118,7 +117,6 @@ export class ProfileComponent implements OnInit {
         this.messageServe.success('Change name successfully!');
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loading = false;
         this.isName = false;
       }
@@ -155,7 +153,6 @@ export class ProfileComponent implements OnInit {
               password: 'New password must match password confirmation!',
             });
           }
-          this.errorServe.errorHandler(err);
           this.loading = false;
           this.cdr.markForCheck();
         }

@@ -137,7 +137,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
               cart: [],
             })
           );
-          this.errorServe.errorHandler(err);
         }
       );
   }
@@ -194,7 +193,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.cdr.markForCheck();
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loading = false;
         this.cdr.markForCheck();
       }
@@ -219,7 +217,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loading = false;
           this.cdr.markForCheck();
         }
@@ -253,7 +250,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );
@@ -277,7 +273,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loadingStore$.dispatch(setLoading({ loading: false }));
         }
       );
@@ -292,5 +287,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.cdr.markForCheck();
       this.loadingStore$.dispatch(setLoading({ loading: false }));
     }
+  }
+  toUorder() {
+    window.location.href = 'http://www.uorder.io/';
   }
 }

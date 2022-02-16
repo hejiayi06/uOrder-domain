@@ -51,7 +51,6 @@ export class TimeModalComponent implements OnInit {
         this.cdr.markForCheck();
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loading = false;
         this.cdr.markForCheck();
       }

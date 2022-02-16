@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CheckoutGuard } from 'src/app/services/guards/checkout.guard';
+import { AuthGuard } from 'src/app/services/guards/auth.guard';
 import { CheckOutComponent } from './check-out.component';
 
 const routes: Routes = [
-  { path: '', component: CheckOutComponent, canActivate: [CheckoutGuard] },
+  { path: '', component: CheckOutComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

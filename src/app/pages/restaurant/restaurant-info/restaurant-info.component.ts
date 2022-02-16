@@ -30,7 +30,7 @@ import { StoreInfoStoreModule } from 'src/app/state/store-info/store-info.store.
 export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
   storeData!: StoreRes;
   day!: string;
-  @Input() storeId!: string;
+  // @Input() storeId!: string;
   @Output() heightEvent = new EventEmitter<number>();
   @ViewChild('info', { static: true }) private infoEl!: ElementRef;
   constructor(
@@ -106,39 +106,39 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
     //     }
     //   });
     // if (!this.storeData) {
-    this.storeServe.getStore(this.storeId).subscribe(
-      (data) => {
-        console.log('getStore :>> ', data);
-        if (data) {
-          this.storeData = data.data;
-          const order_type = JSON.parse(data.data.order_type);
-          console.log('order_type :>> ', order_type);
-          if (order_type) {
-            if (order_type.delivery) {
-              this.winServe.setLocalStorage(storageKeys.orderStatus, '1');
-            } else {
-              this.winServe.setLocalStorage(storageKeys.orderStatus, '2');
+    this.storeServe
+      .getStore(this.winServe.getLocalStorage(storageKeys.store) as string)
+      .subscribe(
+        (data) => {
+          console.log('getStore :>> ', data);
+          if (data) {
+            this.storeData = data.data;
+            const order_type = JSON.parse(data.data.order_type);
+            console.log('order_type :>> ', order_type);
+            if (order_type) {
+              if (order_type.delivery) {
+                this.winServe.setLocalStorage(storageKeys.orderStatus, '1');
+              } else {
+                this.winServe.setLocalStorage(storageKeys.orderStatus, '2');
+              }
             }
-          }
-          const payment_type = JSON.parse(data.data.payment_type);
-          if (payment_type) {
-            if (payment_type.online) {
-              this.winServe.setLocalStorage(storageKeys.payment, '1');
-            } else if (payment_type.in_store) {
-              this.winServe.setLocalStorage(storageKeys.payment, '2');
+            const payment_type = JSON.parse(data.data.payment_type);
+            if (payment_type) {
+              if (payment_type.online) {
+                this.winServe.setLocalStorage(storageKeys.payment, '1');
+              } else if (payment_type.in_store) {
+                this.winServe.setLocalStorage(storageKeys.payment, '2');
+              }
             }
+            this.cdr.markForCheck();
+            this.winServe.setLocalStorage(
+              storageKeys.storeInfo,
+              JSON.stringify(data.data)
+            );
+            this.storeStore$.dispatch(setStoreInfo(data.data));
           }
-          this.cdr.markForCheck();
-          this.winServe.setLocalStorage(
-            storageKeys.storeInfo,
-            JSON.stringify(data.data)
-          );
-          this.storeStore$.dispatch(setStoreInfo(data.data));
-        }
-      },
-      (err) => {
-        this.errorServe.errorHandler(err);
-      }
-    );
+        },
+        (err) => {}
+      );
   }
 }

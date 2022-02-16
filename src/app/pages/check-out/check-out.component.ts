@@ -249,9 +249,10 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         this.setCheckout();
         this.initTypes();
         if (this.items.length == 0) {
-          this.router.navigate([
-            'restaurant/' + this.checkout.orderParams.storeId,
-          ]);
+          // this.router.navigate([
+          //   'restaurant/' + this.checkout.orderParams.storeId,
+          // ]);
+          this.router.navigate(['']);
           this.messageServe.warning('No item founded!');
         }
 
@@ -266,7 +267,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
       },
       (err) => {
-        this.messageServe.danger(err.error.message);
         if (err.error.message == 'Unauthenticated.') {
           this.router.navigateByUrl('sign-in');
         } else {
@@ -277,21 +277,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     );
   }
   setCheckout(): void {
-    // if (
-    //   !this.checkout.orderParams.orderType ||
-    //   !this.checkout.orderParams.paymentType
-    // ) {
-    //   this.messageServe.danger(
-    //     'Store data exception. Cannot execute checkout! Please contact store or admins!'
-    //   );
-    //   this.router.navigateByUrl('restaurant/' + this.checkout.store.id);
-    // }
-    // if (!this.checkout.store.latitude || !this.checkout.store.longitude) {
-    //   this.messageServe.danger(
-    //     'Store latitude and longitude required. Cannot execute checkout! Please contact store or admins!'
-    //   );
-    //   this.router.navigateByUrl('restaurant/' + this.checkout.store.id);
-    // }
     this.tipsAmount = this.checkout.tips;
     console.log('this.tipsAmount :>> ', this.tipsAmount);
     this.tipsId = this.checkout.orderParams.tips.id;
@@ -440,7 +425,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           this.endLoading();
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.endLoading();
         }
       );
@@ -468,7 +452,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           this.endLoading();
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.endLoading();
         }
       );
@@ -533,7 +516,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         this.endLoading();
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.endLoading();
       }
     );
@@ -577,7 +559,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         });
       },
       (err) => {
-        this.messageServe.danger('Something wrong!');
         this.endLoading();
       }
     );
@@ -836,7 +817,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
             this.cdr.markForCheck();
           },
           (err) => {
-            this.messageServe.danger(err.error.message);
             this.loading = false;
             this.cdr.markForCheck();
           }
@@ -862,7 +842,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   }
   navigateToRestaurant(): void {
     this.router.navigate([
-      'restaurant/' + this.winServe.getLocalStorage(storageKeys.store),
+      // 'restaurant/' + this.winServe.getLocalStorage(storageKeys.store),
+      '',
     ]);
   }
 
@@ -936,9 +917,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         }
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loading = false;
-        this.messageServe.danger(err.error.message);
         this.cdr.markForCheck();
       }
     );

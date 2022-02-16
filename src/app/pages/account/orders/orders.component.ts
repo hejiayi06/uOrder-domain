@@ -52,7 +52,6 @@ export class OrdersComponent implements OnInit {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );
@@ -71,13 +70,13 @@ export class OrdersComponent implements OnInit {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );
   }
   getStore(store: StoreRes): void {
     this.storeStore$.dispatch(setStoreInfo(store));
-    this.router.navigateByUrl('restaurant/' + store.id);
+    this.router.navigateByUrl('');
+    // this.router.navigateByUrl('restaurant/' + store.id);
   }
 }

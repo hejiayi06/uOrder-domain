@@ -37,7 +37,6 @@ import { NameModalModule } from '../modals/name-modal/name-modal.module';
     CheckOutRoutingModule,
   ],
   exports: [CheckOutComponent],
-  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CheckOutModule {}

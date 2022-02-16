@@ -65,12 +65,7 @@ export class OrderDetailsComponent implements OnInit {
           }
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loadingStore$.dispatch(setLoading({ loading: false }));
-          // this.messageServe.warning('No data found!');
-          // this.router.navigate([
-          //   'restaurant/' + this.winServe.getLocalStorage(storageKeys.store),
-          // ]);
         }
       );
     }

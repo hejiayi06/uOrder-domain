@@ -79,9 +79,7 @@ export class UItemsComponent implements OnInit, OnDestroy {
             this.detectStore(res.data.item);
           }
         },
-        (err) => {
-          this.errorServe.errorHandler(err);
-        }
+        (err) => {}
       );
     }
   }

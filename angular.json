@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/uOrder",
+            "outputPath": "dist/uOrder-domain",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -33,6 +33,12 @@
             ],
             "styles": ["src/assets/styles/index.scss"],
             "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": true,
+            "buildOptimizer": true,
+            "sourceMap": true,
+            "optimization": true,
+            "namedChunks": true,
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },
@@ -61,10 +67,7 @@
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"

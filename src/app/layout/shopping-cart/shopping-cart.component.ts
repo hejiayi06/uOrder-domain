@@ -119,8 +119,8 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   }
   isStore(): boolean {
     return !(
-      this.route.snapshot.data['page'] == 'store' &&
-      this.shoppingCartStoreId !== this.route.snapshot.params['restaurantId']
+      (this.route.snapshot.data['page'] == 'store')
+      // &&this.shoppingCartStoreId !== this.route.snapshot.params['restaurantId']
     );
   }
   getShoppingCart(): void {
@@ -208,7 +208,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
           this.loadingFalse();
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loadingFalse();
         }
       );
@@ -228,7 +227,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
             this.loadingFalse();
           },
           (err) => {
-            this.errorServe.errorHandler(err);
             this.loadingFalse();
           }
         );
@@ -261,18 +259,16 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
         this.loadingFalse();
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingFalse();
       }
     );
   }
   returnToOrder(): void {
     this.visible = false;
-    this.router
-      .navigate(['restaurant/' + this.shoppingCartStoreId])
-      .then(() => {
-        window.location.reload();
-      });
+    // 'restaurant/' + this.shoppingCartStoreId'
+    this.router.navigate(['']).then(() => {
+      window.location.reload();
+    });
   }
   cleanOrder(): void {
     this.deleteAllItems();

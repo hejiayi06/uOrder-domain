@@ -67,7 +67,6 @@ export class SetDefaultAddressComponent implements OnInit {
         (err) => {
           this.loading = false;
           this.cdr.markForCheck();
-          this.errorServe.errorHandler(err);
           this.activeModal.close(false);
         }
       );

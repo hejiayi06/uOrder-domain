@@ -100,7 +100,6 @@ export class AddAddressModalComponent implements OnInit {
         this.activeModal.close(res.data.item);
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loading = false;
         this.cdr.markForCheck();
         this.activeModal.close(false);

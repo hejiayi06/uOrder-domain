@@ -57,7 +57,6 @@ export class AddressComponent implements OnInit {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );

@@ -362,7 +362,6 @@ export class ItemModalComponent implements OnInit, OnDestroy {
             }
           },
           (err) => {
-            this.errorServe.errorHandler(err);
             this.closeModal();
           }
         );
@@ -384,7 +383,6 @@ export class ItemModalComponent implements OnInit, OnDestroy {
           }
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.closeModal();
         }
       );

@@ -1,17 +1,11 @@
 <nav
-  class="
-    shadow-sm
-    navbar navbar-expand-lg navbar-light
-    bg-light
-    fixed-top
-    border-bottom
-  "
+  class="shadow-sm navbar navbar-expand-lg navbar-light bg-light fixed-top border-bottom"
 >
   <div class="d-inline-flex w-100">
     <div class="col-3 d-flex align-items-start">
       <a
         class="fs-6 fw-bold ms-4 mt-auto mb-auto"
-        [routerLink]="['/restaurant/' + restaurantId]"
+        [routerLink]="['/restaurant']"
       >
         <div class="text-danger user-select-none d-inline-flex">
           <i class="bi bi-arrow-90deg-left"></i>
@@ -21,8 +15,10 @@
     </div>
 
     <div class="col-6 d-flex align-items-center justify-content-center">
-      <a class="navbar-brand m-0" [routerLink]="['/home']">
-        <b class="text-danger user-select-none">uOrder</b>
+      <a
+        class="navbar-brand m-0 text-danger fw-bold"
+        href="http://www.uorder.io"
+        >uOrder
       </a>
     </div>
   </div>

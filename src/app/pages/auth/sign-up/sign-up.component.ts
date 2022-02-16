@@ -149,11 +149,11 @@ export class SignUpComponent implements OnInit {
               let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
-              if (storeId) {
-                this.router.navigate(['restaurant/' + storeId]);
-              } else {
-                this.router.navigate(['home']);
-              }
+              // if (storeId) {
+              //   this.router.navigate(['restaurant/' + storeId]);
+              // } else {
+              //   this.router.navigate(['home']);
+              // }
             },
             (err) => {
               this.shoppingCartStore$.dispatch(
@@ -167,17 +167,15 @@ export class SignUpComponent implements OnInit {
               let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
-              if (storeId) {
-                this.router.navigate(['restaurant/' + storeId]);
-              } else {
-                this.router.navigate(['home']);
-              }
+              // if (storeId) {
+              //   this.router.navigate(['restaurant/' + storeId]);
+              // } else {
+              //   this.router.navigate(['home']);
+              // }
             }
           );
       },
       (err) => {
-        console.log('err :>> ', err);
-        this.messageServe.danger('Failred to register!');
         if (err.status) {
           this.errCode = err.status;
           this.cdr.markForCheck();

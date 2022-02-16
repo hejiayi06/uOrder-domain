@@ -18,7 +18,9 @@ import { Store } from '@ngrx/store';
 import { debounceTime, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
 import { ErrorsService } from 'src/app/services/local/errors.service';
+import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
+import { storageKeys } from 'src/app/share/configs';
 import { Category, Group } from 'src/app/share/types';
 import { setLoading } from 'src/app/state/loading/action';
 import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
@@ -30,7 +32,7 @@ import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() storeId!: string;
+  storeId!: string;
   menuGroups!: Group[];
   selectedMenuGroup!: Group;
   categories!: Category[];
@@ -53,8 +55,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private scroller: ViewportScroller,
     private menuServe: MenuService,
-    private messageServe: MessageService,
-    private route: ActivatedRoute,
+    private winServe: WindowService,
     private cdr: ChangeDetectorRef,
     private loadingStore$: Store<LoadingStoreModule>,
     private errorServe: ErrorsService
@@ -111,13 +112,14 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   ngOnInit(): void {
+    this.storeId = this.winServe.getLocalStorage(storageKeys.store) as string;
     this.getMenuGroup(this.storeId);
   }
 
   //get groups
-  getMenuGroup(restaurantId: string): void {
+  getMenuGroup(storeId: string): void {
     this.loadingStore$.dispatch(setLoading({ loading: true }));
-    this.menuServe.getMenuGroups(restaurantId).subscribe(
+    this.menuServe.getMenuGroups(storeId).subscribe(
       (res) => {
         console.log('res :>> ', res);
         if (res) {
@@ -134,7 +136,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
       (err) => {
-        this.errorServe.errorHandler(err);
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );

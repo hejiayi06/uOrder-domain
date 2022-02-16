@@ -108,7 +108,6 @@ export class EditAddressModalComponent implements OnInit {
           this.activeModal.close(res.data.item);
         },
         (err) => {
-          this.errorServe.errorHandler(err);
           this.loading = false;
           this.activeModal.close(false);
         }

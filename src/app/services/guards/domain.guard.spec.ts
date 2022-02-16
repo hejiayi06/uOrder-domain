@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CheckoutGuard } from './checkout.guard';
+import { DomainGuard } from './domain.guard';
 
-describe('CheckoutGuard', () => {
-  let guard: CheckoutGuard;
+describe('DomainGuard', () => {
+  let guard: DomainGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(CheckoutGuard);
+    guard = TestBed.inject(DomainGuard);
   });
 
   it('should be created', () => {

@@ -33,7 +33,6 @@ export class ModalDeleteComponent implements OnInit {
 
   ngOnInit(): void {}
   errFunc(err: any): void {
-    this.errorServe.errorHandler(err);
     this.loading = false;
     this.cdr.detectChanges();
     this.activeModal.close(false);
