@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class ScheduleTimeService {
   readonly prefix = 'api/v1/';
   constructor(private http: HttpClient) {}
-  getSchedule(): Observable<Base<{ values: string[][] }>> {
+  getSchedule(): Observable<Base<{ values: { item: Date }[][] }>> {
     return this.http
       .get(environment.apiUrl + `${this.prefix}shopping-cart/order-schedule`)
       .pipe(map((res: any) => res));

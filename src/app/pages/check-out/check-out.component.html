@@ -332,7 +332,7 @@
                       else asapTemplate
                     "
                   >
-                    {{ checkout?.orderParams?.scheduleTime }}
+                    {{ checkout?.orderParams?.scheduleTime | date: "short" }}
                   </ng-container>
                   <ng-template #asapTemplate>
                     <ng-container *ngIf="!loading"

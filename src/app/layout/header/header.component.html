@@ -21,11 +21,6 @@
       id="navbarToggler"
     >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- <li class="nav-item">
-          <a class="nav-link user-select-none" aria-current="page">{{
-            rName
-          }}</a>
-        </li> -->
         <li *ngIf="!isLog; else accountTemplate" class="nav-item">
           <a
             class="nav-link user-select-none fw-500 fs-6"
@@ -33,7 +28,6 @@
             >Sign-in</a
           >
         </li>
-
         <!-- <li *ngIf="!isLog" class="nav-item">
           <a class="nav-link" [routerLink]="['/sign-up']">Sign-up</a>
         </li> -->
@@ -47,13 +41,7 @@
             >
             <div ngbDropdownMenu>
               <a ngbDropdownItem [routerLink]="['/account/orders']">Orders</a>
-              <!-- <a ngbDropdownItem [routerLink]="['/account/gift-cards']"
-                >Gift cards</a
-              > -->
               <a ngbDropdownItem [routerLink]="['/account/address']">Address</a>
-              <!-- <a ngbDropdownItem [routerLink]="['/account/payments']"
-                >Payments</a
-              > -->
               <a ngbDropdownItem [routerLink]="['/account/profile']">Profile</a>
               <a ngbDropdownItem (click)="logout()">Log out</a>
             </div>
@@ -112,9 +100,7 @@
   aria-labelledby="navOffcanvas"
 >
   <div class="offcanvas-header">
-    <a class="offcanvas-title fs-2 fw-bold text-danger" [routerLink]="['/home']"
-      >uOrder</a
-    >
+    <a class="offcanvas-title fs-2 fw-bold text-danger" routerLink="">uOrder</a>
     <button
       type="button"
       class="btn-close text-reset"
@@ -155,13 +141,6 @@
           [routerLink]="['/account/orders']"
           >Orders</a
         >
-        <!-- <a
-        (click)="showNavbar = false"
-        class="pb-2"
-        [routerLinkActive]="['text-danger', 'fw-bold']"
-        [routerLink]="['/account/gift-cards']"
-        >Gift cards</a
-      > -->
         <a
           (click)="showNavbar = false"
           class="pb-2"
@@ -169,13 +148,6 @@
           [routerLink]="['/account/address']"
           >Address</a
         >
-        <!-- <a
-        (click)="showNavbar = false"
-        class="pb-2"
-        [routerLinkActive]="['text-danger', 'fw-bold']"
-        [routerLink]="['/account/payments']"
-        >Payments</a
-      > -->
         <a
           (click)="showNavbar = false"
           class="pb-2"
@@ -188,7 +160,6 @@
     >
   </div>
 </div>
-
 <uo-shopping-cart
   #shoppingCart
   [items]="shoppingCartRes"

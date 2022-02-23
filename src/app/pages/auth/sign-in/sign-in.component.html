@@ -13,13 +13,7 @@
           <b class="user-select-none">Email</b>
         </div>
         <div
-          class="
-            col-12 col-md-6
-            offset-md-3
-            col-lg-4
-            offset-lg-4
-            user-select-none
-          "
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 user-select-none"
         >
           <div class="input-group">
             <input
@@ -60,13 +54,7 @@
           >
         </div>
         <div
-          class="
-            col-12 col-md-6
-            offset-md-3
-            col-lg-4
-            offset-lg-4
-            user-select-none
-          "
+          class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 user-select-none"
         >
           <div class="input-group">
             <input
@@ -143,18 +131,21 @@
     <div class="row">
       <div class="col-12 pt-2 text-center user-select-none">or</div>
       <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
-        <button class="btn w-100 gg-btn" (click)="testToken()">
+        <button
+          class="btn w-100 gg-btn fs-6 fw-500 d-inline-flex align-items-center justify-content-center"
+          [disabled]="loading"
+          (click)="googleAuth()"
+        >
           <i class="me-2 bi bi-google"></i>
-
-          <b>google</b>
+          Google
         </button>
       </div>
-      <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
+      <!-- <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
         <button class="btn w-100 fb-btn">
           <i class="me-2 bi bi-facebook"></i>
           <b>facebook</b>
         </button>
-      </div>
+      </div> -->
       <!-- <div class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 pt-2">
         <button class="btn w-100 ap-btn">
           <b>apple</b>

@@ -6,8 +6,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./simple-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimpleHeaderComponent implements OnInit {
+export class SimpleHeaderComponent {
+  storeName: string = 'uOrder';
   constructor() {}
-
-  ngOnInit(): void {}
 }

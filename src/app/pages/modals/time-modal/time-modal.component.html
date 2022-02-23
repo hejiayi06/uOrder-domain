@@ -147,10 +147,10 @@
             >
               <option [value]="''" [disabled]="true">Please select time</option>
               <option
-                [value]="time"
+                [value]="time.item"
                 *ngFor="let time of timeList[selectIndex]; let i = index"
               >
-                {{ time }}
+                {{ time.item | date: "stort" }}
               </option>
             </select>
           </div>

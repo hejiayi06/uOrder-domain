@@ -464,12 +464,10 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     });
     modalRef.componentInstance.orderType = this.checkout.orderParams.orderType;
     modalRef.closed.subscribe((res) => {
-      if (res) {
-        this.schedule_time?.patchValue(res);
-        this.checkout.orderParams.scheduleTime = res;
-        console.log('res :>> ', res);
-        this.cdr.markForCheck();
-      }
+      this.schedule_time?.patchValue(res);
+      this.checkout.orderParams.scheduleTime = res;
+      console.log('res :>> ', res);
+      this.cdr.markForCheck();
     });
   }
   changeName(): void {

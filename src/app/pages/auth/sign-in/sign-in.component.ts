@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/apis/auth.service';
 import { ShoppingCartService } from 'src/app/services/apis/shopping-cart.service';
-import { UserService } from 'src/app/services/apis/user.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
@@ -47,7 +46,6 @@ export class SignInComponent implements OnInit {
     private fb: FormBuilder,
     private authServe: AuthService,
     private winServe: WindowService,
-    private userServe: UserService,
     private cdr: ChangeDetectorRef,
     private router: Router,
     private messageServe: MessageService,
@@ -55,28 +53,13 @@ export class SignInComponent implements OnInit {
     private shoppingCartStore$: Store<ShoppingCartStoreModule>
   ) {}
 
-  ngOnInit(): void {
-    // window.scrollTo(0, 0);
-  }
-  // passwordToggle() {
-  //   this.pwToggle = !this.pwToggle;
-  // }
-  testToken(): void {
-    if (this.winServe.getLocalStorage(storageKeys.auth)) {
-      // this.winServe.getLocalStorage(storageKeys.auth)
-      this.userServe.profile().subscribe(
-        (res) => {
-          console.log('res :>> ', res);
-        },
-        (err) => {
-          console.log('err :>> ', err);
-        }
-      );
-    }
+  ngOnInit(): void {}
+  googleAuth(): void {
+    let domain = window.location.hostname;
+    window.location.href =
+      'https://api.uorder.io/login/socialite/google/auth?domain=' + domain;
   }
   onSubmit(): void {
-    // let loginFormValue = JSON.stringify(this.loginForm.value);
-    // console.log('registerFormValue :>> ', loginFormValue);
     this.loading = true;
     this.cdr.markForCheck();
     this.authServe.login(this.loginForm.value).subscribe(
@@ -115,16 +98,9 @@ export class SignInComponent implements OnInit {
                   })
                 );
               }
-
-              let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
               this.router.navigate(['']);
-              // if (storeId) {
-              //   this.router.navigate(['restaurant/' + storeId]);
-              // } else {
-              //   this.router.navigate(['home']);
-              // }
             },
             (err) => {
               this.shoppingCartStore$.dispatch(
@@ -135,15 +111,9 @@ export class SignInComponent implements OnInit {
                   cart: [],
                 })
               );
-              let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
               this.router.navigate(['']);
-              // if (storeId) {
-              //   this.router.navigate(['restaurant/' + storeId]);
-              // } else {
-              //   this.router.navigate(['home']);
-              // }
             }
           );
       },

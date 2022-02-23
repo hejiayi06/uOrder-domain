@@ -64,8 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private messageServe: MessageService,
     private shoppingCartStore$: Store<ShoppingCartStoreModule>,
     private loadingStore$: Store<LoadingStoreModule>,
-    private eRef: ElementRef,
-    private errorServe: ErrorsService
+    private eRef: ElementRef
   ) {}
   ngOnDestroy(): void {
     this.lengthSub.unsubscribe();

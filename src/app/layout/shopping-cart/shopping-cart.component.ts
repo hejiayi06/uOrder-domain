@@ -80,7 +80,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() length: number = 0;
   @Input() shoppingCartStoreId!: string;
   @Input() isLog!: boolean;
-  // @Output() loadingEvent = new EventEmitter<boolean>();
   @Output() hide = new EventEmitter<void>();
   @Input() total: number = 0;
   loading: boolean = false;
@@ -98,14 +97,13 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
     private cdr: ChangeDetectorRef,
     private messageServe: MessageService,
     private overlayServe: OverlayService,
-    private shoppingCartStore$: Store<ShoppingCartStoreModule>,
-    private errorServe: ErrorsService
+    private shoppingCartStore$: Store<ShoppingCartStoreModule>
   ) {}
   ngOnDestroy(): void {
+    this.hideOverlay();
     this.cartSub.unsubscribe();
   }
   ngOnChanges(): void {
-    // console.log('changes :>> ', changes);
     if (this.show) {
       this.showOverlay();
     } else {
@@ -118,10 +116,7 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
     this.getShoppingCart();
   }
   isStore(): boolean {
-    return !(
-      (this.route.snapshot.data['page'] == 'store')
-      // &&this.shoppingCartStoreId !== this.route.snapshot.params['restaurantId']
-    );
+    return !(this.route.snapshot.data['page'] == 'store');
   }
   getShoppingCart(): void {
     this.cartSub = this.shoppingCartStore$
@@ -135,7 +130,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
   toCheckout(): void {
-    // , { store: this.shoppingCartStoreId }
     this.router.navigate(['/checkout']);
     this.hide.emit();
     this.hideOverlay();
@@ -164,13 +158,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
     this.mergeEvent();
     console.log('this.overlayRef :>> ', this.overlayRef);
     this.visible = true;
-    // this.refresh = true;
-    // setTimeout(() => {
-    // this.rd2.appendChild(
-    //   this.overlayRef!.container,
-    //   this.el.nativeElement
-    // );
-    // }, 0);
   }
   animationDone(event: AnimationEvent): void {
     if (event.toState === 'void') {
@@ -265,7 +252,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   }
   returnToOrder(): void {
     this.visible = false;
-    // 'restaurant/' + this.shoppingCartStoreId'
     this.router.navigate(['']).then(() => {
       window.location.reload();
     });

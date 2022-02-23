@@ -21,7 +21,7 @@ export class TimeModalComponent implements OnInit {
   orderType!: string;
   timeStr: string = '';
   selectIndex: number = 0;
-  timeList!: string[][];
+  timeList!: { item: Date }[][];
   constructor(
     public activeModal: NgbActiveModal,
     private scheduleServe: ScheduleTimeService,

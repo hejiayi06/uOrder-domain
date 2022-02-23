@@ -1,21 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Base, StoreRes } from 'src/app/share/types';
 import { environment } from 'src/environments/environment';
-import { Base64Service } from '../local/base64.service';
-import { API_CONFIG } from '../services.module';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
   readonly prefix = 'api/v1/';
-  constructor(
-    private http: HttpClient,
-    @Inject(API_CONFIG) private url: string
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getStore(storeId: string): Observable<Base<StoreRes>> {
     const header = new HttpHeaders().set('storeId', storeId);

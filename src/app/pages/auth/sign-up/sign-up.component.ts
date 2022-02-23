@@ -73,17 +73,9 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {}
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.getDataTerms
-      .pipe(
-        // 请求防抖 300毫秒
-        debounceTime(300),
-        distinctUntilChanged()
-      )
+      .pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((term) => {
-        // 此处进行httpClient的请求
-        // term是用户输入的值
         this.authServe.checkEmail(term).subscribe((res) => {
           this.emailToggle = res.data.CheckEmail;
           console.log('res :>> ', res);
@@ -95,9 +87,6 @@ export class SignUpComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  // passwordToggle(): void {
-  //   this.pwToggle = !this.pwToggle;
-  // }
   emailCheck(email: string): void {
     const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -106,8 +95,6 @@ export class SignUpComponent implements OnInit {
     }
   }
   onSubmit(): void {
-    // let registerFormValue = JSON.stringify(this.registerForm.value);
-    // console.log('registerFormValue :>> ', registerFormValue);
     this.loading = true;
     this.cdr.markForCheck();
     this.authServe.register(this.registerForm.value).subscribe(
@@ -146,14 +133,9 @@ export class SignUpComponent implements OnInit {
                   })
                 );
               }
-              let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
-              // if (storeId) {
-              //   this.router.navigate(['restaurant/' + storeId]);
-              // } else {
-              //   this.router.navigate(['home']);
-              // }
+              this.router.navigate(['']);
             },
             (err) => {
               this.shoppingCartStore$.dispatch(
@@ -164,14 +146,9 @@ export class SignUpComponent implements OnInit {
                   cart: [],
                 })
               );
-              let storeId = this.winServe.getLocalStorage(storageKeys.store);
               this.loading = false;
               this.cdr.markForCheck();
-              // if (storeId) {
-              //   this.router.navigate(['restaurant/' + storeId]);
-              // } else {
-              //   this.router.navigate(['home']);
-              // }
+              this.router.navigate(['']);
             }
           );
       },
@@ -187,5 +164,11 @@ export class SignUpComponent implements OnInit {
         this.cdr.markForCheck();
       }
     );
+  }
+  googleAuth(): void {
+    this.loading = true;
+    let domain = window.location.hostname;
+    window.location.href =
+      'https://api.uorder.io/login/socialite/google/auth?domain=' + domain;
   }
 }

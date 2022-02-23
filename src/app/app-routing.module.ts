@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     redirectTo: '/restaurant',
     pathMatch: 'full',
-  }, //redirection to home page
+  },
   {
     path: '**',
     component: PageNotFoundComponent,

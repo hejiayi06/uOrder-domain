@@ -107,7 +107,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
       this.heightLine <= categoryRect.bottom
     ) {
       this.selectedCategoryId = category.nativeElement.id;
-      console.log('this.selectedCategoryId :>> ', this.selectedCategoryId);
       this.cdr.detectChanges();
     }
   }
@@ -121,7 +120,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingStore$.dispatch(setLoading({ loading: true }));
     this.menuServe.getMenuGroups(storeId).subscribe(
       (res) => {
-        console.log('res :>> ', res);
         if (res) {
           if (res.data.items) {
             this.menuGroups = res.data.items;
@@ -156,8 +154,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   onCategory(category: Category): void {
     this.selectedCategoryId = category.id;
     this.cdr.detectChanges();
-
-    console.log('this.selectedCategoryId  :>> ', this.selectedCategoryId);
     let res = this.categoryList.find(
       (elem) => elem.nativeElement.id === category.id.toString()
     );
@@ -165,16 +161,19 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCategoryLeft() {
-    console.log('this. :>> ', this.cEl.nativeElement.scrollLeft);
     this.cEl.nativeElement.scrollLeft -= 200;
     this.cdr.markForCheck();
-    console.log('this. :>> ', this.cEl.nativeElement.scrollLeft);
   }
 
   onCategoryRight() {
-    console.log('this. :>> ', this.cEl.nativeElement.scrollLeft);
     this.cEl.nativeElement.scrollLeft += 200;
     this.cdr.markForCheck();
-    console.log('this. :>> ', this.cEl.nativeElement.scrollLeft);
+  }
+  rightBtn(): boolean {
+    return (
+      this.cEl.nativeElement.scrollWidth - this.cEl.nativeElement.scrollLeft >
+        window.screen.width - 59 &&
+      this.cEl.nativeElement.scrollWidth >= window.screen.width
+    );
   }
 }
