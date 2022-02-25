@@ -98,6 +98,10 @@ export interface BusinessHour {
   type: null;
   updated_at: Date;
 }
+export interface BusinessHourDetail {
+  open_hour: string;
+  close_hour: string;
+}
 export interface Tips {
   created_at: Date;
   id: number;

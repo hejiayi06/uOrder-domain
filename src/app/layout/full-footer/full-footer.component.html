@@ -1,17 +1,155 @@
-<footer class="wrap p-3 shadow border-top min-vh-100">
-  <div class="container-fluid">
-    <div class="row user-select-none">
+<footer class="wrap p-4 shadow border-top min-vh-100">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 fs-3 fw-bold text-start mt-3 mb-3">
+        {{ store?.store_name }}
+      </div>
+      <div class="col-12 d-flex flex-column flex-xl-row">
+        <div class="col-12 col-xl-6 pe-xl-4">
+          <div
+            class="map border bg-secondary rounded user-select-none"
+            *ngIf="store?.latitude && store?.longitude"
+          >
+            <google-map height="100%" width="100%" [options]="googleMapOptions">
+              <ng-container *ngIf="marker.position">
+                <map-marker [position]="marker.position"></map-marker
+              ></ng-container>
+            </google-map>
+          </div>
+          <div
+            class="col-12 fs-3 fw-bold text-start pt-2 user-select-none d-inline-flex"
+          >
+            <div
+              class="fs-6 flex-fill"
+              *ngIf="
+                store?.address || store?.zipcode || store?.state || store?.city
+              "
+            >
+              {{ store?.address + "," }}&nbsp;
+              {{ store?.city + "," | titlecase }}&nbsp;
+              {{ store?.state + "," | uppercase }}&nbsp;
+              {{ store?.zipcode }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-6">
+          <div
+            class="col-12 fs-4 fw-bold text-start user-select-none mt-3 mb-2 mt-xl-0"
+          >
+            Hours
+          </div>
+          <ng-container *ngFor="let hour of businessHours">
+            <div class="d-flex flex-column mt-1 fw-500">
+              <div class="d-inline-flex">
+                <div class="fs-6 w-3r fw-500 text-start user-select-none">
+                  {{ hour.day }}
+                </div>
+                <ng-container *ngIf="hour.scope?.length; else nonScopeTemplate">
+                  <div class="d-flex flex-column flex-fill align-items-start">
+                    <ng-container *ngFor="let scope of hour.scope">
+                      {{ scope.open_hour }}-{{ scope.close_hour }}
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <ng-template #nonScopeTemplate>No available time </ng-template>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-12 col-xl-3 d-flex flex-column">
+        <div class="col-12 fs-5 fw-bold text-start mt-3 mb-3">
+          Get to know us
+        </div>
+        <a
+          href="https://www.uprocessing.com/about"
+          class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >About us
+        </a>
+        <a
+          href="https://www.uprocessing.com/solutions"
+          class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Solutions
+        </a>
+        <a
+          href="https://www.uprocessing.com/careers"
+          class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Career
+        </a>
+      </div>
+      <div class="col-12 col-xl-3 d-flex flex-column">
+        <div class="col-12 fs-5 fw-bold text-start mt-3 mb-3">Social Links</div>
+        <div class="col-12 d-inline-flex">
+          <a
+            href="https://www.linkedin.com/company/universal-processing-llc"
+            class="fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2 pe-2"
+            ><i class="bi bi-linkedin"></i>
+          </a>
+          <a
+            href="https://www.facebook.com/UniversalProcessing/"
+            class="fs-6 fw-bold mt-1 mb-1 text-dark text-start p-2"
+            ><i class="bi bi-facebook"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/universalprocessing/"
+            class="fs-6 fw-bold mt-1 mb-1 text-dark text-start p-2"
+            ><i class="bi bi-instagram"></i>
+          </a>
+          <a
+            href="https://twitter.com/UProcessing"
+            class="fs-6 fw-bold mt-1 mb-1 text-dark text-start p-2"
+            ><i class="bi bi-twitter"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-12 col-xl-3 d-flex flex-column">
+        <div class="col-12 fs-5 fw-bold text-start mt-3 mb-3">Help</div>
+        <a class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Add your restaruant
+        </a>
+        <a class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Support
+        </a>
+      </div>
+      <div class="col-12 col-xl-3 d-flex flex-column">
+        <div class="col-12 fs-5 fw-bold text-start mt-3 mb-3">Quick Find</div>
+        <a class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Restaurants near me
+        </a>
+        <a class="col-12 fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2"
+          >Pick up near me
+        </a>
+      </div>
+    </div>
+    <div class="row user-select-none mt-5">
       <div class="offset-4 col-2">
-        <a routerLink="/terms" class="user-select-none">Terms</a>
+        <a routerLink="/terms" class="text-dark fs-6 fw-500 user-select-none"
+          >Terms</a
+        >
       </div>
       <div class="col-2">
-        <a routerLink="/privacy" class="user-select-none">Privacy</a>
+        <a routerLink="/privacy" class="text-dark fs-6 fw-500 user-select-none"
+          >Privacy</a
+        >
       </div>
       <div class="col-4"></div>
+      <div class="col-12">
+        Universal Processing LLC is a registered Independent Sales Organization
+        of Wells Fargo Bank, N.A., Concord, CA, and The Fifth Third Bank, N.A.,
+        Cincinnati, OH.
+      </div>
+      <div class="col-12">
+        The Clover name and logo are owned by Clover Network, Inc. a wholly
+        owned subsidiary of First Data corporation, and are registered or used
+        in the U.S. and many foreign countries.
+      </div>
     </div>
     <div class="row">
       <div class="col-12 user-select-none">
-        uServe 2021 All Rights Reserved | Powered by Universal Processing LLC
+        uServe © 2003-2022 All Rights Reserved | Powered by Universal Processing
+        LLC
       </div>
     </div>
   </div>

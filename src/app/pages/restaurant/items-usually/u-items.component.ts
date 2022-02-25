@@ -8,12 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { storageKeys } from 'src/app/share/configs';
 import { Item } from 'src/app/share/types';
@@ -42,16 +40,16 @@ export class UItemsComponent implements OnInit, OnDestroy {
   length: number = 0;
   cartSub!: Subscription;
   constructor(
-    private route: ActivatedRoute,
     private menuServe: MenuService,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private winServe: WindowService,
-    private shoppingCartStore$: Store<ShoppingCartStoreModule>,
-    private errorServe: ErrorsService
+    private shoppingCartStore$: Store<ShoppingCartStoreModule>
   ) {}
   ngOnDestroy(): void {
-    // this.cartSub.unsubscribe();
+    if (this.cartSub) {
+      this.cartSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {}
@@ -69,13 +67,11 @@ export class UItemsComponent implements OnInit, OnDestroy {
         }
       });
     if (this.menuItem) {
-      // this.setItem(this.menuItem);
       this.detectStore(this.menuItem);
     } else {
       this.menuServe.getItem(this.storeId, this.menuItem['id']).subscribe(
         (res) => {
           if (res.data) {
-            // this.setItem(res.data.item);
             this.detectStore(res.data.item);
           }
         },

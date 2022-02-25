@@ -8,9 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
-import { storageKeys } from 'src/app/share/configs';
 import {
   OrderStatus,
   PlacedOrder,
@@ -38,13 +36,14 @@ export class OrderPlacedComponent implements OnInit, OnDestroy {
   orderSub!: Subscription;
   constructor(
     private router: Router,
-    private winServe: WindowService,
     private messageServe: MessageService,
     private cdr: ChangeDetectorRef,
     private placedOrderStore$: Store<ShoppingCartStoreModule>
   ) {}
   ngOnDestroy(): void {
-    this.orderSub.unsubscribe();
+    if (this.orderSub) {
+      this.orderSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -55,19 +54,16 @@ export class OrderPlacedComponent implements OnInit, OnDestroy {
     this.orderSub = this.placedOrderStore$
       .select(selectPlacedOrderFeature)
       .pipe(select(getPlacedOrder))
-      .subscribe(
-        (res) => {
-          if (res) {
-            console.log('get PlacedOrders :>> ', res);
-            this.placedOrder = res;
-            this.cdr.markForCheck();
-          } else {
-            this.messageServe.warning('No data found!');
-            this.router.navigate(['account/orders']);
-          }
-        },
-        (err) => {}
-      );
+      .subscribe((res) => {
+        if (res) {
+          console.log('get PlacedOrders :>> ', res);
+          this.placedOrder = res;
+          this.cdr.markForCheck();
+        } else {
+          this.messageServe.warning('No data found!');
+          this.router.navigate(['account/orders']);
+        }
+      });
   }
   onPrint() {
     window.print();

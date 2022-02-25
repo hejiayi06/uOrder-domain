@@ -4,18 +4,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
-  Inject,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { DomainService } from 'src/app/services/apis/domain.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
-import { WindowService } from 'src/app/services/local/window.service';
-import { storageKeys } from 'src/app/share/configs';
 import { Category, Item } from 'src/app/share/types';
-import { setLoading } from 'src/app/state/loading/action';
 import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
 import {
   getLoading,
@@ -37,23 +30,22 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   height!: number;
   menuHeight!: number;
   loadingSub!: Subscription;
-
   storeId!: number;
   merchantId!: number;
   constructor(
     private cdr: ChangeDetectorRef,
-    private fb: FormBuilder,
     private router: Router,
     private loadingStore$: Store<LoadingStoreModule> // private route: ActivatedRoute,
   ) {}
 
   ngOnDestroy(): void {
-    this.loadingSub.unsubscribe();
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
+    }
   }
   ngOnInit(): void {
     this.getLoading();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    // this.initScroll();
   }
   initScroll(): void {
     this.router.events.subscribe((evt) => {

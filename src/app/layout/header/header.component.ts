@@ -67,7 +67,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private eRef: ElementRef
   ) {}
   ngOnDestroy(): void {
-    this.lengthSub.unsubscribe();
+    if (this.lengthSub) {
+      this.lengthSub.unsubscribe();
+    }
   }
 
   @HostListener('document:click', ['$event'])

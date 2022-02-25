@@ -22,7 +22,6 @@ import { cloneDeep } from 'lodash';
 import { empty, merge, of, Subscription } from 'rxjs';
 import { pluck, switchMap } from 'rxjs/operators';
 import { ShoppingCartService } from 'src/app/services/apis/shopping-cart.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import {
   OverlayRef,
@@ -101,7 +100,9 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   ) {}
   ngOnDestroy(): void {
     this.hideOverlay();
-    this.cartSub.unsubscribe();
+    if (this.cartSub) {
+      this.cartSub.unsubscribe();
+    }
   }
   ngOnChanges(): void {
     if (this.show) {

@@ -23,11 +23,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   accountList = [
     { listName: 'Orders' },
-    // { listName: 'Gift-cards' },
-    // {listName: 'Saved-restaurants'},
     { listName: 'Address' },
-    // { listName: 'Phone' },
-    // { listName: 'Payments' },
     { listName: 'Profile' },
   ];
   loadingSub!: Subscription;
@@ -36,7 +32,9 @@ export class AccountComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
   ngOnDestroy(): void {
-    this.loadingSub.unsubscribe();
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
