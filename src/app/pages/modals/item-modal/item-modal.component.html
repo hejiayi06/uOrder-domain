@@ -10,7 +10,6 @@
     aria-label="Close"
   ></button>
 </div>
-
 <form
   class="modal-body"
   [formGroup]="itemForm"
@@ -229,32 +228,34 @@
         ></textarea>
       </div>
     </div>
-    <!-- total amount -->
-    <div class="row mt-4">
-      <!-- <div class="item-cal col-12 text-end user-select-none">
-            (3000 Cal.) per serve
-          </div> -->
-      <!-- <div class="item-cal col-12 text-end user-select-none">
-            $8888.88 &times; {{itemQuantity}}
-          </div> -->
-      <div class="item-cal col-12 text-end user-select-none fw-bold fs-6">
-        Total: ${{ totalPrice }}
-      </div>
-    </div>
   </div>
 </form>
 <div class="modal-footer">
-  <div class="d-inline-flex justify-content-end">
-    <button (click)="onMinus()" type="button" class="btn">
+  <div class="col-12 text-end user-select-none fw-bold fs-6">
+    Total: ${{ totalPrice }}
+  </div>
+  <div
+    class="col-12 text-end text-danger user-select-none fw-bold fs-6 mb-1"
+    *ngIf="!itemShow()"
+  >
+    This item is unavailable at this time.
+  </div>
+  <div class="d-inline-flex justify-content-end align-items-center">
+    <button
+      (click)="onMinus()"
+      type="button"
+      class="btn"
+      [disabled]="!itemShow()"
+    >
       <span> <i class="bi bi-dash-circle"></i> </span>
     </button>
     <div class="quantityInput input-group user-select-none">
-      <!-- <span class="input-group-text" id="inputGroup-sizing-lg">Large</span> -->
       <input
         type="number"
+        [disabled]="!itemShow()"
         [(ngModel)]="quantity"
         [ngModelOptions]="{ standalone: true }"
-        class="form-control user-select-none ms-2 me-2"
+        class="form-control user-select-none ms-1 me-1"
         (input)="onInput($event)"
         tabindex="0"
         min="1"
@@ -266,13 +267,18 @@
         aria-describedby="quantity"
       />
     </div>
-    <button (click)="onPlus()" type="button" class="btn">
+    <button
+      (click)="onPlus()"
+      type="button"
+      class="btn"
+      [disabled]="!itemShow()"
+    >
       <span> <i class="bi bi-plus-circle"></i> </span>
     </button>
     <button
       type="button"
-      class="btn btn-danger add-to-cart-button ms-2"
-      [disabled]="loading || !itemForm.valid"
+      class="btn btn-danger add-to-cart-button"
+      [disabled]="loading || !itemForm.valid || !itemShow()"
       (click)="onSubmit()"
     >
       <span

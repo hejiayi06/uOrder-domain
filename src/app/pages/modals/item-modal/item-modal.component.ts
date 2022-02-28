@@ -15,6 +15,7 @@ import {
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { ShoppingCartService } from 'src/app/services/apis/shopping-cart.service';
+import { DiningTimeService } from 'src/app/services/local/dining-time.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
@@ -53,6 +54,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     private shoppingCartServe: ShoppingCartService,
     private messageServe: MessageService,
     public activeModal: NgbActiveModal,
+    private diningTimeServe: DiningTimeService,
     private shoppingCartStore$: Store<ShoppingCartStoreModule>,
     private cdr: ChangeDetectorRef
   ) {}
@@ -93,7 +95,12 @@ export class ItemModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log('this.sItem :>> ', this.sItem);
   }
-
+  itemShow(): boolean {
+    if (this.sItem.dining_times.length) {
+      return this.diningTimeServe.detectDiningTime(this.sItem.dining_times);
+    }
+    return true;
+  }
   setItemModifies(item: Item) {
     item?.menu_item_to_modifies?.forEach((modify) => {
       modify.quantity = 0;
@@ -364,7 +371,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
               }
             }
           },
-          (err) => {
+          () => {
             this.closeModal();
           }
         );
@@ -385,7 +392,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
             }
           }
         },
-        (err) => {
+        () => {
           this.closeModal();
         }
       );

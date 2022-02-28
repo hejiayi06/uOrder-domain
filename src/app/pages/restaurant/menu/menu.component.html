@@ -42,7 +42,7 @@
             class="category-item d-flex align-items-center justify-content-center ms-1 me-1"
             *ngFor="let category of categories | sortBySort"
           >
-            <ng-container *ngIf="category.menu_list?.length">
+            <ng-container *ngIf="categoryShow(category)">
               <button
                 [ngClass]="{
                   'text-danger': changeColor(category)
@@ -72,10 +72,16 @@
     id="{{ category.id }}"
     #categories
   >
-    <ng-container *ngIf="category.menu_list?.length">
+    <ng-container *ngIf="categoryShow(category)">
       <div class="row mt-3 mb-3">
-        <div class="col-12">
-          <h4 class="user-select-none">{{ category.name }}</h4>
+        <div class="col-12 user-select-none fs-4 fw-bold">
+          {{ category.name }}
+        </div>
+        <div
+          class="col-12 fs-6 fw-500 user-select-none"
+          *ngIf="category.description"
+        >
+          {{ category.description }}
         </div>
       </div>
       <div class="menuItem row mt-2 mb-2">

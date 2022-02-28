@@ -61,7 +61,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
       .pipe(select(getLoading))
       .subscribe((res: boolean) => {
         this.loading = res;
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       });
   }
   getHeight(e: number): void {

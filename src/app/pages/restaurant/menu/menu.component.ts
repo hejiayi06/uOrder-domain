@@ -13,13 +13,11 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { debounceTime, fromEvent, map, Subscription, throttleTime } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
+import { DiningTimeService } from 'src/app/services/local/dining-time.service';
 import { WindowService } from 'src/app/services/local/window.service';
-import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
 import { Category, Group } from 'src/app/share/types';
 import { setLoading } from 'src/app/state/loading/action';
@@ -58,7 +56,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private winServe: WindowService,
     private cdr: ChangeDetectorRef,
     private loadingStore$: Store<LoadingStoreModule>,
-    private errorServe: ErrorsService
+    private diningTimeServe: DiningTimeService
   ) {}
   ngOnDestroy(): void {
     this.scrollSubs.unsubscribe();
@@ -88,6 +86,19 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log('Completed');
         }
       );
+  }
+  categoryShow(category: Category): boolean {
+    if (!category?.menu_list?.length) {
+      return false;
+    }
+    if (category.is_dining_time_display) {
+      return true;
+    } else {
+      if (category.dining_times.length) {
+        return this.diningTimeServe.detectDiningTime(category.dining_times);
+      }
+    }
+    return true;
   }
   setCategories(): void {
     this.categoryList.forEach((category) => {

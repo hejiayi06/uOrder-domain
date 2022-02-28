@@ -157,6 +157,9 @@ export interface Group {
 export interface Category {
   id: number;
   store_id: number;
+  ref_id: number;
+  is_dining_time_display: number;
+  description: string;
   merchant_id: number;
   group_id: number;
   name: string;
@@ -165,8 +168,21 @@ export interface Category {
   created_at: Date;
   updated_at: Date;
   menu_list?: Item[];
+  dining_times: DiningTime[];
 }
-
+export interface DiningTime {
+  close_hour: string;
+  created_at: Date;
+  id: number;
+  merchant_id: number;
+  open_hour: string;
+  pivot: { dining_id: number; item_id: number };
+  scope: string;
+  status: number;
+  store_id: number;
+  type: number;
+  updated_at: Date;
+}
 export interface Item {
   id: number;
   ref_id: number;
@@ -183,10 +199,8 @@ export interface Item {
   is_discountable?: null;
   is_modifiable?: null;
   spicy?: null;
-  recommend?: null;
   icon?: string;
   description?: string;
-  inventory: number;
   quantity: number;
   out_of_stock?: number;
   status?: number;
@@ -194,6 +208,12 @@ export interface Item {
   menu_item_to_modifies?: MenuModify[];
   menu_item_to_sections?: MenuSectionConnection[];
   menu_item_variants?: MenuVariants[];
+  dining_times: DiningTime[];
+
+  is_inventory: number;
+  is_recommend: number;
+  merchant_id: number;
+
   created_at: Date;
   updated_at: Date;
 }
