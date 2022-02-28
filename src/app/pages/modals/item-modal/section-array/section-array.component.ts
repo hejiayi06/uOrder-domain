@@ -56,13 +56,11 @@ export class SectionArrayComponent
     @Optional() @Host() @SkipSelf() private controlContainer: ControlContainer
   ) {}
   validate(control: AbstractControl): ValidationErrors | null {
-    // console.log('control :>> ', control);
     let max = this.sec.max;
     let min = this.sec.min;
     let selected = this.sec.selected;
     this.cdr.markForCheck();
     if (!max && !min) {
-      // console.log('null :>> ', null);
       return null;
     }
     if (selected! >= min && selected! <= max) {
@@ -75,7 +73,6 @@ export class SectionArrayComponent
     } else {
       return { unknown: { unknown: 'minMaxRequiredValidator unknown errors' } };
     }
-    // this.cdr.markForCheck();
   }
 
   ngOnInit(): void {
@@ -86,15 +83,13 @@ export class SectionArrayComponent
     }
   }
 
-  sizerDisabled(): boolean {
+  sizerDisabled(): void {
     let max = this.sec.max;
     let selected = this.sec.selected;
     if (max && selected! >= max) {
       this.sec.isMax = true;
-      return true;
     } else {
       this.sec.isMax = false;
-      return false;
     }
   }
   addOption(option: MenuSectionItem | MenuSectionModify | null) {

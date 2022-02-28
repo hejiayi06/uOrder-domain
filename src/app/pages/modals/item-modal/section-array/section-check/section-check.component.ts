@@ -1,8 +1,15 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, forwardRef, ChangeDetectorRef, Optional, OnChanges, SimpleChanges } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  forwardRef,
+  ChangeDetectorRef,
+  Optional,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MenuSectionItem, MenuSectionModify } from 'src/app/share/types';
 import { SectionArrayComponent } from '../section-array.component';
-import { SectionOption } from '../section.type';
 
 @Component({
   selector: 'uo-section-check',
@@ -13,7 +20,7 @@ import { SectionOption } from '../section.type';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SectionCheckComponent),
-      multi:true,
+      multi: true,
     },
     // {
     //   provide: NG_VALIDATORS,
@@ -23,35 +30,35 @@ import { SectionOption } from '../section.type';
   ],
 })
 export class SectionCheckComponent implements OnInit, ControlValueAccessor {
-  checked:boolean = false;
-  disabled:boolean = false;
-  option!:MenuSectionItem | MenuSectionModify;
-  @Input('sectionItem') secItem!:MenuSectionItem;
-  @Input('sectionModify') secModify!:MenuSectionModify;
-  @Input() repeats!:number;
+  checked: boolean = false;
+  disabled: boolean = false;
+  option!: MenuSectionItem | MenuSectionModify;
+  @Input('sectionItem') secItem!: MenuSectionItem;
+  @Input('sectionModify') secModify!: MenuSectionModify;
+  @Input() is_duplicate!: number;
+  @Input() is_multiple_select!: number;
 
   constructor(
     private cdr: ChangeDetectorRef,
-    @Optional() private parent: SectionArrayComponent,
-  ) { }
+    @Optional() private parent: SectionArrayComponent
+  ) {}
 
-  ngOnInit(): void {
-  }
-  stopPropagation(e:Event) {
+  ngOnInit(): void {}
+  stopPropagation(e: Event) {
     e.preventDefault();
     e.stopPropagation();
   }
-  onSectionOptionCheck(e:Event) {
+  onSectionOptionCheck(e: Event) {
     e.preventDefault();
-    if(this.secItem) {
+    if (this.secItem) {
       this.option = this.secItem;
       this.option.itemOrModify = true;
     }
-    if(this.secModify) {
+    if (this.secModify) {
       this.option = this.secModify;
       this.option.itemOrModify = false;
     }
-    if((e.target as HTMLInputElement).checked) {
+    if ((e.target as HTMLInputElement).checked) {
       this.checked = true;
       this.option!.quantity = 1;
       // if (this.option?.itemOrModify) {
@@ -59,7 +66,7 @@ export class SectionCheckComponent implements OnInit, ControlValueAccessor {
       // } else {
       //   this.secModify.quantity = 1;
       // }
-      this.parent.sec.selected! ++;
+      this.parent.sec.selected!++;
       this.parent.sizerDisabled();
       this.onChange(this.checked);
       this.parent.addOption(this.option);
@@ -73,11 +80,11 @@ export class SectionCheckComponent implements OnInit, ControlValueAccessor {
       this.option!.quantity = 0;
     }
   }
-  checkChange(e:boolean) {
+  checkChange(e: boolean) {
     console.log('e :>> ', e);
     this.checked = e;
   }
-  sizerChange(e:number) {
+  sizerChange(e: number) {
     if (this.secItem) {
       this.secItem.quantity = e;
     }
@@ -87,7 +94,7 @@ export class SectionCheckComponent implements OnInit, ControlValueAccessor {
     this.cdr.markForCheck();
   }
 
-  public onChange = (value:any) => {};
+  public onChange = (value: any) => {};
   private onTouched = () => {};
   writeValue(value: boolean): void {
     this.checked = value;
@@ -99,8 +106,8 @@ export class SectionCheckComponent implements OnInit, ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  setDisabledState(disabled:boolean): void {
+  setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
-    this.cdr.markForCheck()
+    this.cdr.markForCheck();
   }
 }

@@ -249,7 +249,8 @@ export interface MenuSectionConnection {
   section_id: number;
   min: number;
   max: number;
-  repeats: number;
+  is_duplicate: number;
+  is_multiple_select: number;
   sort: number;
   created_at: Date;
   updated_at: Date;

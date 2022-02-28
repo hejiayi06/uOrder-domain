@@ -14,9 +14,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-
 import { ShoppingCartService } from 'src/app/services/apis/shopping-cart.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
@@ -56,8 +54,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     private messageServe: MessageService,
     public activeModal: NgbActiveModal,
     private shoppingCartStore$: Store<ShoppingCartStoreModule>,
-    private cdr: ChangeDetectorRef,
-    private errorServe: ErrorsService
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnDestroy(): void {
@@ -121,7 +118,8 @@ export class ItemModalComponent implements OnInit, OnDestroy {
           id: section.id,
           store_id: section.store_id,
           name: section.menu_section.name,
-          repeats: section.repeats!,
+          is_multiple_select: section.is_multiple_select,
+          is_duplicate: section.is_duplicate,
           min: section.min,
           max: section.max,
           section_created_at: section.created_at,
@@ -156,9 +154,13 @@ export class ItemModalComponent implements OnInit, OnDestroy {
 
   sizerPriceAdjust(price: string, type: boolean) {
     if (type) {
-      this.itemPrice = (Number(this.itemPrice) + Number(price)).toFixed(2);
+      this.itemPrice = (parseFloat(this.itemPrice) + parseFloat(price)).toFixed(
+        2
+      );
     } else {
-      this.itemPrice = (Number(this.itemPrice) - Number(price)).toFixed(2);
+      this.itemPrice = (parseFloat(this.itemPrice) - parseFloat(price)).toFixed(
+        2
+      );
     }
     this.checkPrice();
   }
@@ -171,21 +173,22 @@ export class ItemModalComponent implements OnInit, OnDestroy {
       if (option) {
         if (option.price_active) {
           this.itemPrice = (
-            Number(this.itemPrice) +
-            Number(option.price) * option.quantity!
+            parseFloat(this.itemPrice) +
+            parseFloat(option.price) * option.quantity!
           ).toFixed(2);
           this.checkPrice();
         } else {
           if (type) {
             this.itemPrice = (
-              Number(this.itemPrice) +
-              Number((option as MenuSectionItem).item.price) * option.quantity!
+              parseFloat(this.itemPrice) +
+              parseFloat((option as MenuSectionItem).item.price) *
+                option.quantity!
             ).toFixed(2);
             this.checkPrice();
           } else {
             this.itemPrice = (
-              Number(this.itemPrice) +
-              Number((option as MenuSectionModify).modify.price) *
+              parseFloat(this.itemPrice) +
+              parseFloat((option as MenuSectionModify).modify.price) *
                 option.quantity!
             ).toFixed(2);
             this.checkPrice();

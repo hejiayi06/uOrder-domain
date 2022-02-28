@@ -14,7 +14,7 @@
     {{ secItem?.item?.name }}
     <!-- option quantity adjust -->
     <uo-section-sizer
-      *ngIf="option?.quantity && repeats"
+      *ngIf="option?.quantity && is_duplicate"
       [option]="option"
       (checkEvent)="checkChange($event)"
       [(ngModel)]="option.quantity"
@@ -43,7 +43,7 @@
     {{ secModify?.modify?.name }}
     <!-- option quantity adjust -->
     <uo-section-sizer
-      *ngIf="option?.quantity && repeats"
+      *ngIf="option?.quantity && is_duplicate"
       [option]="option"
       (checkEvent)="checkChange($event)"
       [(ngModel)]="option.quantity"

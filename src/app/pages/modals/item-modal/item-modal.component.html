@@ -98,7 +98,8 @@
                     [sectionItem]="secItem"
                     [(ngModel)]="secItem.checked"
                     [ngModelOptions]="{ standalone: true }"
-                    [repeats]="sec.repeats"
+                    [is_multiple_select]="sec.is_multiple_select"
+                    [is_duplicate]="sec.is_duplicate"
                     (ngModelChange)="sectionOptionChange(secItem, true, $event)"
                     [disabled]="sec.isMax"
                   >
@@ -128,7 +129,8 @@
                     [sectionModify]="secModify"
                     [(ngModel)]="secModify.checked"
                     [ngModelOptions]="{ standalone: true }"
-                    [repeats]="sec.repeats"
+                    [is_multiple_select]="sec.is_multiple_select"
+                    [is_duplicate]="sec.is_duplicate"
                     (ngModelChange)="
                       sectionOptionChange(secModify, false, $event)
                     "
