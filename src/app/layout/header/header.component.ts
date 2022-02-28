@@ -75,10 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   @HostListener('document:touchstart', ['$event'])
   handleOutsideClick(e: Event) {
-    // Some kind of logic to exclude clicks in Component.
-    // This example is borrowed Kamil's answer
     if (!this.eRef.nativeElement.contains(e.target)) {
-      // doSomethingCool();
       this.showNavbar = false;
     }
   }

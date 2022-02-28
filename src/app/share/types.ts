@@ -209,7 +209,6 @@ export interface Item {
   menu_item_to_sections?: MenuSectionConnection[];
   menu_item_variants?: MenuVariants[];
   dining_times: DiningTime[];
-
   is_inventory: number;
   is_recommend: number;
   merchant_id: number;

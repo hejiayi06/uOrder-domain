@@ -41,7 +41,7 @@
           <ng-container *ngFor="let hour of businessHours">
             <div class="d-flex flex-column mt-1 fw-500">
               <div class="d-inline-flex">
-                <div class="fs-6 w-3r fw-500 text-start user-select-none">
+                <div class="fs-6 w-day fw-500 text-start user-select-none">
                   {{ hour.day }}
                 </div>
                 <ng-container *ngIf="hour.scope?.length; else nonScopeTemplate">
