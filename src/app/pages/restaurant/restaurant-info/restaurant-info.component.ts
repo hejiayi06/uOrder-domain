@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -33,7 +34,8 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
     private cdr: ChangeDetectorRef,
     private storeServe: StoreService,
     private storeStore$: Store<StoreInfoStoreModule>,
-    private winServe: WindowService
+    private winServe: WindowService,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngAfterViewChecked(): void {
@@ -42,6 +44,10 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.getDay();
     this.getStore();
+  }
+  anchorToFooter(anchorId: string): void {
+    this.viewportScroller.setOffset([0, 150]);
+    this.viewportScroller.scrollToAnchor(anchorId);
   }
   getDay(): void {
     let day = new Date().getDay();
