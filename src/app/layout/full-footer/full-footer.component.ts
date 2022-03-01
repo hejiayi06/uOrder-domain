@@ -71,23 +71,18 @@ export class FullFooterComponent implements OnInit {
           this.store.business_hour?.forEach((b) => {
             (
               Object.entries(JSON.parse(b.scope)) as [
-                'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun',
+                '1' | '2' | '3' | '4' | '5' | '6' | '0',
                 boolean
               ][]
             ).forEach((d) => {
               if (d[1]) {
-                this.businessHours.forEach((bh) => {
-                  if (bh.day == d[0]) {
-                    bh.scope.push({
-                      open_hour: b.open_hour,
-                      close_hour: b.close_hour,
-                    });
-                  }
+                this.businessHours[d[0]].scope.push({
+                  open_hour: b.open_hour,
+                  close_hour: b.close_hour,
                 });
               }
             });
           });
-
           console.log('this.businessHours :>> ', this.businessHours);
           const position = {
             lat: parseFloat(this.store.latitude),

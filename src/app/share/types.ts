@@ -365,6 +365,8 @@ export interface ShoppingCartItem {
   total: number;
   unique_id: string;
   options: {
+    refId: number;
+    expired: boolean;
     itemInstructions: string | null;
     itemModifies: itemModify[];
     itemSections: itemSection[];

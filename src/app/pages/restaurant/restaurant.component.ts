@@ -21,7 +21,6 @@ import {
   styleUrls: ['./restaurant.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// @ViewChild('listCategory1') listCategory1: ElementRef;
 export class RestaurantComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   menuList!: Category[];

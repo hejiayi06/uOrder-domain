@@ -46,7 +46,7 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
     this.getStore();
   }
   anchorToFooter(anchorId: string): void {
-    this.viewportScroller.setOffset([0, 150]);
+    this.viewportScroller.setOffset([0, 155]);
     this.viewportScroller.scrollToAnchor(anchorId);
   }
   getDay(): void {

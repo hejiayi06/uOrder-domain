@@ -33,9 +33,7 @@
       }
     }
   }
-  .fw-700 {
-    font-weight: 700;
-  }
+
   .restaurant-name {
     line-height: 3rem;
     letter-spacing: -0.04ch;
@@ -43,14 +41,9 @@
     word-wrap: break-word;
     font-variant-ligatures: no-common-ligatures;
   }
-
-  .fw-500 {
-    font-weight: 500;
-  }
 }
 @media (max-width: 1200px) {
   .restaurant-wrap {
     border: 0px !important;
-    // shado
   }
 }

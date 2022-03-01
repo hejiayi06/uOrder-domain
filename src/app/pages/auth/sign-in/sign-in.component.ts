@@ -89,28 +89,14 @@ export class SignInComponent implements OnInit {
                   setShoppingCartLength({ length: len })
                 );
               } else {
-                this.shoppingCartStore$.dispatch(
-                  setShoppingCartLength({ length: 0 })
-                );
-                this.shoppingCartStore$.dispatch(
-                  setShoppingCart({
-                    cart: [],
-                  })
-                );
+                this.dispatchZero();
               }
               this.loading = false;
               this.cdr.markForCheck();
               this.router.navigate(['']);
             },
             (err) => {
-              this.shoppingCartStore$.dispatch(
-                setShoppingCartLength({ length: 0 })
-              );
-              this.shoppingCartStore$.dispatch(
-                setShoppingCart({
-                  cart: [],
-                })
-              );
+              this.dispatchZero();
               this.loading = false;
               this.cdr.markForCheck();
               this.router.navigate(['']);
@@ -122,14 +108,20 @@ export class SignInComponent implements OnInit {
         this.errRes = err;
         if (err.status === 400) {
           this.errCode = err.error.code;
-          this.cdr.markForCheck();
         } else {
           this.errCode = err.status;
-          this.cdr.markForCheck();
         }
         this.loading = false;
         this.cdr.markForCheck();
       }
+    );
+  }
+  dispatchZero(): void {
+    this.shoppingCartStore$.dispatch(setShoppingCartLength({ length: 0 }));
+    this.shoppingCartStore$.dispatch(
+      setShoppingCart({
+        cart: [],
+      })
     );
   }
 }

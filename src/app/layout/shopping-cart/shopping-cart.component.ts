@@ -74,7 +74,8 @@ import { ShoppingCartStoreModule } from 'src/app/state/shopping-cart/shopping-ca
 })
 export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() show = false;
-  @Input() items!: ShoppingCartItem[];
+  items!: ShoppingCartItem[];
+  isCheckout: boolean = false;
   @Input() storeName!: string;
   @Input() length: number = 0;
   @Input() shoppingCartStoreId!: string;
@@ -126,7 +127,13 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe((res) => {
         if (res) {
           this.items = cloneDeep(res);
-          this.cdr.markForCheck();
+          this.isCheckout = false;
+          this.items.forEach((i) => {
+            if (i.options.expired) {
+              this.isCheckout = true;
+              return;
+            }
+          });
         }
       });
   }

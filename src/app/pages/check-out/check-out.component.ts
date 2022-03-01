@@ -60,6 +60,7 @@ import { NameModalComponent } from '../modals/name-modal/name-modal.component';
 export class CheckOutComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   feeLoading: boolean = false;
+  isCheckout: boolean = false;
   deliveryFeeRes!: DeliveryInfo;
   apiLoaded: boolean = false;
   isCustomTips: boolean = false;
@@ -246,13 +247,19 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         console.log('getCheckout :>> ', this.checkout);
         console.log('this.items :>> ', this.items);
         this.items = cloneDeep(res.data.cart);
+        this.isCheckout = false;
+        this.items.forEach((i) => {
+          if (i.options.expired) {
+            this.isCheckout = true;
+            return;
+          }
+        });
         this.setCheckout();
         this.initTypes();
         if (this.items.length == 0) {
-          // this.router.navigate([
-          //   'restaurant/' + this.checkout.orderParams.storeId,
-          // ]);
-          this.router.navigate(['']);
+          this.router.navigate([
+            'restaurant/' + this.checkout.orderParams.storeId,
+          ]);
           this.messageServe.warning('No item founded!');
         }
 
@@ -267,11 +274,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
       },
       (err) => {
-        if (err.error.message == 'Unauthenticated.') {
-          this.router.navigateByUrl('sign-in');
-        } else {
-          this.navigateToRestaurant();
-        }
         this.endLoading();
       }
     );

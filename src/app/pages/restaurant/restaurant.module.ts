@@ -10,7 +10,7 @@ import { MenuComponent } from './menu/menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderModule } from 'src/app/layout/header/header.module';
 import { ItemModalModule } from '../modals/item-modal/item-modal.module';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PhonePipeModule } from 'src/app/share/pipes/phone/phone.module';
 import { EmptyBagModalModule } from '../modals/empty-bag-modal/empty-bag-modal.module';
 import { SortBySortModule } from 'src/app/share/pipes/sort-by-sort/sort-by-sort.module';
@@ -30,6 +30,7 @@ import { FullFooterModule } from 'src/app/layout/full-footer/full-footer.module'
     HeaderModule,
     FullFooterModule,
     NgbModalModule,
+    NgbTooltipModule,
     ItemModalModule,
     PhonePipeModule,
     SortBySortModule,

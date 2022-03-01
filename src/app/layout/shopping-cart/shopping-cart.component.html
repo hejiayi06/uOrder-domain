@@ -37,7 +37,7 @@
         <div class="col-12">
           <button
             class="btn btn-danger w-100 fw-bold"
-            [disabled]="length === 0 || loading"
+            [disabled]="length === 0 || loading || isCheckout"
             (click)="toCheckout()"
           >
             Proceed to Checkout
@@ -46,8 +46,14 @@
       </div>
       <!-- item -->
       <div>
-        <div class="border-top row mt-2 pt-2" *ngFor="let item of items">
-          <!-- <div class=" col-2 user-select-none" >{{data.quantity}}</div> -->
+        <div
+          class="border-top row mt-2 pt-3"
+          [ngClass]="{ 'text-danger': item.options.expired }"
+          *ngFor="let item of items"
+        >
+          <div class="w-100 fw-bold" *ngIf="item.options.expired">
+            Item expried!
+          </div>
           <div class="w-100 d-inline-flex align-items-center">
             <div class="fw-bold fs-6 user-select-none flex-fill">
               {{ item?.name }}&nbsp;x&nbsp;{{ item?.quantity }}
@@ -58,6 +64,7 @@
           </div>
           <div class="w-100 d-inline-flex align-items-center">
             <div
+              [ngClass]="{ 'text-danger': item.options.expired }"
               class="fw-500 options flex-fill d-inline-flex align-items-center text-secondary overflow-hidden"
               *ngIf="item?.options"
             >
@@ -100,6 +107,9 @@
               </ng-container>
             </div>
             <div class="d-flex align-items-start justify-content-center">
+              <!-- (click)="deleteAllItems()" -->
+              <!-- (click)="deleteItem(data.unique_id)" -->
+
               <button
                 class="btn btn-outline-danger border-0"
                 (click)="deleteItem(item)"
