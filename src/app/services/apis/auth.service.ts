@@ -34,4 +34,19 @@ export class AuthService {
       .delete(environment.apiUrl + `${this.prefix}auth/user/` + userId)
       .pipe(map((res: any) => res));
   }
+  forgotPassword(emailForm: { email: string }): Observable<any> {
+    return this.http
+      .post(environment.apiUrl + `${this.prefix}auth/reset`, emailForm)
+      .pipe(map((res: any) => res));
+  }
+  testTokenAndSignature(params: any): Observable<any> {
+    return this.http
+      .get(environment.apiUrl + `${this.prefix}auth/reset`, { params: params })
+      .pipe(map((res: any) => res));
+  }
+  resetPassword(params: any, userId: number): Observable<Base<{ item: User }>> {
+    return this.http
+      .put(environment.apiUrl + `${this.prefix}auth/reset/` + userId, params)
+      .pipe(map((res: any) => res));
+  }
 }

@@ -17,6 +17,7 @@ export interface User {
   password: string;
   created_at: Date;
   created_ip: null;
+  google_id: number;
   email_verified_at: string;
   icon: null;
   id: number;
@@ -26,7 +27,14 @@ export interface User {
   updated_at: Date;
   updated_ip: null;
 }
-
+export interface ResetPasswordRes {
+  datetime: number;
+  email: string;
+  signature: string;
+  token: string;
+  url: string;
+  user_id: number;
+}
 export interface Domain {
   id: number;
   store_id: number;
@@ -43,6 +51,7 @@ export interface StoreRes {
   length: number;
   city: string;
   created_at: Date;
+  closure: number;
   domain: Domain[];
   email: string;
   email_verified_at: string;
@@ -373,6 +382,7 @@ export interface ShoppingCartItem {
     itemVariant: MenuVariants[];
   };
 }
+
 export interface ShoppingCartRes {
   cart: ShoppingCartItem[];
   store: StoreRes;

@@ -9,6 +9,7 @@ import { FooterModule } from 'src/app/layout/footer/footer.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialiteComponent } from './socialite/socialite.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SocialiteComponent } from './socialite/socialite.component';
     SignUpComponent,
     ForgotPasswordComponent,
     SocialiteComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,12 @@ import { SocialiteComponent } from './socialite/socialite.component';
     HttpClientModule,
     AuthRoutingModule,
   ],
-  exports: [SignInComponent, SignUpComponent, ForgotPasswordComponent],
+  exports: [
+    SignInComponent,
+    SignUpComponent,
+    ForgotPasswordComponent,
+    SocialiteComponent,
+    ResetPasswordComponent,
+  ],
 })
 export class AuthModule {}
