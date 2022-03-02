@@ -880,43 +880,67 @@
                     <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
                     {{ modify?.name }}
                   </div>
-                  <ng-container *ngIf="item?.options?.itemModifies?.length">
-                    &nbsp;•&nbsp;</ng-container
-                  >
+
                   <ng-container
-                    *ngFor="let section of item?.options?.itemSections"
+                    *ngFor="
+                      let section of item?.options?.itemSections;
+                      index as sectionIndex
+                    "
                   >
-                    <div
-                      class="d-flex flex-wrap text-nowrap toe"
-                      *ngFor="
-                        let sectionItem of section?.sectionItems;
-                        index as i
-                      "
-                    >
-                      <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
-                      {{ sectionItem?.item?.name }}
-                    </div>
-                    <ng-container *ngIf="section?.sectionItems?.length">
+                    <ng-container *ngIf="sectionIndex > 0">
                       &nbsp;•&nbsp;</ng-container
                     >
-                    <div
-                      class="d-flex flex-wrap text-nowrap toe"
-                      *ngFor="
-                        let sectionModify of section?.sectionModifiers;
-                        index as i
-                      "
+                    <ng-container *ngIf="section?.sectionItems">
+                      <ng-container *ngIf="item?.options?.itemModifies?.length">
+                        &nbsp;•&nbsp;
+                      </ng-container>
+                      <div
+                        class="d-flex flex-wrap text-nowrap toe"
+                        *ngFor="
+                          let sectionItem of section?.sectionItems;
+                          index as i
+                        "
+                      >
+                        <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+                        {{ sectionItem?.item?.name }}&nbsp;x&nbsp;{{
+                          sectionItem?.quantity
+                        }}
+                      </div></ng-container
                     >
-                      <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
-                      {{ sectionModify?.modify?.name }}
-                    </div>
+                    <ng-container *ngIf="section?.sectionModifiers">
+                      <ng-container *ngIf="section?.sectionItems"
+                        >&nbsp;•&nbsp;</ng-container
+                      >
+                      <ng-container
+                        *ngIf="
+                          item?.options?.itemModifies?.length &&
+                          !section?.sectionItems
+                        "
+                      >
+                        &nbsp;•&nbsp;</ng-container
+                      >
+                      <div
+                        class="d-flex flex-wrap text-nowrap toe"
+                        *ngFor="
+                          let sectionModify of section?.sectionModifiers;
+                          index as i
+                        "
+                      >
+                        <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+                        {{ sectionModify?.modify?.name }}&nbsp;x&nbsp;{{
+                          sectionModify?.quantity
+                        }}
+                      </div>
+                    </ng-container>
                   </ng-container>
                   <div
                     class="user-select-none d-inline-flex text-nowrap toe"
                     *ngIf="(item?.options)!.itemVariant[0]!"
                   >
-                    ({{ (item?.options)!.itemVariant[0]?.name }} ${{
-                      (item?.options)!.itemVariant[0]?.price
-                    }})
+                    &nbsp;•&nbsp; ({{
+                      (item?.options)!.itemVariant[0]?.name
+                    }}
+                    ${{ (item?.options)!.itemVariant[0]?.price }})
                   </div>
                   <div
                     class="user-select-none text-nowrap toe"

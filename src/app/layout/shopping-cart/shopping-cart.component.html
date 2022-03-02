@@ -74,7 +74,16 @@
               {{ modify?.name }}
             </ng-container>
 
-            <ng-container *ngFor="let section of item?.options?.itemSections">
+            <ng-container
+              *ngFor="
+                let section of item?.options?.itemSections;
+                index as sectionIndex
+              "
+            >
+              <ng-container *ngIf="sectionIndex > 0">
+                &nbsp;•&nbsp;</ng-container
+              >
+
               <ng-container *ngIf="section?.sectionItems">
                 <ng-container *ngIf="item?.options?.itemModifies?.length">
                   &nbsp;•&nbsp;
@@ -88,7 +97,6 @@
                   }}
                 </ng-container>
               </ng-container>
-
               <ng-container *ngIf="section?.sectionModifiers">
                 <ng-container *ngIf="section?.sectionItems"
                   >&nbsp;•&nbsp;</ng-container
