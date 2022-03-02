@@ -45,46 +45,60 @@
         </div>
       </div>
       <!-- item -->
-      <div>
-        <div
-          class="border-top row mt-2 pt-3"
-          [ngClass]="{ 'text-danger': item.options.expired }"
-          *ngFor="let item of items"
-        >
-          <div class="w-100 fw-bold" *ngIf="item.options.expired">
-            Item expried!
+      <div
+        class="border-top row mt-2 pt-3"
+        [ngClass]="{ 'text-danger': item.options.expired }"
+        *ngFor="let item of items"
+      >
+        <div class="w-100 fw-bold" *ngIf="item.options.expired">
+          Item expried!
+        </div>
+        <div class="w-100 d-inline-flex align-items-center">
+          <div class="fw-bold fs-6 user-select-none flex-fill">
+            {{ item?.name }}&nbsp;x&nbsp;{{ item?.quantity }}
           </div>
-          <div class="w-100 d-inline-flex align-items-center">
-            <div class="fw-bold fs-6 user-select-none flex-fill">
-              {{ item?.name }}&nbsp;x&nbsp;{{ item?.quantity }}
-            </div>
-            <div class="fw-500 text-end overflow-hidden user-select-none">
-              ${{ item?.total | number: "1.2-2" }}
-            </div>
+          <div class="fw-500 text-end overflow-hidden user-select-none">
+            ${{ item?.total | number: "1.2-2" }}
           </div>
-          <div class="w-100 d-inline-flex align-items-center">
-            <div
-              [ngClass]="{ 'text-danger': item.options.expired }"
-              class="fw-500 options flex-fill d-inline-flex align-items-center text-secondary overflow-hidden"
-              *ngIf="item?.options"
+        </div>
+        <div class="w-100 d-inline-flex align-items-center">
+          <div
+            [ngClass]="{ 'text-danger': item.options.expired }"
+            class="fw-500 options flex-fill d-inline-flex align-items-center text-secondary overflow-hidden"
+            *ngIf="item?.options"
+          >
+            <ng-container
+              *ngFor="let modify of item?.options?.itemModifies; index as i"
             >
-              <ng-container
-                *ngFor="let modify of item?.options?.itemModifies; index as i"
-              >
-                <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
-                {{ modify?.name }}
-              </ng-container>
-              <ng-container *ngIf="item?.options?.itemModifies?.length">
-                &nbsp;•&nbsp;</ng-container
-              >
-              <ng-container *ngFor="let section of item?.options?.itemSections">
+              <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
+              {{ modify?.name }}
+            </ng-container>
+
+            <ng-container *ngFor="let section of item?.options?.itemSections">
+              <ng-container *ngIf="section?.sectionItems">
+                <ng-container *ngIf="item?.options?.itemModifies?.length">
+                  &nbsp;•&nbsp;
+                </ng-container>
                 <ng-container
                   *ngFor="let sectionItem of section?.sectionItems; index as i"
                 >
                   <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
-                  {{ sectionItem?.item?.name }}
+                  {{ sectionItem?.item?.name }}&nbsp;x&nbsp;{{
+                    sectionItem?.quantity
+                  }}
                 </ng-container>
-                <ng-container *ngIf="section?.sectionItems?.length">
+              </ng-container>
+
+              <ng-container *ngIf="section?.sectionModifiers">
+                <ng-container *ngIf="section?.sectionItems"
+                  >&nbsp;•&nbsp;</ng-container
+                >
+                <ng-container
+                  *ngIf="
+                    item?.options?.itemModifies?.length &&
+                    !section?.sectionItems
+                  "
+                >
                   &nbsp;•&nbsp;</ng-container
                 >
                 <ng-container
@@ -94,41 +108,43 @@
                   "
                 >
                   <ng-container *ngIf="i > 0">&nbsp;•&nbsp;</ng-container>
-                  {{ sectionModify?.modify?.name }}
+                  {{ sectionModify?.modify?.name }}&nbsp;x&nbsp;{{
+                    sectionModify?.quantity
+                  }}
                 </ng-container>
               </ng-container>
-              <ng-container *ngIf="(item?.options)!.itemVariant[0]!">
-                ({{ (item?.options)!.itemVariant[0]?.name }} ${{
-                  (item?.options)!.itemVariant[0]?.price
-                }})
-              </ng-container>
-              <ng-container *ngIf="item?.options?.itemInstructions">
-                {{ item?.options?.itemInstructions }}
-              </ng-container>
-            </div>
-            <div class="d-flex align-items-start justify-content-center">
-              <!-- (click)="deleteAllItems()" -->
-              <!-- (click)="deleteItem(data.unique_id)" -->
+            </ng-container>
+            <ng-container *ngIf="(item?.options)!.itemVariant[0]!">
+              &nbsp;•&nbsp; ({{ (item?.options)!.itemVariant[0]?.name }} ${{
+                (item?.options)!.itemVariant[0]?.price
+              }})
+            </ng-container>
+            <ng-container *ngIf="item?.options?.itemInstructions">
+              {{ item?.options?.itemInstructions }}
+            </ng-container>
+          </div>
+          <div class="d-flex align-items-start justify-content-center">
+            <!-- (click)="deleteAllItems()" -->
+            <!-- (click)="deleteItem(data.unique_id)" -->
 
-              <button
-                class="btn btn-outline-danger border-0"
-                (click)="deleteItem(item)"
-                [disabled]="loading"
+            <button
+              class="btn btn-outline-danger border-0"
+              (click)="deleteItem(item)"
+              [disabled]="loading"
+            >
+              <ng-container
+                *ngIf="
+                  loading && deleteLoadingId == item.unique_id;
+                  else deleteBtnTemplate
+                "
               >
-                <ng-container
-                  *ngIf="
-                    loading && deleteLoadingId == item.unique_id;
-                    else deleteBtnTemplate
-                  "
-                >
-                  <span
-                    class="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                </ng-container>
-              </button>
-            </div>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </ng-container>
+            </button>
           </div>
         </div>
       </div>
