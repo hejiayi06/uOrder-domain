@@ -35,6 +35,9 @@
       <div class="col-12 fs-1 text-dark fw-bolder user-select-none">
         {{ storeData?.store_name }}
       </div>
+      <ng-container *ngIf="storeData.closure">
+        <div class="text-danger fs-5 fw-bold">This store is offline.</div>
+      </ng-container>
       <div
         class="d-flex flex-column d-lg-inline-flex flex-lg-row flex-wrap text-secondary fw-bold"
       >

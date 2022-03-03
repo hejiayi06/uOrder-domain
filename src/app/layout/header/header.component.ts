@@ -14,12 +14,11 @@ import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/apis/auth.service';
 import { ShoppingCartService } from 'src/app/services/apis/shopping-cart.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { OverlayRef } from 'src/app/services/tools/overlay.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
-import { ShoppingCartRes } from 'src/app/share/types';
+import { ShoppingCartRes, StoreRes } from 'src/app/share/types';
 import { setLoading } from 'src/app/state/loading/action';
 import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
 import {
@@ -41,7 +40,7 @@ import { ShoppingCartStoreModule } from 'src/app/state/shopping-cart/shopping-ca
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() length: number = 0;
   isAccount: boolean = false;
-  storeName: string = '';
+  store!: StoreRes;
   @ViewChild('shoppingCart', { read: ElementRef, static: false })
   public sCRef!: ElementRef;
   isLog: boolean = false;
@@ -238,7 +237,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         console.log('getShoppingCart :>> ', res);
         if (res.data) {
           this.setShoppingCart(res.data);
-          this.storeName = res.data.store.store_name;
+          this.store = res.data.store;
           this.showShoppingCart = true;
           this.cdr.markForCheck();
           this.loadingStore$.dispatch(setLoading({ loading: false }));
@@ -261,7 +260,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           console.log('getAnonymousShoppingCart :>> ', res);
           if (res.data) {
             this.setShoppingCart(res.data);
-            this.storeName = res.data.store.store_name;
+            this.store = res.data.store;
             this.showShoppingCart = true;
             this.cdr.markForCheck();
             this.loadingStore$.dispatch(setLoading({ loading: false }));

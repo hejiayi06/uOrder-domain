@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/apis/auth.service';
+import { MessageService } from 'src/app/share/components/message/message.service';
 
 @Component({
   selector: 'uo-forgot-password',
@@ -25,7 +26,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authServe: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private messageServe: MessageService
   ) {}
 
   ngOnInit(): void {}
@@ -37,8 +39,12 @@ export class ForgotPasswordComponent implements OnInit {
         console.log('forgotPassword :>> ', res);
         if (res && res.data && res.data.value) {
           this.isSend = true;
+          this.messageServe.success(
+            'A password reset link was sent to your email. Click the link in the email to create a new password.'
+          );
         } else {
           this.isSend = false;
+          this.messageServe.danger('Something wrong!');
         }
         this.loading = false;
         this.cdr.markForCheck();

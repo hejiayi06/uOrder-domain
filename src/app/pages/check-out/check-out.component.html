@@ -1070,7 +1070,11 @@
               class="col-12 col-lg-6 btn btn-danger shadow-sm fs-6"
               (click)="onPlaceOrder()"
               [disabled]="
-                loading || !placeOrderForm.valid || feeLoading || isCheckout
+                loading ||
+                !placeOrderForm.valid ||
+                feeLoading ||
+                isCheckout ||
+                checkout?.store?.closure
               "
             >
               Place Order
@@ -1136,7 +1140,13 @@
     <button
       class="col-12 col-lg-6 btn btn-danger shadow-sm fs-6"
       (click)="onPlaceOrder()"
-      [disabled]="loading || !placeOrderForm.valid"
+      [disabled]="
+        loading ||
+        !placeOrderForm.valid ||
+        feeLoading ||
+        isCheckout ||
+        checkout?.store?.closure
+      "
     >
       Place Order
     </button>

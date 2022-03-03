@@ -29,7 +29,7 @@ import {
 } from 'src/app/services/tools/overlay.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
-import { ShoppingCartItem } from 'src/app/share/types';
+import { ShoppingCartItem, StoreRes } from 'src/app/share/types';
 import {
   setShoppingCart,
   setShoppingCartLength,
@@ -76,7 +76,7 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   @Input() show = false;
   items!: ShoppingCartItem[];
   isCheckout: boolean = false;
-  @Input() storeName!: string;
+  @Input() store!: StoreRes;
   @Input() length: number = 0;
   @Input() shoppingCartStoreId!: string;
   @Input() isLog!: boolean;

@@ -24,7 +24,9 @@
           <div class="fs-4 fw-800 user-select-none">Your Order</div>
         </div>
         <div class="text-danger col-12 mt-1">
-          <div class="user-select-none fs-5 fw-bold">{{ storeName }}</div>
+          <div class="user-select-none fs-5 fw-bold">
+            {{ store.store_name }}
+          </div>
         </div>
         <div class="d-block fw-bold col-6 mt-1">
           <div class="fs-6 user-select-none">Items subtotal:</div>
@@ -175,7 +177,7 @@
 </ng-template>
 <ng-template #storeChooseTemplate>
   <div class="col-12 text-dark text-center fs-3 fw-bold mb-2">
-    You already have an active order at {{ storeName }}
+    You already have an active order at {{ store.store_name }}
   </div>
   <div class="col-12 text-secondary text-center fs-5 fw-500">
     Are you sure you want to clear your order?
