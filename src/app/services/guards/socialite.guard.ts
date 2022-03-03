@@ -3,7 +3,6 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -34,6 +33,7 @@ export class SocialiteGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    this.updateToken(route);
     this.shoppingCartServe
       .renewShoppingCart(
         this.winServe.getLocalStorage(storageKeys.anonymous) as string
@@ -57,11 +57,11 @@ export class SocialiteGuard implements CanActivate {
           } else {
             this.dispatchZero();
           }
-          this.updateToken(route);
+          this.navigate();
         },
         (err) => {
           this.dispatchZero();
-          this.updateToken(route);
+          this.navigate();
         }
       );
 
@@ -85,12 +85,14 @@ export class SocialiteGuard implements CanActivate {
         storageKeys.auth,
         route.queryParams['token']
       );
-      let storeId = this.winServe.getLocalStorage(storageKeys.store);
-      if (storeId) {
-        this.router.navigateByUrl('/restaurant/' + storeId);
-      } else {
-        this.router.navigateByUrl('');
-      }
+    }
+  }
+  navigate(): void {
+    let storeId = this.winServe.getLocalStorage(storageKeys.store);
+    if (storeId) {
+      this.router.navigateByUrl('/restaurant/' + storeId);
+    } else {
+      this.router.navigateByUrl('');
     }
   }
 }

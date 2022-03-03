@@ -20,12 +20,21 @@
           >Edit<i class="bi bi-pencil-square ms-1"></i>
         </a>
       </div>
-      <div class="fw-500">
-        {{ user?.first_name
-        }}<ng-container *ngIf="user">,</ng-container> &nbsp;{{
-          user?.last_name
-        }}
-      </div>
+      <ng-container
+        *ngIf="user?.first_name || user?.last_name; else nameTemplate"
+        ><div class="fw-500">
+          {{ user?.first_name
+          }}<ng-container *ngIf="user?.first_name">,</ng-container> &nbsp;{{
+            user?.last_name
+          }}
+        </div></ng-container
+      >
+
+      <ng-template #nameTemplate
+        ><div class="fw-500">
+          {{ user?.name }}
+        </div></ng-template
+      >
     </div>
   </div>
   <!-- change name -->

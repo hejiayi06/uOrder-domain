@@ -9,9 +9,7 @@ import { Store } from '@ngrx/store';
 import { UserNameService } from 'src/app/services/apis/user-name.service';
 import { UserPasswordService } from 'src/app/services/apis/user-password.service';
 import { ErrorsService } from 'src/app/services/local/errors.service';
-import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
-import { storageKeys } from 'src/app/share/configs';
 import { User } from 'src/app/share/types';
 import { setLoading } from 'src/app/state/loading/action';
 import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
@@ -69,8 +67,7 @@ export class ProfileComponent implements OnInit {
     private nameServe: UserNameService,
     private passwordServe: UserPasswordService,
     private messageServe: MessageService,
-    private loadingStore$: Store<LoadingStoreModule>,
-    private errorServe: ErrorsService
+    private loadingStore$: Store<LoadingStoreModule>
   ) {}
   ngOnInit(): void {
     this.getUser();

@@ -13,6 +13,7 @@ export interface Base<T> {
 export interface User {
   first_name: string;
   last_name: string;
+  name: string;
   email: string;
   password: string;
   created_at: Date;
