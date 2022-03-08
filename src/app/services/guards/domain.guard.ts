@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Resolve } from '@angular/router';
 import { catchError, EMPTY, mergeMap, Observable, of } from 'rxjs';
 import { storageKeys } from 'src/app/share/configs';
 import { Domain } from 'src/app/share/types';
@@ -18,10 +14,7 @@ export class DomainGuard implements Resolve<Domain> {
     private domainServe: DomainService,
     private winServe: WindowService
   ) {}
-  resolve(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<Domain> {
+  resolve(): Observable<Domain> {
     return this.domainServe
       .postDomain({ Domain: window.location.hostname })
       .pipe(

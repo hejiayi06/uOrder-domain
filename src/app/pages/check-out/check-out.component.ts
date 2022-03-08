@@ -387,10 +387,16 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     }
   }
   minimumDeliveryCompare() {
-    return parseFloat(this.checkout.total) < this.minimumPay[1];
+    if (this.minimumPay[1]) {
+      return parseFloat(this.checkout.subtotal) < this.minimumPay[1];
+    }
+    return false;
   }
   minimumPickupCompare() {
-    return parseFloat(this.checkout.total) < this.minimumPay[2];
+    if (this.minimumPay[2]) {
+      return parseFloat(this.checkout.subtotal) < this.minimumPay[2];
+    }
+    return false;
   }
   onDelivery(e: Event): void {
     if ((e.target as HTMLInputElement).checked) {

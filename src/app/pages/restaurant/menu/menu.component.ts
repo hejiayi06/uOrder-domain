@@ -13,8 +13,9 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { debounceTime, fromEvent, map, Subscription, throttleTime } from 'rxjs';
+import { debounceTime, fromEvent, Subscription, tap, throttleTime } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
 import { DiningTimeService } from 'src/app/services/local/dining-time.service';
 import { WindowService } from 'src/app/services/local/window.service';
@@ -30,7 +31,7 @@ import { LoadingStoreModule } from 'src/app/state/loading/loading.store.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
-  storeId!: string;
+  restaurantId!: string;
   menuGroups!: Group[];
   selectedMenuGroup!: Group;
   categories!: Category[];
@@ -38,16 +39,24 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   canMove: boolean = false;
   disLeft: number | undefined;
   disRight: number | undefined;
-  // moveLeft
   @Input() height!: number;
+  @Input() contentHeight!: number;
+  categoriesHeight: {
+    id: number;
+    offsetHeight: number;
+    offsetTop: number;
+    index: number;
+  }[] = [];
   heightLine!: number;
-  @ViewChild('menuDiv', { static: true }) public menuEl!: ElementRef;
-  @ViewChild('categoriesDiv', { static: true }) public cEl!: ElementRef;
-  @ViewChildren('categories', { read: ElementRef })
+  @ViewChild('menuDiv', { static: true }) public menuView!: ElementRef;
+  @ViewChild('categoriesScrollBar', { static: true })
+  public categoryView!: ElementRef;
+  @ViewChildren('categories')
   categoryList!: QueryList<ElementRef>;
   @HostListener('window:scroll', ['$event']) public onScroll = (): boolean => {
-    // console.log('window.scroll :>> ', window.scrollY);
-    return this.height + 80 - window.scrollY < 55;
+    return (
+      this.height < window.scrollY && this.contentHeight >= window.scrollY + 100
+    );
   };
   scrollSubs!: Subscription;
   constructor(
@@ -55,37 +64,97 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private menuServe: MenuService,
     private winServe: WindowService,
     private cdr: ChangeDetectorRef,
-    private loadingStore$: Store<LoadingStoreModule>,
-    private diningTimeServe: DiningTimeService
+    private diningTimeServe: DiningTimeService,
+    private loadingStore$: Store<LoadingStoreModule>
   ) {}
+  ngOnInit(): void {
+    this.initScroll();
+  }
+  ngAfterViewInit(): void {
+    this.getMenuGroup(
+      this.winServe.getLocalStorage(storageKeys.store) as string
+    );
+  }
   ngOnDestroy(): void {
     this.scrollSubs.unsubscribe();
   }
-  ngAfterViewInit(): void {
-    this.heightLine =
-      this.menuEl.nativeElement.offsetTop +
-      this.menuEl.nativeElement.clientHeight;
-    const sub = fromEvent(window, 'scroll');
-    this.scrollSubs = sub
+  initScroll(): void {
+    this.scrollSubs = fromEvent(window, 'scroll')
       .pipe(
-        throttleTime(15 /* ms */),
-        map((data) => {
-          this.setCategories();
-          return data;
-        }),
-        debounceTime(25)
+        debounceTime(20),
+        tap(() => this.setCategories())
       )
-      .subscribe(
-        (x) => {
-          console.log(window.pageYOffset);
-        },
-        (err) => {
-          console.log('Error: %s', err);
-        },
-        () => {
-          console.log('Completed');
+      .subscribe();
+  }
+  setCategories(): void {
+    this.categoriesHeight.forEach((h) => {
+      if (
+        window.scrollY > h.offsetTop - 153 &&
+        window.scrollY < h.offsetTop + h.offsetHeight - 153
+      ) {
+        if (this.selectedCategoryId !== h.id) {
+          this.selectedCategoryId = h.id;
+          this.categoryView.nativeElement.children[h.index].scrollIntoView(
+            true
+          );
+          this.cdr.detectChanges();
         }
+      }
+    });
+  }
+  getMenuGroup(restaurantId: string): void {
+    this.loadingStore$.dispatch(setLoading({ loading: true }));
+    this.menuServe.getMenuGroups(restaurantId).subscribe(
+      (res) => {
+        console.log('getMenuGroups :>> ', res);
+        if (res) {
+          if (res.data.items) {
+            this.menuGroups = res.data.items;
+            this.selectedMenuGroup = this.menuGroups![0];
+            if (this.selectedMenuGroup) {
+              this.categories = this.selectedMenuGroup.categories.sort(
+                (a, b) => a.sort - b.sort
+              );
+            }
+          }
+          this.cdr.markForCheck();
+        }
+        this.loadingStore$.dispatch(setLoading({ loading: false }));
+      },
+      () => {
+        this.loadingStore$.dispatch(setLoading({ loading: false }));
+      },
+      () => {
+        this.setHeights();
+        // this.setScroll();
+        this.cdr.markForCheck();
+      }
+    );
+  }
+  setHeights(): void {
+    this.categoriesHeight = [];
+    this.categoryList.map((category, i) => {
+      const c = category.nativeElement;
+      this.categoriesHeight[i] = {
+        id: c.id,
+        offsetHeight: c.offsetHeight,
+        offsetTop: c.offsetTop,
+        index: i,
+      };
+    });
+    console.log('this.categoriesHeight :>> ', this.categoriesHeight);
+  }
+  //change group func
+  changeGroup(group: Group): void {
+    this.selectedMenuGroup = group;
+    if (this.selectedMenuGroup) {
+      this.categories = this.selectedMenuGroup.categories.sort(
+        (a, b) => a.sort - b.sort
       );
+      this.selectedCategoryId = this.categories[0].id;
+      this.onCategory(this.categories[0]);
+      this.setHeights();
+    }
   }
   categoryShow(category: Category): boolean {
     if (!category?.menu_list?.length) {
@@ -100,91 +169,31 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return true;
   }
-  setCategories(): void {
-    this.categoryList.forEach((category) => {
-      this.onScrollCategories(category);
-    });
-  }
-  onScrollCategories(category: ElementRef<any>): void {
-    this.heightLine =
-      this.menuEl.nativeElement.offsetTop +
-      this.menuEl.nativeElement.clientHeight;
-
-    console.log('this.heightLine :>> ', this.heightLine);
-    let categoryRect = category.nativeElement.getBoundingClientRect();
-    // console.log('categoryRect :>> ', categoryRect);
-    if (
-      this.heightLine >= categoryRect.top &&
-      this.heightLine <= categoryRect.bottom
-    ) {
-      this.selectedCategoryId = category.nativeElement.id;
-      this.cdr.detectChanges();
-    }
-  }
-  ngOnInit(): void {
-    this.storeId = this.winServe.getLocalStorage(storageKeys.store) as string;
-    this.getMenuGroup(this.storeId);
-  }
-
-  //get groups
-  getMenuGroup(storeId: string): void {
-    this.loadingStore$.dispatch(setLoading({ loading: true }));
-    this.menuServe.getMenuGroups(storeId).subscribe(
-      (res) => {
-        if (res) {
-          if (res.data.items) {
-            this.menuGroups = res.data.items;
-            this.selectedMenuGroup = this.menuGroups![0];
-            if (this.selectedMenuGroup) {
-              this.categories = this.selectedMenuGroup.categories;
-              this.selectedCategoryId = this.categories[0].id;
-              this.cdr.detectChanges();
-            }
-          }
-        }
-        this.loadingStore$.dispatch(setLoading({ loading: false }));
-      },
-      (err) => {
-        this.loadingStore$.dispatch(setLoading({ loading: false }));
-      }
-    );
-  }
-
-  //change group func
-  changeGroup(group: Group): void {
-    this.selectedMenuGroup = group;
-    if (this.selectedMenuGroup) {
-      this.categories = this.selectedMenuGroup.categories;
-      this.selectedCategoryId = this.categories[0].id;
-      this.cdr.detectChanges();
-    }
-  }
-  changeColor(category: Category): boolean {
-    return category.id == this.selectedCategoryId;
-  }
   onCategory(category: Category): void {
     this.selectedCategoryId = category.id;
     this.cdr.detectChanges();
-    let res = this.categoryList.find(
-      (elem) => elem.nativeElement.id === category.id.toString()
-    );
-    this.scroller.scrollToPosition([0, res?.nativeElement.offsetTop - 170]);
+    this.scroller.setOffset([0, 153]);
+    this.scroller.scrollToAnchor(category.id.toString());
   }
-
   onCategoryLeft() {
-    this.cEl.nativeElement.scrollLeft -= 200;
-    this.cdr.markForCheck();
+    (this.categoryView.nativeElement as HTMLElement).scrollBy({
+      top: 0,
+      left: -200,
+      behavior: 'smooth',
+    });
   }
-
   onCategoryRight() {
-    this.cEl.nativeElement.scrollLeft += 200;
-    this.cdr.markForCheck();
+    (this.categoryView.nativeElement as HTMLElement).scrollBy({
+      top: 0,
+      left: 200,
+      behavior: 'smooth',
+    });
   }
   rightBtn(): boolean {
     return (
-      this.cEl.nativeElement.scrollWidth - this.cEl.nativeElement.scrollLeft >
-        window.screen.width - 59 &&
-      this.cEl.nativeElement.scrollWidth >= window.screen.width
+      this.categoryView.nativeElement.scrollWidth -
+        this.categoryView.nativeElement.scrollLeft >=
+      this.categoryView.nativeElement.offsetWidth + 26
     );
   }
 }

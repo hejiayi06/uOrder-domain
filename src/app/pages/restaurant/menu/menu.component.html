@@ -1,4 +1,4 @@
-<div #menuDiv [ngClass]="{ 'fixed-menu': onScroll() }">
+<div #menuDiv [ngClass]="{ 'sticky-style': onScroll() }">
   <nav class="container-xl pt-2 pb-2 border-bottom">
     <!-- first row -->
     <div class="row mt-2">
@@ -26,26 +26,27 @@
       </div>
     </div>
     <!-- second row -->
-    <!-- [disabled]="cDiv.nativeElement.scrollLeft <= 0" -->
     <div class="row">
-      <div class="col-12 d-inline-flex gx-0">
+      <div class="col-12 d-inline-flex gx-0 menu-nav">
         <div
           class="d-flex align-items-center"
-          *ngIf="cEl.nativeElement.scrollLeft > 0"
+          *ngIf="categoryView.nativeElement.scrollLeft > 26"
         >
           <button class="btn categories-button p-1" (click)="onCategoryLeft()">
             <i class="bi bi-caret-left"></i>
           </button>
         </div>
-        <div class="categories d-inline-flex ps-1 pe-1" #categoriesDiv>
+        <div class="categories d-inline-flex ps-2 pe-2" #categoriesScrollBar>
           <div
+            [id]
             class="category-item d-flex align-items-center justify-content-center ms-1 me-1"
             *ngFor="let category of categories | sortBySort"
           >
             <ng-container *ngIf="categoryShow(category)">
               <button
+                [disabled]=""
                 [ngClass]="{
-                  'text-danger': changeColor(category)
+                  'text-danger': this.selectedCategoryId == category.id
                 }"
                 class="btn category-item-button p-1 nowrap user-select-none border-0"
                 (click)="onCategory(category)"
@@ -64,16 +65,15 @@
     </div>
   </nav>
 </div>
-<div [ngClass]="{ 'fill-up': onScroll() }"></div>
 <div class="container-xl">
   <div
     class="list-wrap"
-    *ngFor="let category of categories | sortBySort"
-    id="{{ category.id }}"
+    *ngFor="let category of categories"
+    [id]="category.id"
     #categories
   >
     <ng-container *ngIf="categoryShow(category)">
-      <div class="row mt-3 mb-3">
+      <div class="row pt-3">
         <div class="col-12 user-select-none fs-4 fw-bold">
           {{ category.name }}
         </div>
@@ -84,14 +84,20 @@
           {{ category.description }}
         </div>
       </div>
-      <div class="menuItem row mt-2 mb-2">
+      <div class="menuItem row pt-2" *ngIf="category.menu_list">
         <div
-          class="col-12 col-sm-6 col-xl-4 mb-2 mb-sm-4"
+          class="col-12 col-sm-6 col-xl-4 mb-3"
           *ngFor="let item of category.menu_list | sortBySort"
         >
-          <uo-u-items [menuItem]="item" [storeId]="storeId"></uo-u-items>
+          <uo-u-items [menuItem]="item"></uo-u-items>
         </div>
       </div>
     </ng-container>
+  </div>
+  <div class="row fs-6 fw-500 text-secondary text-center pt-5 pb-5">
+    <div class="col-12">
+      Prices on this menu are set directly by the Merchant.
+    </div>
+    <div class="col-12">Prices may differ between Delivery and Pickup.</div>
   </div>
 </div>
