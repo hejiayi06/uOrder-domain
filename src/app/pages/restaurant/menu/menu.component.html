@@ -89,7 +89,10 @@
           class="col-12 col-sm-6 col-xl-4 mb-3"
           *ngFor="let item of category.menu_list | sortBySort"
         >
-          <uo-u-items [menuItem]="item"></uo-u-items>
+          <uo-u-items
+            [menuItem]="item"
+            [categoryDiningTimes]="category.dining_times"
+          ></uo-u-items>
         </div>
       </div>
     </ng-container>

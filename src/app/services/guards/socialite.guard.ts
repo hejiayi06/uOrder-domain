@@ -88,11 +88,6 @@ export class SocialiteGuard implements CanActivate {
     }
   }
   navigate(): void {
-    let storeId = this.winServe.getLocalStorage(storageKeys.store);
-    if (storeId) {
-      this.router.navigateByUrl('/restaurant/' + storeId);
-    } else {
-      this.router.navigateByUrl('');
-    }
+    this.router.navigateByUrl('');
   }
 }

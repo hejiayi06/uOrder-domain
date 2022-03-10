@@ -4,9 +4,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ScheduleTimeService } from 'src/app/services/apis/schedule-time.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 
 @Component({
@@ -21,22 +20,17 @@ export class TimeModalComponent implements OnInit {
   orderType!: string;
   timeStr: string = '';
   selectIndex: number = 0;
-  timeList!: { item: Date }[][];
+  timeList!: Date[][];
   constructor(
     public activeModal: NgbActiveModal,
     private scheduleServe: ScheduleTimeService,
     private messageServe: MessageService,
-    private cdr: ChangeDetectorRef,
-    private errorServe: ErrorsService
+    private cdr: ChangeDetectorRef
   ) {}
   ngOnInit(): void {}
   later(): void {
     this.loading = true;
     this.cdr.markForCheck();
-    const param = {
-      order_type: this.orderType,
-    };
-
     this.scheduleServe.getSchedule().subscribe(
       (res) => {
         console.log('getSchedule :>> ', res);
@@ -50,7 +44,7 @@ export class TimeModalComponent implements OnInit {
         this.loading = false;
         this.cdr.markForCheck();
       },
-      (err) => {
+      () => {
         this.loading = false;
         this.cdr.markForCheck();
       }

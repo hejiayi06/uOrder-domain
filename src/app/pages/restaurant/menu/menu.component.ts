@@ -15,7 +15,14 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { debounceTime, fromEvent, Subscription, tap, throttleTime } from 'rxjs';
+import {
+  debounceTime,
+  fromEvent,
+  map,
+  Subscription,
+  tap,
+  throttleTime,
+} from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
 import { DiningTimeService } from 'src/app/services/local/dining-time.service';
 import { WindowService } from 'src/app/services/local/window.service';
@@ -81,8 +88,11 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   initScroll(): void {
     this.scrollSubs = fromEvent(window, 'scroll')
       .pipe(
-        debounceTime(20),
-        tap(() => this.setCategories())
+        throttleTime(20),
+        debounceTime(5),
+        map(() => {
+          this.setCategories();
+        })
       )
       .subscribe();
   }
@@ -94,10 +104,20 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         if (this.selectedCategoryId !== h.id) {
           this.selectedCategoryId = h.id;
-          this.categoryView.nativeElement.children[h.index].scrollIntoView(
-            true
+          const childNode = this.categoryView.nativeElement.children[
+            h.index
+          ] as HTMLElement;
+          console.log('123 :>> ', 123);
+          console.log(
+            'childNode.offsetLeft - this.categoryView.nativeElement :>> ',
+            childNode.offsetLeft - this.categoryView.nativeElement.offsetLeft
           );
-          this.cdr.detectChanges();
+          this.categoryView.nativeElement.scrollTo({
+            top: 0,
+            left:
+              childNode.offsetLeft - this.categoryView.nativeElement.offsetLeft,
+          });
+          this.cdr.markForCheck();
         }
       }
     });

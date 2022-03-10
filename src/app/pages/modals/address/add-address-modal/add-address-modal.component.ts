@@ -7,7 +7,6 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserAddressService } from 'src/app/services/apis/user-address.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
@@ -79,8 +78,7 @@ export class AddAddressModalComponent implements OnInit {
     // private geocoder: MapGeocoder,
     // private loadingStore$: Store<LoadingStoreModule>,
     private addressServe: UserAddressService,
-    private cdr: ChangeDetectorRef,
-    private errorServe: ErrorsService
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {}
@@ -106,77 +104,4 @@ export class AddAddressModalComponent implements OnInit {
       }
     );
   }
-  // checkAddress(): void {
-  //   this.loading = true;
-  //   this.cdr.markForCheck();
-  //   this.loadingStore$.dispatch(setLoading({ loading: true }));
-  //   const address =
-  //     this.street?.value +
-  //     ', ' +
-  //     this.city?.value +
-  //     ', ' +
-  //     this.state?.value +
-  //     ', ' +
-  //     this.zipcode?.value;
-  //   console.log('address :>> ', address);
-
-  //   this.geocoder
-  //     .geocode({
-  //       address: address,
-  //     })
-  //     .subscribe(
-  //       (res) => {
-  //         this.geoData = res;
-  //         this.loading = false;
-  //         this.cdr.markForCheck();
-  //         console.log('res google map:>> ', res);
-  //         console.log(
-  //           'res.results[0] :>> ',
-  //           res.results[0].geometry.location.lat()
-  //         );
-  //         this.loadingStore$.dispatch(setLoading({ loading: false }));
-  //       },
-  //       (err) => {
-  //         this.loading = false;
-  //         this.loadingStore$.dispatch(setLoading({ loading: false }));
-  //       }
-  //     );
-  // }
-  // googleMap(): void {
-  //   const key = environment.googleMapsApiKey;
-  //   this.httpClient
-  //     .jsonp(`https://maps.googleapis.com/maps/api/js?key=${key}`, 'callback')
-  //     .subscribe(
-  //       () => {
-  //         console.log('🚀 ~ GoogleMapsService ~ google maps api loaded');
-  //         this.isApiLoaded.next(true);
-  //       },
-  //       (error) => {
-  //         console.log(
-  //           '🚀 ~ GoogleMapsService ~ google maps api cannot be loaded',
-  //           error
-  //         );
-  //       }
-  //     );
-  // }
-  // onAddressClick(e: Event, result: google.maps.GeocoderResult): void {
-  //   if ((e.target! as HTMLInputElement).checked) {
-  //     this.street?.patchValue(
-  //       result.address_components[0].long_name +
-  //         ' ' +
-  //         result.address_components[1].long_name
-  //     );
-  //     console.log('this.street.value :>> ', this.street?.value);
-  //     this.city?.patchValue(result.address_components[2].long_name);
-  //     this.state?.patchValue(result.address_components[5].long_name);
-  //     this.zipcode?.patchValue(result.address_components[7].long_name);
-  //     this.latitude?.patchValue(result.geometry.location.lat());
-  //     this.longitude?.patchValue(result.geometry.location.lng());
-  //     console.log('this.addressForm.value :>> ', this.addressForm.value);
-  //     this.addressChecked = true;
-  //   } else {
-  //     this.addressChecked = false;
-  //   }
-  //   this.cdr.markForCheck();
-  // }
 }

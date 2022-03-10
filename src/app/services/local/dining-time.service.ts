@@ -6,6 +6,7 @@ import { DiningTime } from 'src/app/share/types';
 })
 export class DiningTimeService {
   detectDiningTime(diningTimes: DiningTime[]): boolean {
+    console.log('123 :>> ', 123);
     const today = new Date();
     const week = today.getDay();
     const hour = today.getHours();
@@ -18,40 +19,35 @@ export class DiningTimeService {
       const closeHour = dt.close_hour.split(':');
       if (!scope[week]) {
         show = false;
-        console.log('scope[week] :>> ', show);
         return;
       } else {
         if (hour < parseInt(openHour[0]) || hour > parseInt(closeHour[0])) {
           show = false;
-          console.log('scope[hour] :>> ', show);
           return;
-        } else if (
-          hour == parseInt(openHour[0]) ||
-          hour == parseInt(closeHour[0])
-        ) {
-          if (
-            minute < parseInt(openHour[1]) ||
-            minute > parseInt(closeHour[1])
-          ) {
+        } else if (hour == parseInt(openHour[0])) {
+          if (minute < parseInt(openHour[1])) {
             show = false;
-            console.log('scope[minute] :>> ', show);
             return;
-          } else if (
-            minute == parseInt(openHour[1]) ||
-            minute == parseInt(closeHour[1])
-          ) {
-            if (
-              second < parseInt(openHour[2]) ||
-              second > parseInt(closeHour[2])
-            ) {
+          } else if (minute == parseInt(openHour[1])) {
+            if (second < parseInt(openHour[2])) {
               show = false;
-              console.log('scope[second] :>> ', show);
+              return;
+            }
+          }
+        } else if (hour == parseInt(closeHour[0])) {
+          if (minute > parseInt(closeHour[1])) {
+            show = false;
+            return;
+          } else if (minute == parseInt(closeHour[1])) {
+            if (second > parseInt(closeHour[2])) {
+              show = false;
               return;
             }
           }
         }
       }
     });
+    console.log('show :>> ', show);
     return show;
   }
 }

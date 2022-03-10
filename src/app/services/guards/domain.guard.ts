@@ -15,8 +15,15 @@ export class DomainGuard implements Resolve<Domain> {
     private winServe: WindowService
   ) {}
   resolve(): Observable<Domain> {
+    let secure: boolean = true;
+    if (window.location.protocol == 'http:') {
+      secure = false;
+    }
     return this.domainServe
-      .postDomain({ Domain: window.location.hostname })
+      .postDomain({
+        Domain: window.location.hostname,
+        secure: secure,
+      })
       .pipe(
         catchError((error) => {
           console.log('error :>> ', error);

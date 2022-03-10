@@ -1,16 +1,21 @@
 <uo-header [length]="itemLength"></uo-header>
-<div class="min-vh-100">
+<div class="min-vh-100" #storeContent>
   <!-- spinner -->
   <div class="clearfix" *ngIf="loading">
-    <div class="spinner-wrap fixed-top">
-      <div class="spinner-border spinner fixed-top" role="status"></div>
+    <div
+      class="spinner-wrap fixed-top d-flex align-items-center justify-content-center"
+    >
+      <div class="spinner-border spinner" role="status"></div>
     </div>
   </div>
   <div class="fill-up mt-xl-4"></div>
   <!-- restaurant information conponents -->
   <ng-container>
-    <uo-restaurant-info (heightEvent)="getHeight($event)"></uo-restaurant-info>
-    <uo-menu [height]="height"></uo-menu>
+    <uo-restaurant-info (heightEvent)="height = $event"></uo-restaurant-info>
+    <uo-menu
+      [height]="height"
+      [contentHeight]="contentView.nativeElement.offsetHeight"
+    ></uo-menu>
   </ng-container>
   <!-- menu categories -->
 </div>

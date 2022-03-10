@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { MenuService } from 'src/app/services/apis/menu.service';
 import { WindowService } from 'src/app/services/local/window.service';
 import { storageKeys } from 'src/app/share/configs';
-import { Item } from 'src/app/share/types';
+import { DiningTime, Item } from 'src/app/share/types';
 import {
   setShoppingCart,
   setShoppingCartLength,
@@ -35,6 +35,7 @@ import { ItemModalComponent } from '../../modals/item-modal/item-modal.component
 })
 export class UItemsComponent implements OnInit, OnDestroy {
   @Input() menuItem!: Item;
+  @Input() categoryDiningTimes!: DiningTime[];
   @Input() storeId!: string;
   @Output('item') ItemEvent = new EventEmitter<Item>();
   length: number = 0;
@@ -69,14 +70,13 @@ export class UItemsComponent implements OnInit, OnDestroy {
     if (this.menuItem) {
       this.detectStore(this.menuItem);
     } else {
-      this.menuServe.getItem(this.storeId, this.menuItem['id']).subscribe(
-        (res) => {
+      this.menuServe
+        .getItem(this.storeId, this.menuItem['id'])
+        .subscribe((res) => {
           if (res.data) {
             this.detectStore(res.data.item);
           }
-        },
-        (err) => {}
-      );
+        });
     }
   }
   setEmpty(): void {
@@ -113,42 +113,10 @@ export class UItemsComponent implements OnInit, OnDestroy {
       centered: true,
       scrollable: true,
     });
-    let itemModalInstance = modalRef.componentInstance;
+    const itemModalInstance = modalRef.componentInstance;
     itemModalInstance.sItem = item;
-    itemModalInstance.itemForm = this.fb.group({
-      // item:this.sItem,
-      id: item?.id,
-      ref_id: item.ref_id,
-      name: item?.name,
-      price: [item?.price ? item.price : 0],
-      itemModifies: [[]],
-      itemSections: this.fb.array([]),
-      itemVariant: this.fb.array([]),
-      itemInstructions: [''],
-      quantity: [0],
-      checked: [false],
-      total: ['0'],
-    });
-
-    itemModalInstance.quantity = 1;
-    itemModalInstance.variantPrice = '0.00';
-    if (item.price) {
-      itemModalInstance.itemPrice = item.price;
-    } else {
-      itemModalInstance.itemPrice = 0;
-    }
-    itemModalInstance.checkPrice();
-    if (item.menu_item_to_modifies?.length) {
-      itemModalInstance.setItemModifies(item);
-    }
-    if (item.menu_item_to_sections?.length) {
-      itemModalInstance.setItemSections(item);
-    }
-    // if(changes.sItem.currentValue.menu_item_variants.length) {
-    //   this.setItemSections(this.sItem);
-    // }
-    if (item.menu_item_variants?.length) {
-      itemModalInstance.itemVariant.setValidators(Validators.required);
+    if (this.categoryDiningTimes) {
+      itemModalInstance.categoryDiningTimes = this.categoryDiningTimes;
     }
   }
 }

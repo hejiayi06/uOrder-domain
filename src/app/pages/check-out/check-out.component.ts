@@ -11,8 +11,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PhoneNumberModalComponent } from '../modals/phone-number-modal/phone-number-modal.component';
 import { TimeModalComponent } from '../modals/time-modal/time-modal.component';
-import { Loader } from '@googlemaps/js-api-loader';
-import { environment } from 'src/environments/environment';
 import {
   AbstractControl,
   FormBuilder,
@@ -204,7 +202,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
     this.getCheckout();
-    this.googleMap();
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationEnd)) {
         return;
@@ -220,10 +217,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       subtree: true,
     };
     const observer = new MutationObserver((mutation) => {
-      // console.log(
-      //   'othis.bannersElement.nativeElementbject :>> ',
-      //   this.bannersElement.nativeElement
-      // );
       this.placeOrderBoxHeight = this.bannersElement.nativeElement.clientHeight;
       this.cdr.markForCheck();
       // console.log('placeOrderBoxHeight :>> ', this.placeOrderBoxHeight);
@@ -237,10 +230,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     this.checkoutForm = this.fb.group({
       show_item: [1],
     });
-    // if (this.store.tips.length) {
-    //   this.tipsId = this.store.tips[0].id;
-    //   this.checkoutForm.addControl('tips_id', this.fb.control(this.tipsId));
-    // }
+
     this.checkoutServe.getCheckout(this.checkoutForm.value).subscribe(
       (res) => {
         this.checkout = res.data;
@@ -296,7 +286,11 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       this.checkout.orderParams.paymentType
     );
     this.initTypes();
-    this.minimumPay = JSON.parse(this.checkout.store.minimum_pay);
+    if (this.checkout.store.minimum_pay) {
+      this.minimumPay = JSON.parse(this.checkout.store.minimum_pay);
+    } else {
+      this.minimumPay = { 1: 0, 2: 0 };
+    }
     console.log('this.minimumPay :>> ', this.minimumPay);
     this.orderType = JSON.parse(this.checkout.store.order_type);
     console.log('this.orderType :>> ', this.orderType);
@@ -928,36 +922,4 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  googleMap(): void {
-    new Loader({
-      apiKey: environment['googleMapApiKey'],
-      version: 'weekly',
-      // libraries:['']
-    })
-      .load()
-      .then(() => {
-        this.apiLoaded = true;
-        console.log('🚀 ~ GoogleMapsService ~ google maps api lazy loaded');
-      });
-    // this.googleMapCenter = this.googleMapOptions.center = {
-    //   lat: parseFloat(this.checkout.store.latitude) as any,
-    //   lng: parseFloat(this.checkout.store.longitude) as any,
-    // };
-    // console.log('this.googleMapCenter :>> ', this.googleMapCenter);
-    this.googleMapOptions.zoom = 15;
-    // this.setCurrentPosition();
-  }
-  // private setCurrentPosition() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       // this.googleMapCenter = this.googleMapOptions.center = {
-  //       //   lat: position.coords.latitude,
-  //       //   lng: position.coords.longitude,
-  //       // };
-  //       console.log('this.googleMapCenter :>> ', this.googleMapCenter);
-  //       this.googleMapOptions.zoom = 12;
-  //       this.cdr.markForCheck();
-  //     });
-  //   }
-  // }
 }

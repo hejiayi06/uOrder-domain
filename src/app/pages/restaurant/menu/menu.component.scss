@@ -1,11 +1,3 @@
-.fixed-menu {
-  background: #fbfbfb;
-  width: 100%;
-  position: fixed !important;
-  z-index: 10;
-  top: 3.45rem !important;
-}
-
 .bi {
   vertical-align: -0.125em;
 }
@@ -16,10 +8,10 @@
 
 .sticky-style {
   // position: -webkit-sticky;
-  position: sticky;
+  position: sticky !important;
   background-color: #fbfbfb;
-  top: 3.45rem;
-  z-index: 999;
+  top: 3.5rem;
+  z-index: 1030;
 }
 
 .pointer-events-none {
@@ -32,7 +24,7 @@
 
 .categories {
   flex: 1 1 0%;
-  overflow-x: scroll;
+  overflow-x: scroll !important;
   white-space: nowrap;
 }
 
@@ -52,8 +44,4 @@
 }
 .btn:focus {
   box-shadow: none !important;
-}
-.fill-up {
-  width: 100%;
-  height: 95px;
 }

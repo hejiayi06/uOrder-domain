@@ -4,6 +4,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnDestroy,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -22,6 +24,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RestaurantComponent implements OnInit, OnDestroy {
+  @ViewChild('storeContent', { static: true }) public contentView!: ElementRef;
   loading: boolean = true;
   menuList!: Category[];
   selectItem!: Item;
@@ -29,8 +32,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   height!: number;
   menuHeight!: number;
   loadingSub!: Subscription;
-  storeId!: number;
-  merchantId!: number;
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -45,6 +46,7 @@ export class RestaurantComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getLoading();
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.initScroll();
   }
   initScroll(): void {
     this.router.events.subscribe((evt) => {
@@ -62,11 +64,5 @@ export class RestaurantComponent implements OnInit, OnDestroy {
         this.loading = res;
         this.cdr.detectChanges();
       });
-  }
-  getHeight(e: number): void {
-    this.height = e;
-  }
-  lengthChange(e: number): void {
-    this.itemLength = e;
   }
 }

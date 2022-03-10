@@ -10,6 +10,7 @@
     aria-label="Close"
   ></button>
 </div>
+
 <form
   class="modal-body"
   [formGroup]="itemForm"
@@ -185,10 +186,10 @@
               <input
                 class="form-check-input user-select-none"
                 type="radio"
-                name="itemVariant"
+                name="variant"
                 [attr.data-value]="variant.id"
                 [id]="'v-' + variant?.id"
-                (change)="variantChange($event)"
+                (change)="variantChange(variant)"
               />
               <label
                 class="form-check-label user-select-none"
@@ -241,18 +242,12 @@
     This item is unavailable at this time.
   </div>
   <div class="d-inline-flex justify-content-end align-items-center">
-    <button
-      (click)="onMinus()"
-      type="button"
-      class="btn"
-      [disabled]="!itemShow()"
-    >
+    <button (click)="onMinus()" type="button" class="btn">
       <span> <i class="bi bi-dash-circle"></i> </span>
     </button>
     <div class="quantityInput input-group user-select-none">
       <input
         type="number"
-        [disabled]="!itemShow()"
         [(ngModel)]="quantity"
         [ngModelOptions]="{ standalone: true }"
         class="form-control user-select-none ms-1 me-1"
@@ -267,17 +262,12 @@
         aria-describedby="quantity"
       />
     </div>
-    <button
-      (click)="onPlus()"
-      type="button"
-      class="btn"
-      [disabled]="!itemShow()"
-    >
+    <button (click)="onPlus()" type="button" class="btn">
       <span> <i class="bi bi-plus-circle"></i> </span>
     </button>
     <button
       type="button"
-      class="btn btn-danger add-to-cart-button"
+      class="btn btn-danger add-to-cart-button ms-2"
       [disabled]="loading || !itemForm.valid || !itemShow()"
       (click)="onSubmit()"
     >

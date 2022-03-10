@@ -32,7 +32,6 @@
       <!-- header  -->
       <div class="d-flex mt-2 mt-lg-4">
         <img [src]="checkout?.store?.logo" class="pic rounded border" />
-        <!-- <div class="pic"></div> -->
         <div class="d-flex justify-content-center flex-fill flex-column ps-2">
           <div class="text-secondary fw-bolder fs-7 user-select-none">
             ORDER FROM
@@ -522,10 +521,7 @@
                   <ng-container
                     *ngIf="!phone_number?.value; else userAddressTemplate"
                   >
-                    <div
-                      class="d-none d-lg-block text-danger fs-6"
-                      *ngIf="!loading"
-                    >
+                    <div class="text-danger fs-6" *ngIf="!loading">
                       Please click to change.
                     </div>
                   </ng-container>

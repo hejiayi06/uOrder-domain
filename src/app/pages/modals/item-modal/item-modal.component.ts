@@ -11,6 +11,7 @@ import {
   FormBuilder,
   FormArray,
   AbstractControl,
+  Validators,
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -20,9 +21,11 @@ import { WindowService } from 'src/app/services/local/window.service';
 import { MessageService } from 'src/app/share/components/message/message.service';
 import { storageKeys } from 'src/app/share/configs';
 import {
+  DiningTime,
   Item,
   MenuSectionItem,
   MenuSectionModify,
+  MenuVariants,
   ShoppingCartItem,
 } from 'src/app/share/types';
 import {
@@ -39,6 +42,7 @@ import { ShoppingCartStoreModule } from 'src/app/state/shopping-cart/shopping-ca
 })
 export class ItemModalComponent implements OnInit, OnDestroy {
   loading: boolean = false;
+  categoryDiningTimes!: DiningTime[];
   sItem!: Item;
   itemPrice!: string;
   variantPrice: string = '0.00';
@@ -46,7 +50,20 @@ export class ItemModalComponent implements OnInit, OnDestroy {
   size: number = 0;
   itemAmount!: number;
   quantity: number = 1;
-  itemForm: FormGroup = this.fb.group({});
+  itemForm: FormGroup = this.fb.group({
+    // item:this.sItem,
+    id: [],
+    ref_id: [],
+    name: [],
+    price: [],
+    itemModifies: [],
+    itemSections: this.fb.array([]),
+    itemVariant: [],
+    itemInstructions: [],
+    quantity: [0],
+    checked: [false],
+    total: [],
+  });
   isLog!: boolean;
   constructor(
     private fb: FormBuilder,
@@ -66,10 +83,10 @@ export class ItemModalComponent implements OnInit, OnDestroy {
   }
 
   get itemVariant() {
-    return this.itemForm.get('itemVariant') as FormArray;
+    return this.itemForm.get('itemVariant');
   }
   get itemModifies() {
-    return this.itemForm.get('itemModifies') as FormArray;
+    return this.itemForm.get('itemModifies');
   }
   get itemSections() {
     return this.itemForm.get('itemSections') as FormArray;
@@ -93,9 +110,50 @@ export class ItemModalComponent implements OnInit, OnDestroy {
   //   return arr
   // }
   ngOnInit(): void {
+    this.setInit();
     console.log('this.sItem :>> ', this.sItem);
   }
+  setInit(): void {
+    this.itemForm = this.fb.group({
+      // item:this.sItem,
+      id: this.sItem?.id,
+      ref_id: this.sItem?.ref_id,
+      name: this.sItem?.name,
+      price: [this.sItem?.price ? this.sItem?.price : 0],
+      itemModifies: [[]],
+      itemSections: this.fb.array([]),
+      itemVariant: [],
+      itemInstructions: [''],
+      quantity: [0],
+      checked: [false],
+      total: ['0'],
+    });
+    if (this.sItem.price) {
+      this.itemPrice = this.sItem.price;
+    } else {
+      this.itemPrice = '0';
+    }
+    this.itemPrice = this.sItem.price;
+    this.checkPrice();
+    if (this.sItem.menu_item_to_modifies?.length) {
+      this.setItemModifies(this.sItem);
+    }
+    if (this.sItem.menu_item_to_sections?.length) {
+      this.setItemSections(this.sItem);
+    }
+    if (this.sItem.menu_item_variants?.length) {
+      this.itemVariant?.setValidators(Validators.required);
+    }
+  }
   itemShow(): boolean {
+    if (this.categoryDiningTimes) {
+      const show = this.diningTimeServe.detectDiningTime(
+        this.categoryDiningTimes
+      );
+      if (!show) {
+        return false;
+      }
+    }
     if (this.sItem.dining_times.length) {
       return this.diningTimeServe.detectDiningTime(this.sItem.dining_times);
     }
@@ -178,6 +236,8 @@ export class ItemModalComponent implements OnInit, OnDestroy {
   ) {
     if (e) {
       if (option) {
+        console.log('option :>> ', option);
+        console.log('option.quantity check :>> ', option.quantity);
         if (option.price_active) {
           this.itemPrice = (
             parseFloat(this.itemPrice) +
@@ -192,18 +252,21 @@ export class ItemModalComponent implements OnInit, OnDestroy {
                 option.quantity!
             ).toFixed(2);
             this.checkPrice();
+            console.log('this.itemPrice check:>> ', this.itemPrice);
           } else {
             this.itemPrice = (
-              parseFloat(this.itemPrice) +
-              parseFloat((option as MenuSectionModify).modify.price) *
+              Number(this.itemPrice) +
+              Number((option as MenuSectionModify).modify.price) *
                 option.quantity!
             ).toFixed(2);
             this.checkPrice();
+            console.log('this.itemPrice check:>> ', this.itemPrice);
           }
         }
       }
     } else {
       if (option) {
+        console.log('option :>> ', option);
         console.log('option.quantity uncheck :>> ', option.quantity);
         if (option.price_active) {
           this.itemPrice = (
@@ -246,17 +309,13 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     }
   }
   // change veriant
-  variantChange(e: Event) {
-    const value = this.sItem.menu_item_variants?.find(
-      (variant) =>
-        variant.id.toString() == (e.target as HTMLInputElement).dataset['value']
-    );
-    if (this.itemVariant.length) {
-      this.itemVariant.removeAt(0);
-    }
-    value!.quantity = 1;
-    this.itemVariant.push(new FormControl(value));
-    this.variantPrice = value?.price!;
+  variantChange(v: MenuVariants) {
+    console.log('v :>> ', v);
+    v!.quantity = 1;
+    this.itemVariant?.patchValue([v]);
+    this.variantPrice = v?.price!;
+    console.log('this.itemVariant :>> ', this.itemVariant);
+    console.log('this.variantPrice :>> ', this.variantPrice);
     this.checkPrice();
   }
 
@@ -336,13 +395,9 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.cdr.markForCheck();
     this.checkPrice();
-
     this.itemForm.get('total')?.patchValue(this.totalPrice);
     this.itemQuantity?.patchValue(this.quantity);
-
     if (!this.winServe.getLocalStorage(storageKeys.auth)) {
-      // this.activeModal.close(false);
-      // this.router.navigate(['sign-in']);
       let anonymous_id = '';
       if (!this.winServe.getLocalStorage(storageKeys.anonymous)) {
         anonymous_id = this.GUID();
@@ -371,7 +426,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
               }
             }
           },
-          () => {
+          (err) => {
             this.closeModal();
           }
         );
