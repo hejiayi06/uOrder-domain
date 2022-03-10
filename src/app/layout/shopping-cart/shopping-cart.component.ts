@@ -117,9 +117,6 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit(): void {
     this.getShoppingCart();
   }
-  isStore(): boolean {
-    return !(this.route.snapshot.data['page'] == 'store');
-  }
   getShoppingCart(): void {
     this.cartSub = this.shoppingCartStore$
       .select(selectShoppingCartFeature)
@@ -253,7 +250,7 @@ export class ShoppingCartComponent implements OnInit, OnChanges, OnDestroy {
         this.shoppingCartStore$.dispatch(setShoppingCart({ cart: [] }));
         this.loadingFalse();
       },
-      (err) => {
+      () => {
         this.loadingFalse();
       }
     );

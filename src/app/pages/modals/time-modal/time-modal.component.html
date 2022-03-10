@@ -30,6 +30,7 @@
             value="ASAP"
             (click)="timeStr = ''"
             [(ngModel)]="timeBtnChecked"
+            [disabled]="loading"
             checked
           />
           <label class="btn btn-outline-danger fw-500" for="btnASAP"
@@ -44,6 +45,7 @@
             autocomplete="off"
             value="Later"
             (click)="later()"
+            [disabled]="loading"
             [(ngModel)]="timeBtnChecked"
           />
           <label class="btn btn-outline-danger fw-500" for="btnLater"

@@ -18,7 +18,7 @@
     class="offcanvas-body container-fluid"
     *ngIf="isEmpty(items); else emptyTemplate"
   >
-    <ng-container *ngIf="isStore(); else storeChooseTemplate">
+    <ng-container>
       <div class="row">
         <div class="col-12">
           <div class="fs-4 fw-800 user-select-none">Your Order</div>
@@ -174,22 +174,4 @@
     </div>
     <div class="col-12 text-secondary text-center h4">Please add items!</div>
   </div>
-</ng-template>
-<ng-template #storeChooseTemplate>
-  <div class="col-12 text-dark text-center fs-3 fw-bold mb-2">
-    You already have an active order at {{ store.store_name }}
-  </div>
-  <div class="col-12 text-secondary text-center fs-5 fw-500">
-    Are you sure you want to clear your order?
-  </div>
-  <ng-container>
-    <div class="d-flex flex-column">
-      <button class="btn btn-secondary mt-5 fw-500" (click)="returnToOrder()">
-        Return to order
-      </button>
-      <button class="btn btn-outline-danger mt-3 fw-500" (click)="cleanOrder()">
-        Clean order
-      </button>
-    </div>
-  </ng-container>
 </ng-template>
