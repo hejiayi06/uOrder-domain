@@ -1,48 +1,30 @@
 <div class="option-header row">
   <div class="option-header-left col-9">
     <div class="option-name user-select-none">
-      {{ sec.menu_section.name }}
+      {{ sec?.menu_section?.name }}
     </div>
     <div
       class="option-select text-secondary text-wrap user-select-none"
-      *ngIf="sec.max"
+      *ngIf="sec?.max"
     >
-      select up to {{ sec.max }}
+      select up to {{ sec?.max }}
     </div>
   </div>
   <!-- errors -->
   <div class="option-header-right col-3 user-select-none">
     <span
-      class="
-        text-wrap text-center
-        bg-danger
-        shadow-sm
-        required-tag
-        user-select-none
-      "
-      *ngIf="control.errors?.['exceed']"
-      >Max {{ sec.max }}</span
+      class="text-wrap text-center bg-danger shadow-sm required-tag user-select-none"
+      *ngIf="control?.errors?.['exceed']"
+      >Max {{ sec?.max }}</span
     >
     <span
-      class="
-        text-wrap text-center
-        bg-danger
-        shadow-sm
-        required-tag
-        user-select-none
-      "
-      *ngIf="control.errors?.['required']"
-      >Required {{ sec.min }}</span
+      class="text-wrap text-center bg-danger shadow-sm required-tag user-select-none"
+      *ngIf="control?.errors?.['required']"
+      >Required {{ sec?.min }}</span
     >
     <span
-      class="
-        text-wrap text-center
-        bg-danger
-        shadow-sm
-        required-tag
-        user-select-none
-      "
-      *ngIf="control.errors?.['unknown']"
+      class="text-wrap text-center bg-danger shadow-sm required-tag user-select-none"
+      *ngIf="control?.errors?.['unknown']"
       >unknown
     </span>
     <!-- <span class="text-wrap text-center bg-danger shadow-sm required-tag user-select-none">{{validate() | json}} </span> -->

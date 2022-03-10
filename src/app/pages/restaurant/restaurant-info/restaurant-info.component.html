@@ -2,6 +2,7 @@
   <div class="restaurant-pictures row">
     <!-- restaurant background picture -->
     <span
+      *ngIf="storeData?.banner"
       class="restaurant-background-picture col-12 gx-0 shadow-sm user-select-none"
       [ngStyle]="{
         background: 'url(' + storeData?.banner + ') 0% 0% / cover no-repeat'

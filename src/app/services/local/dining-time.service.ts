@@ -6,7 +6,6 @@ import { DiningTime } from 'src/app/share/types';
 })
 export class DiningTimeService {
   detectDiningTime(diningTimes: DiningTime[]): boolean {
-    console.log('123 :>> ', 123);
     const today = new Date();
     const week = today.getDay();
     const hour = today.getHours();
@@ -42,7 +41,7 @@ export class DiningTimeService {
         return true;
       }
     });
-    if (res.every((a) => a == false)) {
+    if (!res.includes(true)) {
       show = false;
     }
     return show;

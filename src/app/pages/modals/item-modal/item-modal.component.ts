@@ -146,7 +146,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     }
   }
   itemShow(): boolean {
-    if (this.categoryDiningTimes) {
+    if (this.categoryDiningTimes && this.categoryDiningTimes.length) {
       const show = this.diningTimeServe.detectDiningTime(
         this.categoryDiningTimes
       );
@@ -154,7 +154,7 @@ export class ItemModalComponent implements OnInit, OnDestroy {
         return false;
       }
     }
-    if (this.sItem.dining_times.length) {
+    if (this.sItem.dining_times && this.sItem.dining_times.length) {
       return this.diningTimeServe.detectDiningTime(this.sItem.dining_times);
     }
     return true;
@@ -170,11 +170,11 @@ export class ItemModalComponent implements OnInit, OnDestroy {
     item?.menu_item_to_sections?.forEach((section) => {
       section.selected = 0;
       section.isMax = false;
-      section.menu_section.menu_section_items.forEach((item) => {
+      section.menu_section?.menu_section_items?.forEach((item) => {
         item.quantity = 0;
         item.checked = false;
       });
-      section.menu_section.menu_section_modifies.forEach((modify) => {
+      section.menu_section?.menu_section_modifies?.forEach((modify) => {
         modify.quantity = 0;
         modify.checked = false;
       });
@@ -182,15 +182,15 @@ export class ItemModalComponent implements OnInit, OnDestroy {
         new FormControl({
           id: section.id,
           store_id: section.store_id,
-          name: section.menu_section.name,
+          name: section.menu_section?.name,
           is_multiple_select: section.is_multiple_select,
           is_duplicate: section.is_duplicate,
           min: section.min,
           max: section.max,
           section_created_at: section.created_at,
           section_updated_at: section.updated_at,
-          created_at: section.menu_section.created_at,
-          updated_at: section.menu_section.updated_at,
+          created_at: section.menu_section?.created_at,
+          updated_at: section.menu_section?.updated_at,
         })
       );
     });
