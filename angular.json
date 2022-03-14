@@ -34,7 +34,12 @@
             ],
             "styles": ["src/assets/styles/index.scss"],
             "scripts": [],
-
+            "namedChunks": true,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "sourceMap": true,
+            "buildOptimizer": false,
+            "optimization": false,
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },

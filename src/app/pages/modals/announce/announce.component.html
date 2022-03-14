@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ parseAnnounce().title }}</h5>
+  <button
+    type="button"
+    class="close btn"
+    aria-label="Close"
+    (click)="activeModal.close(false)"
+  >
+    <div aria-hidden="true">&times;</div>
+  </button>
+</div>
+<div class="modal-body min-vh-80 ql-editor">
+  <div [innerHTML]="parseHTML(parseAnnounce().text)"></div>
+</div>

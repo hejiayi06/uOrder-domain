@@ -10,6 +10,7 @@ import {
   ElementRef,
   AfterViewChecked,
 } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { StoreService } from 'src/app/services/apis/store.service';
 import { WindowService } from 'src/app/services/local/window.service';
@@ -17,6 +18,7 @@ import { storageKeys } from 'src/app/share/configs';
 import { StoreRes } from 'src/app/share/types';
 import { setStoreInfo } from 'src/app/state/store-info/action';
 import { StoreInfoStoreModule } from 'src/app/state/store-info/store-info.store.module';
+import { AnnounceComponent } from '../../modals/announce/announce.component';
 
 @Component({
   selector: 'uo-restaurant-info',
@@ -35,7 +37,8 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
     private storeServe: StoreService,
     private storeStore$: Store<StoreInfoStoreModule>,
     private winServe: WindowService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private modalService: NgbModal
   ) {}
 
   ngAfterViewChecked(): void {
@@ -114,6 +117,14 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
             } else if (payment_type.in_store) {
               this.winServe.setLocalStorage(storageKeys.payment, '2');
             }
+          }
+          if (this.storeData.announce) {
+            Object.entries(this.storeData.announce).forEach((a) => {
+              const modal = this.modalService.open(AnnounceComponent, {
+                size: 'xl',
+              });
+              modal.componentInstance.announce = a[1];
+            });
           }
           this.cdr.markForCheck();
           this.winServe.setLocalStorage(

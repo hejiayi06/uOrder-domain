@@ -15,6 +15,7 @@ import { PhonePipeModule } from 'src/app/share/pipes/phone/phone.module';
 import { EmptyBagModalModule } from '../modals/empty-bag-modal/empty-bag-modal.module';
 import { SortBySortModule } from 'src/app/share/pipes/sort-by-sort/sort-by-sort.module';
 import { FullFooterModule } from 'src/app/layout/full-footer/full-footer.module';
+import { AnnounceModule } from '../modals/announce/announce.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { FullFooterModule } from 'src/app/layout/full-footer/full-footer.module'
     ItemModalModule,
     PhonePipeModule,
     SortBySortModule,
+    AnnounceModule,
     EmptyBagModalModule,
     FormsModule,
     ReactiveFormsModule,
