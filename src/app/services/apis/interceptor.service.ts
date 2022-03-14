@@ -30,14 +30,11 @@ export class InterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     console.log('interceptor');
-    // console.log('req :>> ', req);
     const auth = this.windowServe.getLocalStorage(storageKeys.auth);
     const merchant_id = this.windowServe.getLocalStorage(storageKeys.merchant);
     const store_id = this.windowServe.getLocalStorage(storageKeys.store);
     const user_id = this.windowServe.getLocalStorage(storageKeys.user);
-    // const needToken = req.headers.get(storageKeys.needToken);
     let httpConfig: CustomHttpConfig = { headers: req.headers };
-    // let reqHeaders = req.headers;
     if (auth) {
       httpConfig.headers = httpConfig.headers?.set(
         'Authorization',

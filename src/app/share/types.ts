@@ -47,6 +47,7 @@ export interface Domain {
 }
 
 export interface StoreRes {
+  announce: any;
   banner: string;
   business_hour?: BusinessHour[];
   length: number;

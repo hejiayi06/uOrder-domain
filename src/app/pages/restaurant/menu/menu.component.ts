@@ -99,8 +99,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   setCategories(): void {
     this.categoriesHeight.forEach((h) => {
       if (
-        window.scrollY > h.offsetTop - 153 &&
-        window.scrollY < h.offsetTop + h.offsetHeight - 153
+        window.scrollY > h.offsetTop - 158 &&
+        window.scrollY < h.offsetTop + h.offsetHeight - 158
       ) {
         if (this.selectedCategoryId !== h.id) {
           this.selectedCategoryId = h.id;

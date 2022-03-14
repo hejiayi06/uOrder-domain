@@ -12,9 +12,16 @@
 <div class="modal-body">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-12 fs-6 fw-bold mb-3">
-        Select a delivery time up to 3 days in advance.
-      </div>
+      <ng-container *ngIf="timeStr; else timeTemplate">
+        <div class="col-12 fs-6 fw-bold mb-3">
+          You select {{ timeStr | date: "M/d/yy, h:mm a" }}
+        </div></ng-container
+      >
+      <ng-template #timeTemplate>
+        <div class="col-12 fs-6 fw-bold mb-3">
+          Select a delivery time up to 3 days in advance.
+        </div>
+      </ng-template>
       <div class="d-flex align-items-center justify-content-center w-100">
         <div
           class="btn-group w-100"
@@ -98,6 +105,7 @@
                   id="day0"
                   autocomplete="off"
                   [(ngModel)]="selectIndex"
+                  (ngModelChange)="timeStr = ''"
                   checked
                 />
                 <label
@@ -113,6 +121,7 @@
                   [value]="1"
                   id="day1"
                   [(ngModel)]="selectIndex"
+                  (ngModelChange)="timeStr = ''"
                   autocomplete="off"
                 />
                 <label
@@ -128,6 +137,7 @@
                   [value]="2"
                   id="day2"
                   [(ngModel)]="selectIndex"
+                  (ngModelChange)="timeStr = ''"
                   autocomplete="off"
                 />
                 <label
