@@ -9,10 +9,15 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CustomTipsModalComponent implements OnInit {
   loading: boolean = false;
-  tipsAmount!: number;
+  tipsAmount!: number | undefined;
   constructor(public activeModal: NgbActiveModal) {}
+
   ngOnInit(): void {}
   updateTips(): void {
     this.activeModal.close(this.tipsAmount);
+  }
+  onFocus(e: Event) {
+    console.log('e :>> ', e);
+    this.tipsAmount = undefined;
   }
 }
