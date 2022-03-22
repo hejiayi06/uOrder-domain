@@ -17,7 +17,11 @@
                 'text-danger': menuGroup['id'] == selectedMenuGroup['id']
               }"
               class="btn btn-sm border rounded fw-bold text-nowrap"
-              (click)="changeGroup(menuGroup)"
+              (click)="
+                changeGroup(menuGroup);
+                $event.preventDefault();
+                $event.stopPropagation()
+              "
             >
               {{ menuGroup?.name }}
             </button>
@@ -32,7 +36,14 @@
           class="d-flex align-items-center"
           *ngIf="categoryView.nativeElement.scrollLeft > 26"
         >
-          <button class="btn categories-button p-1" (click)="onCategoryLeft()">
+          <button
+            class="btn categories-button p-1"
+            (click)="
+              onCategoryLeft();
+              $event.preventDefault();
+              $event.stopPropagation()
+            "
+          >
             <i class="bi bi-caret-left"></i>
           </button>
         </div>
@@ -49,7 +60,11 @@
                   'text-danger': this.selectedCategoryId == category.id
                 }"
                 class="btn category-item-button p-1 nowrap user-select-none border-0"
-                (click)="onCategory(category)"
+                (click)="
+                  onCategory(category);
+                  $event.preventDefault();
+                  $event.stopPropagation()
+                "
               >
                 {{ category.name }}
               </button>
@@ -57,7 +72,14 @@
           </div>
         </div>
         <div class="d-flex align-items-center" *ngIf="rightBtn()">
-          <button class="btn categories-button p-1" (click)="onCategoryRight()">
+          <button
+            class="btn categories-button p-1"
+            (click)="
+              onCategoryRight();
+              $event.preventDefault();
+              $event.stopPropagation()
+            "
+          >
             <i class="bi bi-caret-right"></i>
           </button>
         </div>

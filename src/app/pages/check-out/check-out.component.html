@@ -73,7 +73,16 @@
           </div>
         </div>
       </div>
-
+      <!-- closure danger  -->
+      <div class="row mt-2" *ngIf="checkout?.store?.closure">
+        <div class="w-100">
+          <div
+            class="alert-danger rounded shadow-sm text-center fw-500 p-2 user-select-none"
+          >
+            Store closed!
+          </div>
+        </div>
+      </div>
       <!-- address warning  -->
       <ng-container *ngIf="order_type?.value == 1">
         <div class="row mt-2">
@@ -1106,7 +1115,13 @@
       This is a pickup order
     </div>
   </div>
-
+  <div class="w-100 pb-2 d-lg-none" *ngIf="checkout?.store?.closure">
+    <div
+      class="alert-danger rounded shadow-sm text-center fw-500 p-2 user-select-none"
+    >
+      Store closed!
+    </div>
+  </div>
   <div class="w-100 pb-2 d-lg-none" *ngIf="order_type?.value == 1">
     <div
       class="alert-danger rounded shadow-sm text-center fw-500 p-2 user-select-none"

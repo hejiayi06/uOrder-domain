@@ -242,7 +242,11 @@
     This item is unavailable at this time.
   </div>
   <div class="d-inline-flex justify-content-end align-items-center">
-    <button (click)="onMinus()" type="button" class="btn">
+    <button
+      (click)="onMinus(); $event.preventDefault(); $event.stopPropagation()"
+      type="button"
+      class="btn"
+    >
       <span> <i class="bi bi-dash-circle"></i> </span>
     </button>
     <div class="quantityInput input-group user-select-none">
@@ -262,7 +266,11 @@
         aria-describedby="quantity"
       />
     </div>
-    <button (click)="onPlus()" type="button" class="btn">
+    <button
+      (click)="onPlus(); $event.preventDefault(); $event.stopPropagation()"
+      type="button"
+      class="btn"
+    >
       <span> <i class="bi bi-plus-circle"></i> </span>
     </button>
     <button
