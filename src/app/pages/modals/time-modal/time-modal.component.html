@@ -69,9 +69,9 @@
         <div class="col-12 text-center">
           eta:
           <ng-container
-            *ngIf="orderScheduleValue.note; else defaultTimeTemplate"
+            *ngIf="orderScheduleValue?.note; else defaultTimeTemplate"
           >
-            {{ orderScheduleValue.note }}
+            {{ orderScheduleValue?.note }}
           </ng-container>
           <ng-template #defaultTimeTemplate>20-30 min</ng-template>
         </div>
