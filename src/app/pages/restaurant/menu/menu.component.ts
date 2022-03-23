@@ -107,11 +107,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
           const childNode = this.categoryView.nativeElement.children[
             h.index
           ] as HTMLElement;
-          console.log('123 :>> ', 123);
-          console.log(
-            'childNode.offsetLeft - this.categoryView.nativeElement :>> ',
-            childNode.offsetLeft - this.categoryView.nativeElement.offsetLeft
-          );
+          // console.log(
+          //   'childNode.offsetLeft - this.categoryView.nativeElement :>> ',
+          //   childNode.offsetLeft - this.categoryView.nativeElement.offsetLeft
+          // );
           this.categoryView.nativeElement.scrollTo({
             top: 0,
             left:
