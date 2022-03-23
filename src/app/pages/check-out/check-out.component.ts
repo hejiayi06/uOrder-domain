@@ -59,11 +59,16 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   feeLoading: boolean = false;
   isCheckout: boolean = false;
+  orderScheduleValue!: {
+    endHour: number;
+    endMinute: number;
+    note: string;
+    startHour: number;
+    startMinute: number;
+  };
   deliveryFeeRes!: DeliveryInfo;
   apiLoaded: boolean = false;
   isCustomTips: boolean = false;
-  // address!: UserAddress;
-  // addresses!: UserAddress[];
   addressString!: string;
   addressId!: number;
   tipsId!: number;
@@ -72,7 +77,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   orderType!: OrderType;
   paymentType!: PaymentType;
   minimumPay!: MinimumPay;
-  // servicesTotal: number = 0;
   googleMapCenter!: google.maps.LatLngLiteral;
   googleMapOptions: google.maps.MapOptions = {
     mapTypeId: 'roadmap',
@@ -316,6 +320,35 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     this.payment_type?.patchValue(
       this.checkout.orderParams.paymentType.toString()
     );
+    if (this.checkout.orderSchedule) {
+      const date = new Date();
+      const orderScheduleValueParse = JSON.parse(
+        this.checkout.orderSchedule.value
+      ).find((o: { day: number }) => o.day == date.getDay());
+      console.log('orderScheduleValueParse :>> ', orderScheduleValueParse);
+      this.orderScheduleValue = orderScheduleValueParse.time.find(
+        (t: {
+          startHour: number;
+          endHour: number;
+          startMinute: number;
+          endMinute: number;
+        }) => {
+          const hour = date.getHours();
+          const minute = date.getMinutes();
+          console.log('hour :>> ', hour);
+          console.log('minute :>> ', minute);
+          return (
+            (hour > t.startHour && hour < t.endHour) ||
+            (hour == t.startHour &&
+              minute >= t.startMinute &&
+              hour <= t.endHour) ||
+            (hour == t.endHour && minute <= t.endMinute && hour >= t.startHour)
+          );
+        }
+      );
+      console.log('this.orderScheduleValue :>> ', this.orderScheduleValue);
+    }
+
     this.placeOrderForm
       .get('store_id')
       ?.setValue(this.checkout.orderParams.storeId);
@@ -464,6 +497,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       centered: true,
       scrollable: true,
     });
+    modalRef.componentInstance.orderScheduleValue = this.orderScheduleValue;
+    modalRef.componentInstance.restaurantName = this.checkout.store.store_name;
     modalRef.componentInstance.orderType = this.checkout.orderParams.orderType;
     modalRef.closed.subscribe((res) => {
       this.schedule_time?.patchValue(res);

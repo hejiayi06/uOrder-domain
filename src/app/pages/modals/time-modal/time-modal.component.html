@@ -64,11 +64,19 @@
           <label class="btn btn-outline-danger" for="btnLater">Later</label> -->
         </div>
       </div>
-      <div class="mt-3" *ngIf="timeBtnChecked == 'ASAP'">
-        <div class="col-12 text-center">Restaurant name</div>
-        <div class="col-12 text-center">eta: 25-35 min</div>
+      <div class="mt-3 fw-500" *ngIf="timeBtnChecked == 'ASAP'">
+        <div class="col-12 text-center">{{ restaurantName }}</div>
+        <div class="col-12 text-center">
+          eta:
+          <ng-container
+            *ngIf="orderScheduleValue.note; else defaultTimeTemplate"
+          >
+            {{ orderScheduleValue.note }}
+          </ng-container>
+          <ng-template #defaultTimeTemplate>20-30 min</ng-template>
+        </div>
         <div class="col-12 text-center text-secondary">
-          +20min for orders over $150
+          +20 min for orders over $150
         </div>
       </div>
       <!-- <div class="Today gx-0 mt-3">

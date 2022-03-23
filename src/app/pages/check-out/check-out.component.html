@@ -348,7 +348,17 @@
                   </ng-container>
                   <ng-template #asapTemplate>
                     <ng-container *ngIf="!loading"
-                      >ASAP(35-45min) click to change.</ng-container
+                      >ASAP(
+                      <ng-container
+                        *ngIf="
+                          orderScheduleValue?.note;
+                          else defaultTimeTemplate
+                        "
+                      >
+                        {{ orderScheduleValue?.note }}
+                      </ng-container>
+                      <ng-template #defaultTimeTemplate>20-30 min</ng-template>
+                      ) click to change.</ng-container
                     >
                   </ng-template>
                 </a>

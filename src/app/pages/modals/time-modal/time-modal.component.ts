@@ -16,6 +16,14 @@ import { MessageService } from 'src/app/share/components/message/message.service
 })
 export class TimeModalComponent implements OnInit {
   loading: boolean = false;
+  orderScheduleValue!: {
+    endHour: number;
+    endMinute: number;
+    note: string;
+    startHour: number;
+    startMinute: number;
+  };
+  restaurantName: string = '';
   timeBtnChecked: 'ASAP' | 'Later' = 'ASAP';
   orderType!: string;
   timeStr: string = '';

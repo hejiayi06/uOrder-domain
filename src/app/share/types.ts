@@ -430,9 +430,19 @@ export interface UserAddress {
   created_at: Date;
   updated_at: Date;
 }
+export interface OrderSchedule {
+  created_at: Date;
+  id: number;
+  merchant_id: number;
+  order_type: number;
+  status: number;
+  store_id: number;
+  updated_at: Date;
+  value: string;
+}
 export interface Checkout {
   cart: ShoppingCartItem[];
-  // // store: StoreRes;
+  orderSchedule: OrderSchedule;
   orderParams: {
     notes: string;
     orderType: string;
