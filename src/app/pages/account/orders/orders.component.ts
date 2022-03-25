@@ -7,8 +7,6 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { OrderService } from 'src/app/services/apis/order.service';
-import { ErrorsService } from 'src/app/services/local/errors.service';
-import { MessageService } from 'src/app/share/components/message/message.service';
 import {
   OrderStatus,
   PageBase,
@@ -31,11 +29,9 @@ export class OrdersComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private orderServe: OrderService,
-    private messageServe: MessageService,
     private loadingStore$: Store<LoadingStoreModule>,
     private storeStore$: Store<StoreInfoStoreModule>,
-    private router: Router,
-    private errorServe: ErrorsService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +47,7 @@ export class OrdersComponent implements OnInit {
         this.cdr.markForCheck();
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
-      (err) => {
+      () => {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );
@@ -69,7 +65,7 @@ export class OrdersComponent implements OnInit {
         this.cdr.markForCheck();
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       },
-      (err) => {
+      () => {
         this.loadingStore$.dispatch(setLoading({ loading: false }));
       }
     );

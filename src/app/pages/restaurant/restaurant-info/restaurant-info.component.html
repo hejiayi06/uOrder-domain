@@ -10,11 +10,14 @@
     >
     </span>
     <!-- restaurant logo picture -->
-    <div class="restaurant-logo-wrap rounded border shadow align-items-center">
+    <div
+      class="restaurant-logo-wrap rounded border shadow align-items-center"
+      *ngIf="storeData?.logo"
+    >
       <!-- ; else defaultLogo -->
-      <picture class="restaurant-logo" *ngIf="storeData?.logo">
-        <source sizes="" srcset="{{storeData?.logo}}" />
-        <img src="{{ storeData?.logo }}" class="img-fluid" />
+      <picture class="restaurant-logo">
+        <source [srcset]="storeData?.logo" />
+        <img [src]="storeData?.logo" class="img-fluid" />
       </picture>
       <!-- <ng-template #defaultLogo>
         <picture class="restaurant-logo">

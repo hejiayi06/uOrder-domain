@@ -528,6 +528,7 @@ export interface OrderStatus {
   order_items: OrderItem[];
   order_store: StoreRes;
   order_type: number;
+  order_number: string;
   payment_type: 2;
   phone: string;
   status: number;
@@ -540,6 +541,7 @@ export interface OrderStatus {
   user_id: number;
   cdp: string;
   transaction_id: string;
+  ticket_number: number;
 }
 export interface OrderInfoItem {
   created_at: Date;
@@ -700,6 +702,7 @@ export interface PlacedOrder {
   fees: string;
   feesAmount: string;
   orderId: number;
+  orderNumber: string;
   orderParams: {
     notes: string;
     orderType: string;
@@ -721,6 +724,7 @@ export interface PlacedOrder {
   };
   subtotal: string;
   tax: string;
+  ticketNumber: number;
   tips: string;
   total: string;
 }
