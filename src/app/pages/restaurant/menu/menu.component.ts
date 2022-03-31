@@ -128,7 +128,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('getMenuGroups :>> ', res);
         if (res) {
           if (res.data.items) {
-            this.menuGroups = res.data.items;
+            this.menuGroups = res.data.items.sort((a, b) => a.sort - b.sort);
             this.selectedMenuGroup = this.menuGroups![0];
             if (this.selectedMenuGroup) {
               this.categories = this.selectedMenuGroup.categories.sort(
