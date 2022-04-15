@@ -102,6 +102,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   placeOrderForm = this.fb.group({
     store_id: ['', [Validators.required, Validators.minLength(1)]],
     schedule_time: [''],
+    estimate: ['20-30 min'],
     order_type: [
       { value: '', disabled: this.feeLoading },
       [
@@ -187,6 +188,9 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   get cardName(): AbstractControl | null {
     return this.credit_card.get('name');
   }
+  get estimate(): AbstractControl | null {
+    return this.placeOrderForm.get('estimate');
+  }
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -249,6 +253,9 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           }
         });
         this.setCheckout();
+        if (this.checkout.deliveryInfo.phone) {
+          this.phone_number?.setValue(this.checkout.deliveryInfo.phone);
+        }
         this.initTypes();
         if (this.items.length == 0) {
           this.router.navigate([
@@ -346,6 +353,9 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           );
         }
       );
+      if (this.orderScheduleValue.note) {
+        this.estimate?.patchValue(this.orderScheduleValue.note);
+      }
       console.log('this.orderScheduleValue :>> ', this.orderScheduleValue);
     }
 
@@ -363,9 +373,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         if (this.checkout.deliveryInfo.user_address_id) {
           this.addressId = this.checkout.deliveryInfo.user_address_id;
         }
-        if (this.checkout.deliveryInfo.phone) {
-          this.phone_number?.setValue(this.checkout.deliveryInfo.phone);
-        }
+
       }
     }
     this.store_id?.patchValue(this.checkout.orderParams.storeId);
@@ -792,7 +800,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         tips_id: -1,
         tips_amount: -1,
       });
-      if (res) {
+      if (res || res == 0) {
         this.checkoutForm.get('tips_amount')?.setValue(res);
       } else {
         this.checkoutForm

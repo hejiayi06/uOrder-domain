@@ -16,7 +16,7 @@
       Order number: {{ placedOrder?.orderNumber }}
     </div>
     <div class="w-100 fs-6 fw-500">
-      Order number: {{ placedOrder?.ticketNumber }}
+      Ticket number: {{ placedOrder?.ticketNumber }}
     </div>
   </div>
   <div class="row border-bottom pt-2 pb-2 gx-0">
@@ -55,7 +55,10 @@
       <ng-container
         *ngIf="placedOrder?.orderParams?.scheduleTime; else ASAPTemplate"
       >
-        {{ placedOrder?.orderParams?.scheduleTime }}
+        {{
+          placedOrder?.orderParams?.scheduleTime
+            | date: "MMMM d, y, h:mm:ss a z"
+        }}
       </ng-container>
       <ng-template #ASAPTemplate> ASAP </ng-template>
     </div>
