@@ -252,6 +252,11 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
             return;
           }
         });
+        this.name?.patchValue(
+          this.winServe.getLocalStorage(storageKeys.userFirstName) +
+            ' ' +
+            this.winServe.getLocalStorage(storageKeys.userLastName)
+        );
         this.setCheckout();
         if (this.checkout.deliveryInfo.phone) {
           this.phone_number?.setValue(this.checkout.deliveryInfo.phone);
@@ -373,7 +378,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         if (this.checkout.deliveryInfo.user_address_id) {
           this.addressId = this.checkout.deliveryInfo.user_address_id;
         }
-
       }
     }
     this.store_id?.patchValue(this.checkout.orderParams.storeId);

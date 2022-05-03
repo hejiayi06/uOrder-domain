@@ -68,6 +68,14 @@ export class SignInComponent implements OnInit {
         this.messageServe.success('Login');
         this.winServe.setLocalStorage(storageKeys.auth, res.data.token);
         this.winServe.setLocalStorage(storageKeys.user, res.data.user_id);
+        this.winServe.setLocalStorage(
+          storageKeys.userFirstName,
+          res.data.first_name
+        );
+        this.winServe.setLocalStorage(
+          storageKeys.userLastName,
+          res.data.last_name
+        );
         this.shoppingCartServe
           .renewShoppingCart(
             this.winServe.getLocalStorage(storageKeys.anonymous) as string

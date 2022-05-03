@@ -110,6 +110,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         (res) => {
           this.winServe.removeLocalStorage(storageKeys.auth);
           this.winServe.removeLocalStorage(storageKeys.user);
+          this.winServe.removeLocalStorage(storageKeys.userFirstName);
+          this.winServe.removeLocalStorage(storageKeys.userLastName);
           this.loadingStore$.dispatch(setLoading({ loading: false }));
           this.shoppingCartStore$.dispatch(
             setShoppingCartLength({ length: 0 })
@@ -125,6 +127,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         (err) => {
           this.winServe.removeLocalStorage(storageKeys.auth);
           this.winServe.removeLocalStorage(storageKeys.user);
+          this.winServe.removeLocalStorage(storageKeys.userFirstName);
+          this.winServe.removeLocalStorage(storageKeys.userLastName);
           this.loadingStore$.dispatch(setLoading({ loading: false }));
           this.shoppingCartStore$.dispatch(
             setShoppingCartLength({ length: 0 })

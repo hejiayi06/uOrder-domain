@@ -9,4 +9,6 @@ export const storageKeys = {
   orderStatus: 'orderStatus',
   payment: 'payment',
   storeInfo: 'storeInfo',
+  userFirstName: 'userFirstName',
+  userLastName: 'userLastName',
 };
