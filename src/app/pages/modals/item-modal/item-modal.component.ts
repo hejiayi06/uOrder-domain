@@ -23,6 +23,7 @@ import { storageKeys } from 'src/app/share/configs';
 import {
   DiningTime,
   Item,
+  MenuSectionConnection,
   MenuSectionItem,
   MenuSectionModify,
   MenuVariants,
@@ -195,7 +196,9 @@ export class ItemModalComponent implements OnInit, OnDestroy {
       );
     });
   }
-
+  sort(sections: MenuSectionConnection[]): MenuSectionConnection[] | undefined {
+    return sections?.sort((a: any, b: any) => a - b);
+  }
   checkPrice() {
     this.totalPrice = (
       (parseFloat(this.itemPrice) + parseFloat(this.variantPrice)) *

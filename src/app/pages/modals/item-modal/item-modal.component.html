@@ -133,7 +133,10 @@
       >
         <div
           class="col-12 border-bottom pt-2 pb-2"
-          *ngFor="let sec of sItem?.menu_item_to_sections!; let si = index"
+          *ngFor="
+            let sec of sort(sItem?.menu_item_to_sections!);
+            let si = index
+          "
         >
           <uo-section-array [formControlName]="si" [section]="sec" [index]="si">
             <!-- section items -->
