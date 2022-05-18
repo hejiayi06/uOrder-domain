@@ -252,11 +252,13 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
             return;
           }
         });
-        this.name?.patchValue(
-          this.winServe.getLocalStorage(storageKeys.userFirstName) +
-            ' ' +
-            this.winServe.getLocalStorage(storageKeys.userLastName)
+        let first_name = this.winServe.getLocalStorage(
+          storageKeys.userFirstName
         );
+        let last_name = this.winServe.getLocalStorage(storageKeys.userLastName);
+        if (first_name && last_name) {
+          this.name?.patchValue(first_name + ' ' + last_name);
+        }
         this.setCheckout();
         if (this.checkout.deliveryInfo.phone) {
           this.phone_number?.setValue(this.checkout.deliveryInfo.phone);
@@ -358,8 +360,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           );
         }
       );
-      if (this.orderScheduleValue.note) {
-        this.estimate?.patchValue(this.orderScheduleValue.note);
+      if (this.orderScheduleValue?.note) {
+        this.estimate?.patchValue(this.orderScheduleValue?.note);
       }
       console.log('this.orderScheduleValue :>> ', this.orderScheduleValue);
     }
