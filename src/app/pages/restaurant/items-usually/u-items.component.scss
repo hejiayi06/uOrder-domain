@@ -17,6 +17,8 @@
 
     .item-description {
       text-transform: none;
+      display: -webkit-box;
+      /*! autoprefixer: off */
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       max-height: 2.5rem;
