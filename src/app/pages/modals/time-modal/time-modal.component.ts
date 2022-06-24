@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import {
   Component,
   OnInit,
@@ -34,8 +33,7 @@ export class TimeModalComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private scheduleServe: ScheduleTimeService,
     private messageServe: MessageService,
-    private cdr: ChangeDetectorRef,
-    private datepipe: DatePipe
+    private cdr: ChangeDetectorRef
   ) {}
   ngOnInit(): void {}
   later(): void {
@@ -61,7 +59,6 @@ export class TimeModalComponent implements OnInit {
     );
   }
   saveTime(): void {
-    const time = this.datepipe.transform(this.timeStr, 'M/d/yy, h:mm a');
-    this.activeModal.close(this.time);
+    this.activeModal.close(this.timeStr);
   }
 }
