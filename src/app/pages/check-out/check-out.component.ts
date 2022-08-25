@@ -232,7 +232,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     observer.observe(this.bannersElement.nativeElement, config);
   }
 
-  getCheckout(addressId?: string): void {
+  getCheckout(): void {
     this.loading = true;
     this.cdr.markForCheck();
     this.checkoutForm = this.fb.group({
@@ -281,7 +281,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         );
         this.cdr.detectChanges();
       },
-      (err) => {
+      () => {
         this.endLoading();
       }
     );

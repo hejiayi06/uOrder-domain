@@ -85,6 +85,12 @@
         </div>
       </div>
     </div>
+    <div class="row fs-4 fw-bold p-4" *ngIf="!menuGroups?.length">
+      No menu groups available for now
+    </div>
+    <div class="row fs-5 fw-bold p-4" *ngIf="!categories?.length">
+      No categories available for now
+    </div>
   </nav>
 </div>
 <div class="container-xl">

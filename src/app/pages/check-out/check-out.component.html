@@ -340,11 +340,15 @@
                 >
                   <ng-container
                     *ngIf="
-                      checkout?.orderParams?.scheduleTime;
+                      this.schedule_time?.value ||
+                        checkout?.orderParams?.scheduleTime;
                       else asapTemplate
                     "
                   >
-                    {{ checkout?.orderParams?.scheduleTime | date: "short" }}
+                    {{
+                      this.schedule_time?.value ||
+                        checkout?.orderParams?.scheduleTime | date: "short"
+                    }}
                   </ng-container>
                   <ng-template #asapTemplate>
                     <ng-container *ngIf="!loading"

@@ -128,12 +128,14 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('getMenuGroups :>> ', res);
         if (res) {
           if (res.data.items) {
-            this.menuGroups = res.data.items.sort((a, b) => a.sort - b.sort);
+            this.menuGroups = res.data.items
+              .filter((group) => group.status)
+              .sort((a, b) => a.sort - b.sort);
             this.selectedMenuGroup = this.menuGroups![0];
             if (this.selectedMenuGroup) {
-              this.categories = this.selectedMenuGroup.categories.sort(
-                (a, b) => a.sort - b.sort
-              );
+              this.categories = this.selectedMenuGroup.categories
+                .filter((category) => category.status)
+                .sort((a, b) => a.sort - b.sort);
             }
           }
           this.cdr.markForCheck();
@@ -167,9 +169,9 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
   changeGroup(group: Group): void {
     this.selectedMenuGroup = group;
     if (this.selectedMenuGroup) {
-      this.categories = this.selectedMenuGroup.categories.sort(
-        (a, b) => a.sort - b.sort
-      );
+      this.categories = this.selectedMenuGroup.categories
+        .filter((c) => c.status)
+        .sort((a, b) => a.sort - b.sort);
       this.selectedCategoryId = this.categories[0].id;
       this.onCategory(this.categories[0]);
       this.setHeights();
