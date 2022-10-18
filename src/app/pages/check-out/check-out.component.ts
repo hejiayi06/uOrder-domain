@@ -46,8 +46,8 @@ import { AddCouponComponent } from '../modals/add-coupon/add-coupon.component';
 import { PromotionService } from 'src/app/services/apis/promotion.service';
 import { ModalDeleteComponent } from '../modals/delete/modal-delete/modal-delete.component';
 import { cloneDeep } from 'lodash';
-import { ErrorsService } from 'src/app/services/local/errors.service';
 import { NameModalComponent } from '../modals/name-modal/name-modal.component';
+import { UserNameService } from 'src/app/services/apis/user-name.service';
 
 @Component({
   selector: 'uo-check-out',
@@ -66,6 +66,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     startHour: number;
     startMinute: number;
   };
+  submitName:string|null = null;
+  coupon_number:string = "";
   deliveryFeeRes!: DeliveryInfo;
   apiLoaded: boolean = false;
   isCustomTips: boolean = false;
@@ -98,11 +100,10 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   @ViewChild('creditCardNumber') ccNumberField!: ElementRef;
   @ViewChild('expirationDate') expirationDateField!: ElementRef;
   @ViewChild('banners') bannersElement!: ElementRef;
-
   placeOrderForm = this.fb.group({
     store_id: ['', [Validators.required, Validators.minLength(1)]],
-    schedule_time: [''],
     estimate: ['20-30 min'],
+    schedule_time: [''],
     order_type: [
       { value: '', disabled: this.feeLoading },
       [
@@ -111,7 +112,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         Validators.minLength(1),
       ],
     ],
-    name: [''],
+    name: ['',Validators.required],
     phone_number: [
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(14)],
@@ -202,14 +203,17 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     private shoppingCartStore$: Store<ShoppingCartStoreModule>,
     private placedOrderStore$: Store<PlacedOrderStoreModule>,
     private promoServe: PromotionService,
-    private errorServe: ErrorsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userServe: UserNameService,
   ) {}
   ngAfterViewInit(): void {
     this.getFixedBox();
   }
   ngOnInit(): void {
     this.getCheckout();
+    this.userServe.getName().subscribe((res) => {
+      this.submitName = res.data.item.name == null ? localStorage.getItem('userFirstName') + ' ' + localStorage.getItem('userLastName') : res.data.item.name
+    })
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationEnd)) {
         return;
@@ -227,7 +231,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     const observer = new MutationObserver((mutation) => {
       this.placeOrderBoxHeight = this.bannersElement.nativeElement.clientHeight;
       this.cdr.markForCheck();
-      // console.log('placeOrderBoxHeight :>> ', this.placeOrderBoxHeight);
     });
     observer.observe(this.bannersElement.nativeElement, config);
   }
@@ -238,7 +241,10 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     this.checkoutForm = this.fb.group({
       show_item: [1],
     });
-
+    // if (this.store.tips.length) {
+    //   this.tipsId = this.store.tips[0].id;
+    //   this.checkoutForm.addControl('tips_id', this.fb.control(this.tipsId));
+    // }
     this.checkoutServe.getCheckout(this.checkoutForm.value).subscribe(
       (res) => {
         this.checkout = res.data;
@@ -252,21 +258,14 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
             return;
           }
         });
-        let first_name = this.winServe.getLocalStorage(
-          storageKeys.userFirstName
-        );
-        let last_name = this.winServe.getLocalStorage(storageKeys.userLastName);
-        if (first_name && last_name) {
-          this.name?.patchValue(first_name + ' ' + last_name);
-        }
         this.setCheckout();
+        this.initTypes();
         if (this.checkout.deliveryInfo.phone) {
           this.phone_number?.setValue(this.checkout.deliveryInfo.phone);
         }
-        this.initTypes();
         if (this.items.length == 0) {
           this.router.navigate([
-            'restaurant/' + this.checkout.orderParams.storeId,
+            'store/' + this.checkout.orderParams.storeId,
           ]);
           this.messageServe.warning('No item founded!');
         }
@@ -287,6 +286,21 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     );
   }
   setCheckout(): void {
+    // if (
+    //   !this.checkout.orderParams.orderType ||
+    //   !this.checkout.orderParams.paymentType
+    // ) {
+    //   this.messageServe.danger(
+    //     'Store data exception. Cannot execute checkout! Please contact store or admins!'
+    //   );
+    //   this.router.navigateByUrl('restaurant/' + this.checkout.store.id);
+    // }
+    // if (!this.checkout.store.latitude || !this.checkout.store.longitude) {
+    //   this.messageServe.danger(
+    //     'Store latitude and longitude required. Cannot execute checkout! Please contact store or admins!'
+    //   );
+    //   this.router.navigateByUrl('restaurant/' + this.checkout.store.id);
+    // }
     this.tipsAmount = this.checkout.tips;
     console.log('this.tipsAmount :>> ', this.tipsAmount);
     this.tipsId = this.checkout.orderParams.tips.id;
@@ -318,22 +332,6 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       JSON.stringify(this.checkout.store)
     );
 
-    this.googleMapCenter = this.googleMapOptions.center = {
-      lat: parseFloat(this.checkout.store.latitude) as any,
-      lng: parseFloat(this.checkout.store.longitude) as any,
-    };
-    this.marker = {
-      position: {
-        lat: parseFloat(this.checkout.store.latitude),
-        lng: parseFloat(this.checkout.store.longitude),
-      },
-    };
-    // this.tipsId = this.checkout.store.tips[0].id;
-    this.order_type?.patchValue(this.checkout.orderParams.orderType.toString());
-    console.log('order_type :>> ', this.order_type!.value);
-    this.payment_type?.patchValue(
-      this.checkout.orderParams.paymentType.toString()
-    );
     if (this.checkout.orderSchedule) {
       const date = new Date();
       const orderScheduleValueParse = JSON.parse(
@@ -344,6 +342,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         (t: {
           startHour: number;
           endHour: number;
+          note: string;
           startMinute: number;
           endMinute: number;
         }) => {
@@ -360,11 +359,28 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
           );
         }
       );
-      if (this.orderScheduleValue?.note) {
+      if (this.orderScheduleValue?.note!) {
         this.estimate?.patchValue(this.orderScheduleValue?.note);
       }
       console.log('this.orderScheduleValue :>> ', this.orderScheduleValue);
     }
+
+    this.googleMapCenter = this.googleMapOptions.center = {
+      lat: parseFloat(this.checkout.store.latitude) as any,
+      lng: parseFloat(this.checkout.store.longitude) as any,
+    };
+    this.marker = {
+      position: {
+        lat: parseFloat(this.checkout.store.latitude),
+        lng: parseFloat(this.checkout.store.longitude),
+      },
+    };
+    // this.tipsId = this.checkout.store.tips[0].id;
+    this.order_type?.patchValue(this.checkout.orderParams.orderType.toString());
+    console.log('order_type :>> ', this.order_type!.value);
+    this.payment_type?.patchValue(
+      this.checkout.orderParams.paymentType.toString()
+    );
 
     this.placeOrderForm
       .get('store_id')
@@ -396,6 +412,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       this.tipsAmount = '0';
       this.isCustomTips = true;
       this.placeOrderForm.removeControl('delivery_address');
+      // this.phone_number?.patchValue(this.checkout)
     }
     if (this.checkout.orderParams.paymentType.toString() == '1') {
       this.placeOrderForm.addControl(
@@ -515,9 +532,9 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.restaurantName = this.checkout.store.store_name;
     modalRef.componentInstance.orderType = this.checkout.orderParams.orderType;
     modalRef.closed.subscribe((res) => {
+      console.log('changeTime :>> ', res);
       this.schedule_time?.patchValue(res);
       this.checkout.orderParams.scheduleTime = res;
-      console.log('res :>> ', res);
       this.cdr.markForCheck();
     });
   }
@@ -528,8 +545,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     });
     modalRef.closed.subscribe((res) => {
       if (res) {
-        this.name?.setValue(res);
-        console.log('this.phone_number.value :>> ', this.name?.value);
+        this.name?.patchValue(res);
         this.cdr.markForCheck();
       }
     });
@@ -608,6 +624,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
         });
       },
       (err) => {
+        this.messageServe.danger('Something wrong!');
         this.endLoading();
       }
     );
@@ -798,7 +815,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       this.feeLoading = true;
       this.tipsId = -1;
       this.cdr.markForCheck();
-      console.log('res :>> ', res);
+      console.log('CustomTipsModalRes :>> ', res);
       this.checkoutForm = this.fb.group({
         order_type: this.checkout.orderParams.orderType,
         payment_type: this.checkout.orderParams.paymentType,
@@ -833,14 +850,14 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     });
   }
   addCoupon(): void {
-    const modalRef = this.modalService.open(AddCouponComponent, {
-      centered: true,
-      scrollable: true,
-    });
-    modalRef.closed.subscribe((res) => {
-      console.log('addCoupon :>> ', res);
+    // const modalRef = this.modalService.open(AddCouponComponent, {
+    //   centered: true,
+    //   scrollable: true,
+    // });
+    // modalRef.closed.subscribe((res) => {
+    //   console.log('addCoupon :>> ', res);
       const promoForm = this.fb.group({
-        coupon_number: [res],
+        coupon_number: [this.coupon_number],
         merchant_id: [this.checkout.store.merchant_id],
         store_id: [this.checkout.store.id],
       });
@@ -863,14 +880,16 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
               }
             }
             this.loading = false;
+            this.coupon_number = '';
             this.cdr.markForCheck();
           },
           (err) => {
+            this.messageServe.danger(err.error.message);
             this.loading = false;
             this.cdr.markForCheck();
           }
         );
-    });
+    // });
   }
   deleteCoupon(coupon: string): void {
     const modalRef = this.modalService.open(ModalDeleteComponent, {
@@ -891,8 +910,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   }
   navigateToRestaurant(): void {
     this.router.navigate([
-      // 'restaurant/' + this.winServe.getLocalStorage(storageKeys.store),
-      '',
+      'store/' + this.winServe.getLocalStorage(storageKeys.store),
     ]);
   }
 
@@ -971,4 +989,20 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       }
     );
   }
+  test(): void {
+    console.log('this.placeOrderForm ', this.placeOrderForm);
+  }
+  // private setCurrentPosition() {
+  //   if ('geolocation' in navigator) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       // this.googleMapCenter = this.googleMapOptions.center = {
+  //       //   lat: position.coords.latitude,
+  //       //   lng: position.coords.longitude,
+  //       // };
+  //       console.log('this.googleMapCenter :>> ', this.googleMapCenter);
+  //       this.googleMapOptions.zoom = 12;
+  //       this.cdr.markForCheck();
+  //     });
+  //   }
+  // }
 }

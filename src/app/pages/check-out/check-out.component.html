@@ -32,6 +32,7 @@
       <!-- header  -->
       <div class="d-flex mt-2 mt-lg-4">
         <img [src]="checkout?.store?.logo" class="pic rounded border" />
+        <!-- <div class="pic"></div> -->
         <div class="d-flex justify-content-center flex-fill flex-column ps-2">
           <div class="text-secondary fw-bolder fs-7 user-select-none">
             ORDER FROM
@@ -63,6 +64,7 @@
           </div>
         </div>
       </div>
+
       <!-- pickup warning  -->
       <div class="row mt-2" *ngIf="order_type?.value == '2'">
         <div class="w-100">
@@ -352,8 +354,7 @@
                   </ng-container>
                   <ng-template #asapTemplate>
                     <ng-container *ngIf="!loading"
-                      >ASAP(
-                      <ng-container
+                      >ASAP (<ng-container
                         *ngIf="
                           orderScheduleValue?.note;
                           else defaultTimeTemplate
@@ -361,8 +362,8 @@
                       >
                         {{ orderScheduleValue?.note }}
                       </ng-container>
-                      <ng-template #defaultTimeTemplate>20-30 min</ng-template>
-                      ) click to change.</ng-container
+                      <ng-template #defaultTimeTemplate>20-30 min</ng-template>)
+                      click to change.</ng-container
                     >
                   </ng-template>
                 </a>
@@ -388,7 +389,7 @@
               <div
                 class="col-12 col-lg-9 d-flex flex-column justify-content-center"
               >
-                <ng-container
+                <!-- <ng-container
                   *ngIf="!name?.value && !loading; else nameTemplate"
                 >
                   <a
@@ -397,19 +398,31 @@
                   >
                     Please click to change.</a
                   >
-                </ng-container>
+                </ng-container> -->
+                <div class="input-group input-group-sm has-validation mt-2 checkout-input">
+                  <input
+                  *ngIf="!loading"
+                  type="text"
+                  autocomplete="off"
+                  formControlName="name"
+                  class="form-control w-50"
+                  [(ngModel)]="submitName"
+                  aria-label="card-holder"
+                  aria-describedby="card holder"
+                />
+                </div>
               </div>
               <ng-template #nameTemplate>
                 <div class="fs-6">{{ name?.value }}</div>
               </ng-template>
             </div>
             <div class="d-flex align-items-center justify-content-end">
-              <a
+              <!-- <a
                 class="d-lg-none text-lg-start text-end text-danger user-select-none"
                 (click)="changeName()"
               >
                 Change
-              </a>
+              </a> -->
             </div>
           </div>
           <!-- address -->
@@ -468,6 +481,8 @@
                     *ngIf="checkout?.store as storeRes"
                   >
                     {{ storeRes?.address + "," }}&nbsp;
+                    <!-- <ng-container ngif></ng-container> -->
+
                     {{ storeRes?.city + "," | titlecase }}&nbsp;
                     {{ storeRes?.state + "," | uppercase }}&nbsp;
                     {{ storeRes?.zipcode }}
@@ -823,6 +838,10 @@
               </div>
             </div>
             <div class="col-12 col-lg-9" *ngIf="!loading">
+              <div class="input-group input-group-sm has-validation mt-2 checkout-input">
+                <input class="form-control" [(ngModel)]="coupon_number" [ngModelOptions]="{standalone: true}"/>
+                <button class="btn btn-sm btn-outline-danger text-nowrap fw-500" (click)="addCoupon()">Apply</button>
+              </div>
               <ng-container
                 *ngFor="let coupon of checkout?.coupons; let i = index"
               >
@@ -836,10 +855,9 @@
                   </button>
                 </div>
               </ng-container>
-
-              <a class="fs-6 fw-500 text-danger mt-2" (click)="addCoupon()">
+              <!-- <a class="fs-6 fw-500 text-danger mt-2" (click)="addCoupon()">
                 Add Coupon Code</a
-              >
+              > -->
             </div>
           </div>
           <!-- summary -->
@@ -1160,7 +1178,6 @@
       Credit card information missing!
     </div>
   </div>
-
   <div class="w-100 d-flex align-items-center justify-content-center pt-2 pb-2">
     <button
       class="col-12 col-lg-6 btn btn-danger shadow-sm fs-6"

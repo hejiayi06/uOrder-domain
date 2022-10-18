@@ -42,11 +42,11 @@
           <div class="option-header-left col-9">
             <div class="option-name user-select-none">Size</div>
             <!-- <div
-                    class="option-select text-wrap user-select-none"
-                    *ngIf="itemVariant?.errors as errors"
-                  >
-                    select 1
-                  </div> -->
+                class="option-select text-wrap user-select-none"
+                *ngIf="itemVariant?.errors as errors"
+              >
+                select 1
+              </div> -->
           </div>
           <div class="option-header-right col-3 user-select-none">
             <span
@@ -81,51 +81,6 @@
           </div>
         </div>
       </div>
-      <!-- modify -->
-      <div
-        [ngClass]="{ 'border-bottom': sItem?.menu_item_to_modifies?.length }"
-        class="col-12 pt-2 pb-2"
-        *ngIf="sItem?.menu_item_to_modifies?.length"
-      >
-        <div class="option-header row">
-          <div class="option-header-left col-9">
-            <div class="option-name text-dark user-select-none">Optional</div>
-            <!-- select numbers -->
-            <!-- <div class="option-select text-wrap">
-                  select 3
-                </div> -->
-          </div>
-          <!-- required  -->
-          <!-- <div class="option-header-right col-3">
-                <span class="text-wrap text-center bg-danger shadow-sm required-tag">Required</span>
-              </div> -->
-        </div>
-        <uo-modify-array formControlName="itemModifies">
-          <div
-            class="row mt-1"
-            *ngFor="let modify of sItem?.menu_item_to_modifies"
-          >
-            <div class="col-9 user-select-none">
-              <div class="form-check user-select-none">
-                <uo-modify-check
-                  [modify]="modify"
-                  [value]="modify"
-                  [(ngModel)]="modify.checked"
-                  [ngModelOptions]="{ standalone: true }"
-                  (ngModelChange)="
-                    modifyChange($event, (modify?.menu_modify)![0]?.price!)
-                  "
-                >
-                </uo-modify-check>
-              </div>
-            </div>
-            <div class="col-3 text-end user-select-none">
-              ${{ (modify?.menu_modify)![0]?.price }}
-            </div>
-          </div>
-        </uo-modify-array>
-      </div>
-
       <!-- section -->
       <div
         formArrayName="itemSections"
@@ -207,7 +162,50 @@
         </div>
       </div>
     </div>
-
+     <!-- modify -->
+     <div
+     [ngClass]="{ 'border-bottom': sItem?.menu_item_to_modifies?.length }"
+     class="col-12 pt-2 pb-2"
+     *ngIf="sItem?.menu_item_to_modifies?.length"
+   >
+     <div class="option-header row">
+       <div class="option-header-left col-9">
+         <div class="option-name text-dark user-select-none">Optional</div>
+         <!-- select numbers -->
+         <!-- <div class="option-select text-wrap">
+               select 3
+             </div> -->
+       </div>
+       <!-- required  -->
+       <!-- <div class="option-header-right col-3">
+             <span class="text-wrap text-center bg-danger shadow-sm required-tag">Required</span>
+           </div> -->
+     </div>
+     <uo-modify-array formControlName="itemModifies">
+       <div
+         class="row mt-1"
+         *ngFor="let modify of sItem?.menu_item_to_modifies"
+       >
+         <div class="col-9 user-select-none">
+           <div class="form-check user-select-none">
+             <uo-modify-check
+               [modify]="modify"
+               [value]="modify"
+               [(ngModel)]="modify.checked"
+               [ngModelOptions]="{ standalone: true }"
+               (ngModelChange)="
+                 modifyChange($event, (modify?.menu_modify)![0]?.price!)
+               "
+             >
+             </uo-modify-check>
+           </div>
+         </div>
+         <div class="col-3 text-end user-select-none">
+           ${{ (modify?.menu_modify)![0]?.price }}
+         </div>
+       </div>
+     </uo-modify-array>
+   </div>
     <!-- instructions -->
     <div class="row mb-2">
       <div class="col-12">
@@ -247,7 +245,7 @@
     <button
       (click)="onMinus(); $event.preventDefault(); $event.stopPropagation()"
       type="button"
-      class="btn"
+      class="btn user-select-none"
     >
       <span> <i class="bi bi-dash-circle"></i> </span>
     </button>
@@ -271,7 +269,7 @@
     <button
       (click)="onPlus(); $event.preventDefault(); $event.stopPropagation()"
       type="button"
-      class="btn"
+      class="btn user-select-none"
     >
       <span> <i class="bi bi-plus-circle"></i> </span>
     </button>
