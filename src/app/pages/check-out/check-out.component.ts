@@ -220,6 +220,31 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       }
       window.scrollTo(0, 0);
     });
+    if(!this.orderType?.['1']&&this.orderType?.['2']){
+      this.placeOrderForm.removeControl('delivery_address');
+      console.log('this.placeOrderForm.value :>> ', this.placeOrderForm.value);
+      this.feeLoading = true;
+      this.cdr.markForCheck();
+      this.winServe.setLocalStorage(storageKeys.orderStatus, '2');
+      this.checkoutForm = this.fb.group({
+        order_type: '2',
+        payment_type: this.checkout.orderParams.paymentType,
+      });
+      this.setTips();
+      console.log('this.checkoutForm.value :>> ', this.checkoutForm.value);
+      this.checkoutServe.getCheckout(this.checkoutForm.value).subscribe(
+        (res) => {
+          this.checkout = res.data;
+          console.log('getCheckout :>> ', this.checkout);
+          this.setCheckout();
+          // this.getFixedBox();
+          this.endLoading();
+        },
+        (err) => {
+          this.endLoading();
+        }
+      );
+    }
   }
 
   getFixedBox(): void {
@@ -948,6 +973,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     }
     this.store_id?.patchValue(this.checkout.store.id);
     console.log('this.placeOrderForm.value:>> ', this.placeOrderForm.value);
+    let temp = this.placeOrderForm.get('notes')?.value.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,'');
+    this.placeOrderForm.get('notes')?.setValue(temp);
     this.checkoutServe.placeOrder(this.placeOrderForm.value).subscribe(
       (res) => {
         console.log('res :>> ', res);

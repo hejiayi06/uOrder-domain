@@ -411,6 +411,8 @@ export class ItemModalComponent implements OnInit, OnDestroy {
         ) as string;
       }
       console.log('anonymous_id :>> ', anonymous_id);
+      let temp = this.itemForm.get('itemInstructions')?.value.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g,'');
+      this.itemForm.get('itemInstructions')?.setValue(temp);
       this.shoppingCartServe
         .addToAnonymousShoppingCart(this.itemForm.value, anonymous_id)
         .subscribe(
