@@ -212,7 +212,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.getCheckout();
     this.userServe.getName().subscribe((res) => {
-      this.submitName = res.data.item.name == null ? localStorage.getItem('userFirstName') + ' ' + localStorage.getItem('userLastName') : res.data.item.name
+      this.submitName = res.data.item.name == null ? localStorage.getItem('userFirstName') + ' ' + localStorage.getItem('userLastName') : res.data.item.name;
+      this.placeOrderForm.controls['name'].setValue(this.submitName);
     })
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationEnd)) {
@@ -580,6 +581,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
       centered: true,
       scrollable: true,
     });
+    modalRef.componentInstance.data = this.phone_number?.value;
     modalRef.closed.subscribe((res) => {
       if (res) {
         this.phone_number?.setValue(res);

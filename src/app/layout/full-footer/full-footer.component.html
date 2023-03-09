@@ -26,8 +26,11 @@
               "
             >
               {{ store?.address + "," }}&nbsp;
+              <ng-container *ngIf="store?.optional"
+                >{{ store?.optional + "," }} </ng-container
+              >&nbsp;
               {{ store?.city + "," | titlecase }}&nbsp;
-              {{ store?.state + "," | uppercase }}&nbsp;
+              {{ store?.state + "," | titlecase }}&nbsp;
               {{ store?.zipcode }}
             </div>
           </div>
@@ -82,7 +85,16 @@
       <div class="col-12 col-xl-3 d-flex flex-column">
         <div class="col-12 fs-5 fw-bold text-start mt-3 mb-3">Social Links</div>
         <div class="col-12 d-inline-flex">
-          <a
+          <a *ngFor="let item of store?.social_media; let i = index"
+          href={{item.link}}
+          [ngClass]="i === 0 ? 'fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2 pe-2' : 'fs-6 fw-bold mt-1 mb-1 text-dark text-start p-2'"
+          ><i *ngIf="item.key.includes('linkedin')" class="bi bi-linkedin"></i>
+          <i *ngIf="item.key.includes('facebook')" class="bi bi-facebook"></i>
+          <i *ngIf="item.key.includes('instagram')" class="bi bi bi-instagram"></i>
+          <i *ngIf="item.key.includes('twitter')" class="bi bi bi-twitter"></i>
+          <i *ngIf="item.key.includes('wechat')" class="bi bi bi-wechat"></i>
+        </a>
+          <!-- <a
             href="https://www.linkedin.com/company/universal-processing-llc"
             class="fs-6 fw-bold mt-1 mb-1 text-dark text-start pt-2 pb-2 pe-2"
             ><i class="bi bi-linkedin"></i>
@@ -101,7 +113,7 @@
             href="https://twitter.com/UProcessing"
             class="fs-6 fw-bold mt-1 mb-1 text-dark text-start p-2"
             ><i class="bi bi-twitter"></i>
-          </a>
+          </a> -->
         </div>
       </div>
       <div class="col-12 col-xl-3 d-flex flex-column">
@@ -136,14 +148,9 @@
       </div>
       <div class="col-4"></div>
       <div class="col-12">
-        Universal Processing LLC is a registered Independent Sales Organization
-        of Wells Fargo Bank, N.A., Concord, CA, and The Fifth Third Bank, N.A.,
-        Cincinnati, OH.
-      </div>
-      <div class="col-12">
-        The Clover name and logo are owned by Clover Network, Inc. a wholly
-        owned subsidiary of First Data corporation, and are registered or used
-        in the U.S. and many foreign countries.
+        Universal Processing LLC is a registered ISO of MVB Bank Inc, Fairmont,
+        WV 26554, Wells Fargo Bank, N.A., Concord, CA, and The Fifth Third Bank,
+        N.A., Cincinnati, OH.
       </div>
     </div>
     <div class="row">

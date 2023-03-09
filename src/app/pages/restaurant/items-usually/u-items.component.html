@@ -51,7 +51,7 @@
       <span
         class="note-text user-select-none"
         *ngIf="
-          menuItem.quantity == 1 ||
+           menuItem.out_of_stock == 1 ||
           (menuItem.is_inventory && menuItem.quantity <= 0)
         "
         >out of stock</span

@@ -58,6 +58,7 @@ export interface StoreRes {
   email: string;
   email_verified_at: string;
   id: number;
+  social_media:any[];
   latitude: string;
   logo: string;
   longitude: string;

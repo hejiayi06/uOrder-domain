@@ -276,7 +276,7 @@
     <button
       type="button"
       class="btn btn-danger add-to-cart-button ms-2"
-      [disabled]="loading || !itemForm.valid || !itemShow()"
+      [disabled]="loading || !itemForm.valid || !itemShow() || sItem.out_of_stock == 1 || (sItem.is_inventory == 1 && sItem.quantity <= 0)"
       (click)="onSubmit()"
     >
       <span
