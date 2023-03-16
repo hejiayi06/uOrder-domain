@@ -69,7 +69,7 @@ export interface StoreRes {
   status: number;
   store_name: string;
   address: string;
-  time_zone: null;
+  time_zone: any;
   updated_at: Date;
   zipcode: number;
   delivery_distance: DeliveryFee[];

@@ -120,10 +120,25 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
           }
           if (this.storeData.announce) {
             Object.entries(this.storeData.announce).forEach((a) => {
-              const modal = this.modalService.open(AnnounceComponent, {
-                size: 'xl',
-              });
-              modal.componentInstance.announce = a[1];
+              let expired = JSON.parse(JSON.parse((a[1] as string)).expired);
+              if(expired != null){
+                const today = new Date();
+                const date = new Date();
+                date.setFullYear(expired.year,expired.month - 1,expired.day);
+                date.setHours(0,0,0,0);
+                console.log(today.getTime() < date.getTime(),today.getTime(), date.getTime())
+                if(today.getTime() < date.getTime()){
+                  const modal = this.modalService.open(AnnounceComponent, {
+                    size: 'xl',
+                  });
+                  modal.componentInstance.announce = a[1];
+                }
+              }else if(expired == null){
+                const modal = this.modalService.open(AnnounceComponent, {
+                  size: 'xl',
+                });
+                modal.componentInstance.announce = a[1];
+              }
             });
           }
           this.cdr.markForCheck();
@@ -131,6 +146,10 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
             storageKeys.storeInfo,
             JSON.stringify(data.data)
           );
+          this.winServe.setLocalStorage(
+            storageKeys.timeZone,
+            this.storeData.time_zone
+          )
           this.storeStore$.dispatch(setStoreInfo(data.data));
         }
       });

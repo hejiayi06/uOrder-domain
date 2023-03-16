@@ -11,4 +11,5 @@ export const storageKeys = {
   storeInfo: 'storeInfo',
   userFirstName: 'userFirstName',
   userLastName: 'userLastName',
+  timeZone:''
 };
