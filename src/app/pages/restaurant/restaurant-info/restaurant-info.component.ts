@@ -121,13 +121,17 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
           if (this.storeData.announce) {
             Object.entries(this.storeData.announce).forEach((a) => {
               let expired = JSON.parse(JSON.parse((a[1] as string)).expired);
+              let started = JSON.parse(JSON.parse((a[1] as string)).start);
               if(expired != null){
                 const today = new Date();
                 const date = new Date();
+                const from = new Date();
+                from.setFullYear(started.year,started.month - 1,started.day);
                 date.setFullYear(expired.year,expired.month - 1,expired.day);
+                from.setHours(0,0,0,0);
                 date.setHours(0,0,0,0);
                 console.log(today.getTime() < date.getTime(),today.getTime(), date.getTime())
-                if(today.getTime() < date.getTime()){
+                if(from.getTime() <= today.getTime() && today.getTime()< date.getTime()){
                   const modal = this.modalService.open(AnnounceComponent, {
                     size: 'xl',
                   });

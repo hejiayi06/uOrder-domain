@@ -67,6 +67,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     startMinute: number;
   };
   submitName:string|null = null;
+  submitPhone:string|null = null;
   coupon_number:string = "";
   deliveryFeeRes!: DeliveryInfo;
   apiLoaded: boolean = false;
@@ -214,6 +215,8 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     this.userServe.getName().subscribe((res) => {
       this.submitName = res.data.item.name == null ? localStorage.getItem('userFirstName') + ' ' + localStorage.getItem('userLastName') : res.data.item.name;
       this.placeOrderForm.controls['name'].setValue(this.submitName);
+      this.submitPhone = res.data.item.phone;
+      this.placeOrderForm.controls['phone_number'].setValue(this.submitPhone);
     })
     this.router.events.subscribe((event) => {
       if (!(event instanceof NavigationEnd)) {
@@ -559,6 +562,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
     modalRef.componentInstance.orderType = this.checkout.orderParams.orderType;
     modalRef.closed.subscribe((res) => {
       console.log('changeTime :>> ', res);
+      this.placeOrderForm.get("schedule_time")?.setValue(res);
       this.schedule_time?.patchValue(res);
       this.checkout.orderParams.scheduleTime = res;
       this.cdr.markForCheck();

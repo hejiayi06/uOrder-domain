@@ -19,6 +19,11 @@
             class="fs-6 fw-bolder text-nowrap toe overflow-hidden mb-1 user-select-none"
           >
             {{ menuItem.name }}
+            <span *ngIf="menuItem?.spicy">
+              <span *ngFor="let item of getRange(menuItem?.spicy)">
+                <img  style="width: 15px ; max-height:15px" src="../../../../assets/images/default/red-chili-pepper.svg"/>
+              </span>
+            </span>
           </div>
           <div
             class="mw-100 overflow-hidden toe item-description text-secondary user-select-none"
@@ -41,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4" *ngIf="menuItem.icon">
+      <div class="col-4" style="max-height: 85px;" *ngIf="menuItem.icon">
         <img src="{{ menuItem.icon }}" alt="{{ menuItem.name }}" />
       </div>
     </div>

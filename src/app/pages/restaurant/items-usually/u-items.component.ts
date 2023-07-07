@@ -55,6 +55,10 @@ export class UItemsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
+  getRange(length: any): number[] {
+    return Array.from({ length }, (_, index) => index);
+  }
+
   getItem(): void {
     this.cartSub = this.shoppingCartStore$
       .select(selectShoppingCartFeature)

@@ -401,12 +401,14 @@
                 </ng-container> -->
                 <div class="input-group input-group-sm has-validation mt-2 checkout-input">
                   <input
+                  style="margin-top: -.7rem;"
                   *ngIf="!loading"
                   type="text"
                   autocomplete="off"
                   formControlName="name"
                   class="form-control w-50"
                   [(ngModel)]="submitName"
+                  maxlength="14"
                   aria-label="card-holder"
                   aria-describedby="card holder"
                 />
@@ -552,7 +554,7 @@
               <div
                 class="col-12 col-lg-9 d-flex flex-column justify-content-center"
               >
-                <a
+                <!-- <a
                   class="user-select-none w-100 text-dark d-inline-flex align-items-center"
                   (click)="changePhone()"
                 >
@@ -566,17 +568,32 @@
                   <ng-template #userAddressTemplate>
                     {{ phone_number?.value }}</ng-template
                   >
-                </a>
+                </a> -->
+                <div
+                class="input-group input-group-sm has-validation mt-2 checkout-input"
+              >
+                <input
+                style="margin-top: -.7rem;"
+                  *ngIf="!loading"
+                  type="text"
+                  autocomplete="off"
+                  formControlName="phone_number"
+                  class="form-control w-50"
+                  [(ngModel)]="submitPhone"
+                  aria-label="card-holder"
+                  aria-describedby="card holder"
+                />
+              </div>
               </div>
             </div>
-            <div class="d-flex align-items-center justify-content-end">
+            <!-- <div class="d-flex align-items-center justify-content-end">
               <a
                 class="d-lg-none text-lg-start text-end text-danger user-select-none"
                 (click)="changePhone()"
               >
                 Change
               </a>
-            </div>
+            </div> -->
           </div>
 
           <!-- note -->
@@ -837,7 +854,7 @@
                 Coupon
               </div>
             </div>
-            <div class="col-12 col-lg-9" *ngIf="!loading">
+            <div style="margin-top: -.7rem;" class="col-12 col-lg-9" *ngIf="!loading">
               <div class="input-group input-group-sm has-validation mt-2 checkout-input">
                 <input class="form-control" [(ngModel)]="coupon_number" [ngModelOptions]="{standalone: true}"/>
                 <button class="btn btn-sm btn-outline-danger text-nowrap fw-500" (click)="addCoupon()">Apply</button>

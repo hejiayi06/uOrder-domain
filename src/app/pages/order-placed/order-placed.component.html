@@ -8,7 +8,7 @@
 <div class="pt-35 container" *ngIf="placedOrder">
   <div class="row mt-4">
     <div class="w-100 fs-2 fw-bold mt-2 mb-2 text-center">
-      Your order is successfully send to the merchant!
+      Your order is successfully sent to the merchant!
     </div>
   </div>
   <div class="row border-bottom pt-2 pb-2 gx-0">
@@ -188,6 +188,7 @@
               option.price | number: "1.2-2"
             }})&nbsp;&times;&nbsp;{{ option.quantity }}
           </div>
+          <div class="text-secondary fw-500">{{ item.notes }}</div>
         </div>
       </div>
     </div>
