@@ -1,0 +1,253 @@
+<div class="modal-header">
+  <h4 class="modal-title">Submit Catering Form</h4>
+  <button
+    (click)="activeModal.dismiss(false)"
+    [disabled]="loading"
+    type="button"
+    class="btn-close user-select-none"
+    aria-label="Close"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="cateringForm" method="post" (ngSubmit)="onSubmit()">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Name:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              type="text"
+              autocomplete="off"
+              formControlName="name"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Phone Number:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              type="text"
+              autocomplete="off"
+              formControlName="phone"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Email:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              type="text"
+              autocomplete="off"
+              formControlName="email"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Event Date:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              autocomplete="off"
+              type="date"
+              formControlName="date"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Event Time:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              type="time"
+              autocomplete="off"
+              formControlName="time"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
+          Number of Guests:
+        </div>
+        <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: -0.7rem"
+              type="text"
+              autocomplete="off"
+              formControlName="guest"
+              class="form-control w-50"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 fs-6 fw-bold user-select-none pe-2">
+          How will you receive your food: Options - Delivery or Pick Up:
+        </div>
+        <div class="row" style="margin-left: 0px">
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="delivery" [disabled] = "cateringForm.get('receiveoptions')?.value === 'delivery'" value = 'delivery' [checked]="cateringForm.get('receiveoptions')?.value === 'delivery'" (change)="onchangeReceiveOption($event,'receiveoptions')"/>
+            <label class="form-check-label" for="delivery"> Delivery </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="pickup" value = 'pickup' [disabled] = "cateringForm.get('receiveoptions')?.value === 'pickup'" [checked]="cateringForm.get('receiveoptions')?.value === 'pickup'" (change)="onchangeReceiveOption($event,'receiveoptions')"/>
+            <label class="form-check-label" for="pickup"> Pick Up </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem">
+      <div class="row">
+        <div class="col-12 fs-6 fw-bold user-select-none pe-2">
+          Will you need Staff:
+        </div>
+        <div class="row" style="margin-left: 0px">
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="yes"  value = 'yes' [disabled] = "cateringForm.get('staff')?.value === 'yes'" [checked]="cateringForm.get('staff')?.value === 'yes'" (change)="onchangeReceiveOption($event,'staff')"/>
+            <label class="form-check-label" for="yes"> Yes </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="no"  value = 'no' [disabled] = "cateringForm.get('staff')?.value === 'no'" [checked]="cateringForm.get('staff')?.value === 'no'" (change)="onchangeReceiveOption($event,'staff')"/>
+            <label class="form-check-label" for="no"> No </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem; margin-bottom: 1rem">
+      <div class="row">
+        <div class="col-12 fs-6 fw-bold user-select-none pe-2">
+          What menu items are you interested in?
+        </div>
+        <div class="col-12 d-flex flex-column justify-content-center">
+          <div
+            class="input-group input-group-sm has-validation mt-2 checkout-input"
+          >
+            <input
+              style="margin-top: 0rem"
+              type="text"
+              autocomplete="off"
+              formControlName="interest"
+              class="form-control w-100"
+              aria-label="card-holder"
+              aria-describedby="card holder"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 1rem; margin-bottom: 1rem">
+      <div class="row">
+        <div class="col-12 fs-6 fw-bold user-select-none pe-2">
+          Do you need Center Street Grill to provide Plates, Napkins, Utensils,
+          Cups, Ice and Serving Utensils?:
+        </div>
+        <div class="row" style="margin-left: 0px">
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="plates" value="plates" [checked]="checkcheckbox('plates','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="plates"> Plates </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="napkins" value="napkins" [checked]="checkcheckbox('napkins','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="napkins"> Napkins </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="utensils" value="utensils"  [checked]="checkcheckbox('utensils','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="utensils"> Utensils </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="cup" value="cup" [checked]="checkcheckbox('cup','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="cup"> Cups </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="ice" value="ice"  [checked]="checkcheckbox('ice','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="ice"> Ice </label>
+          </div>
+          <div class="form-check mt-2 col-6">
+            <input class="form-check-input" type="checkbox" id="servingutensils" value="servingutensils" [checked]="checkcheckbox('servingutensils','service')" (change)="onchangeReceiveOptionMutiple($event,'service')"/>
+            <label class="form-check-label" for="servingutensils"> Serving Utensils </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="activeModal.close(false)"
+      >
+        Close
+      </button>
+      <button class="btn btn-danger" type="submit" [disabled]="!cateringForm.valid">Submit</button>
+    </div>
+  </form>
+  <ng-template #loadingTemplate>
+    <span
+      class="spinner-border spinner-border-sm"
+      role="status"
+      aria-hidden="true"
+    ></span>
+  </ng-template>
+</div>

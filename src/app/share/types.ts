@@ -63,6 +63,8 @@ export interface StoreRes {
   logo: string;
   longitude: string;
   merchant_id: number;
+  is_catering:number;
+  is_utensil:number;
   optional: string;
   phone: string;
   state: string;

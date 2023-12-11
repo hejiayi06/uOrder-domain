@@ -153,7 +153,11 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
           this.winServe.setLocalStorage(
             storageKeys.timeZone,
             this.storeData.time_zone
-          )
+          );
+          this.winServe.setLocalStorage(
+            storageKeys.is_utensil,
+            this.storeData.is_utensil.toString()
+          );
           this.storeStore$.dispatch(setStoreInfo(data.data));
         }
       });

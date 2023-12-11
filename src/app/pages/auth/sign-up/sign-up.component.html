@@ -103,15 +103,22 @@
           </div>
         </div>
         <div
+        class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
+      >
+        <span class="text-danger user-select-none" *ngIf="!emailToggle">
+          Email address has been used</span
+        >
+      </div>
+        <div
           *ngIf="email!.dirty && email!.errors as errors"
           class="col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 text-danger"
         >
-          <span
+          <!-- <span
             class="text-danger user-select-none"
             *ngIf="!emailToggle && errors['pattern']"
           >
             Email address has been used</span
-          >
+          > -->
           <span class="text-danger user-select-none" *ngIf="errors['required']"
             >Email is required</span
           >

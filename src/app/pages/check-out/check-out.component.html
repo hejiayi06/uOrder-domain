@@ -582,6 +582,7 @@
                   [(ngModel)]="submitPhone"
                   aria-label="card-holder"
                   aria-describedby="card holder"
+                  (input)="onInput($event)"
                 />
               </div>
               </div>
@@ -1006,6 +1007,159 @@
               </div>
             </div>
           </div>
+
+          <div
+          *ngIf="is_utenstil == '1'"
+          class="w-100 pt-3 pb-3 d-flex flex-column d-lg-inline-flex flex-lg-row border-bottom"
+        >
+          <div
+            class="col-12 col-lg-3 d-inline-flex d-lg-flex flex-row flex-lg-column"
+          >
+            <div
+              style="min-width: 80px"
+              class="fs-6 fw-bold user-select-none flex-fill flex-lg-grow-0 pb-3 pb-lg-0"
+            >
+            Utensil
+            </div>
+            <!-- <ng-container *ngIf="!loading">
+            <a
+              class="text-lg-start text-end text-danger user-select-none"
+              (click)="navigateToRestaurant()"
+            >
+              Change
+            </a></ng-container
+          > -->
+          </div>
+          <div class="col-12 col-lg-9" *ngIf="!loading">
+        <div
+          class="btn-group w-100"
+          role="group"
+          aria-label="Delivery or pickup button group"
+        >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tablesetNone"
+              formControlName="tableWare"
+              autocomplete="off"
+              [value]="'None'"
+              (change)="changeTableWare('None')"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tablesetNone"
+              >None</label
+            >
+          </ng-container>
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="Default"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('Default')"
+              [value]="'Default'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="Default"
+              >Default</label
+            ></ng-container
+          >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tableset1"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('1 set')"
+              [value]="'1 set'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tableset1"
+              >1 set</label
+            ></ng-container
+          >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tableset2"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('2 set')"
+              [value]="'2 set'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tableset2"
+              >2 set</label
+            ></ng-container
+          >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tableset3"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('3 set')"
+              [value]="'3 set'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tableset3"
+              >3 set</label
+            ></ng-container
+          >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tableset4"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('4 set')"
+              [value]="'4 set'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tableset4"
+              >4 set</label
+            ></ng-container
+          >
+          <ng-container>
+            <input
+              type="radio"
+              class="btn-check"
+              id="tablesetAdd"
+              formControlName="tableWare"
+              autocomplete="off"
+              (change)="changeTableWare('Add notes for more')"
+              [value]="'Add notes for more'"
+            />
+            <label
+              class="btn btn-sm btn-outline-danger text-nowrap fw-500"
+              for="tablesetAdd"
+              >Add notes for more</label
+            ></ng-container
+          >
+        </div>
+            <!-- <div ngbDropdown placement="top-right">
+              <button class="btn btn-warning" id="gfg"
+                      ngbDropdownToggle>Click Here!</button>
+              <div ngbDropdownMenu="gfg">
+                <button ngbDropdownItem>GeeksforGeeks</button>
+                <button ngbDropdownItem>Angular10</button>
+                <button ngbDropdownItem>ng bootstrap</button>
+              </div>
+            </div> -->
+          </div>
+        </div>
 
           <!-- count  -->
           <div
