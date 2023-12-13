@@ -114,8 +114,17 @@
       </div>
     </div>
     <div
-      class="col-12 col-sm-4 col-lg-3 gx-0 mb-1 mb-sm-0 mt-1 mt-sm-0 d-sm-flex align-items-sm-end justify-content-sm-end"
-    ></div>
+      class="col-12 col-sm-4 col-lg-3 gx-0 mb-1 mb-sm-0 mt-1 mt-sm-0 d-sm-flex align-items-sm-center justify-content-sm-end"
+      *ngIf="storeData?.is_catering === 1"
+    >
+      <button
+        type="button"
+        class="btn btn-md border rounded fw-bold text-nowrap text-danger"
+        (click)="openCatering()"
+      >
+        Catering Form
+      </button>
+    </div>
   </div>
   <!-- <div class="alert alert-danger text-center user-select-none h6" role="alert">
     This is a pick-up order

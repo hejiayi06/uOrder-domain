@@ -19,6 +19,7 @@ import { StoreRes } from 'src/app/share/types';
 import { setStoreInfo } from 'src/app/state/store-info/action';
 import { StoreInfoStoreModule } from 'src/app/state/store-info/store-info.store.module';
 import { AnnounceComponent } from '../../modals/announce/announce.component';
+import { ModalCateringComponent } from '../../modals/catering/catering.componet';
 
 @Component({
   selector: 'uo-restaurant-info',
@@ -93,6 +94,19 @@ export class RestaurantInfoComponent implements OnInit, AfterViewChecked {
   parseDay(string: string): boolean {
     let weekObj = JSON.parse(string);
     return weekObj[this.day];
+  }
+  openCatering(): void {
+    const modalRef = this.modalService.open(ModalCateringComponent, {
+      centered: true,
+      scrollable: true,
+    });
+    modalRef.closed.subscribe((res) => {
+      if (res) {
+        // this.addresses.push(res);
+        this.cdr.markForCheck();
+      }
+    });
+    console.log('open catering');
   }
   getStore(): void {
     this.storeServe

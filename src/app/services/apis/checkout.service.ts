@@ -29,16 +29,35 @@ export class CheckoutService {
     let t = new Date().getTime();
     console.log(new Date(t).toUTCString());
     let s = t.toString() + (localStorage.getItem('storeId') as any).toString();
-    temp[md5(s).replace(/[^a-zA-Z]/g, '')] = md5(md5(s).replace(/[^a-zA-Z]/g, '') + (localStorage.getItem('storeId') as any).toString())
+    temp[md5(s).replace(/[^a-zA-Z]/g, '')] = md5(
+      md5(s).replace(/[^a-zA-Z]/g, '') +
+        (localStorage.getItem('storeId') as any).toString()
+    );
     const headers = new HttpHeaders().set('AppId', t.toString());
     return this.http
       .post(
         environment.apiUrl + `${this.prefix}shopping-cart/place-order`,
-        placeOrder
-        , {
+        placeOrder,
+        {
           headers: headers,
         }
       )
+      .pipe(map((res: any) => res));
+  }
+  placeCatering(placeOrder: any): Observable<any> {
+    let temp = placeOrder;
+    let t = new Date().getTime();
+    console.log(new Date(t).toUTCString());
+    let s = t.toString() + (localStorage.getItem('storeId') as any).toString();
+    temp[md5(s).replace(/[^a-zA-Z]/g, '')] = md5(
+      md5(s).replace(/[^a-zA-Z]/g, '') +
+        (localStorage.getItem('storeId') as any).toString()
+    );
+    const headers = new HttpHeaders().set('AppId', t.toString());
+    return this.http
+      .post(environment.apiUrl + `${this.prefix}orders/catering`, placeOrder, {
+        headers: headers,
+      })
       .pipe(map((res: any) => res));
   }
 }

@@ -958,7 +958,7 @@ export class CheckOutComponent implements OnInit, AfterViewInit {
   }
   navigateToRestaurant(): void {
     this.router.navigate([
-      'store/' + this.winServe.getLocalStorage(storageKeys.store),
+      '/'
     ]);
   }
 
