@@ -138,6 +138,11 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 .sort((a, b) => a.sort - b.sort);
             }
           }
+          for(let v of this.menuGroups){
+            if(v.name === "Catering"){
+             localStorage.setItem("Catering",JSON.stringify(v));
+            }
+         }
           this.cdr.markForCheck();
         }
         this.loadingStore$.dispatch(setLoading({ loading: false }));

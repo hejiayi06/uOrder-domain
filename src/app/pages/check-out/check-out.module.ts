@@ -16,6 +16,7 @@ import { CustomTipsModalModule } from '../modals/custom-tips-modal/custom-tips-m
 import { AddCouponModule } from '../modals/add-coupon/add-coupon.module';
 import { NameModalModule } from '../modals/name-modal/name-modal.module';
 import { ModalCateringModule } from '../modals/catering/catering.module';
+import { ModalCateringMenuModule } from '../modals/cateringmenu/cateringmenu.module';
 @NgModule({
   declarations: [CheckOutComponent],
   imports: [
@@ -37,6 +38,7 @@ import { ModalCateringModule } from '../modals/catering/catering.module';
     ReactiveFormsModule,
     ModalCateringModule,
     CheckOutRoutingModule,
+    ModalCateringMenuModule
   ],
   exports: [CheckOutComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
