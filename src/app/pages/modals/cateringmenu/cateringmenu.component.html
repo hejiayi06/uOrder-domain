@@ -9,20 +9,20 @@
 </div>
 <div class="modal-body">
   <div *ngFor="let item of menu['categories']" class="row">
-    <div *ngIf="item['menu_list'].length > 0" class="col-12">
+    <div style="font-size: 18px;font-weight: 600;" *ngIf="item['menu_list'].length > 0" class="col-12">
       {{ item["name"] }}
     </div>
     <div class="form-check mt-2 col-6" *ngFor="let o of item['menu_list']; index as i">
       <input
         style="margin-left: 0rem"
-        class="form-check-input"
+        class="form-check-input col-2"
         type="checkbox"
         [checked] = "o['checked']"
         [id]="o['name']"
         (click)="checkcheckbox(o['name'])"
       />
       <label
-        class="form-check-label"
+        class="form-check-label col-10"
         style="margin-left: 0.2rem"
         [for]="o['name']"
       >

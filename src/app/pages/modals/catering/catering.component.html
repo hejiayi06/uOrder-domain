@@ -13,7 +13,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
-          Name:
+          <span style="color: #dc3545;">*</span>Name:
         </div>
         <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
           <div
@@ -35,7 +35,7 @@
     <div class="container-fluid" style="margin-top: 1rem">
       <div class="row">
         <div class="col-12 col-lg-3 fs-6 fw-bold user-select-none pe-2">
-          Phone Number:
+          <span style="color: #dc3545;">*</span>Phone Number:
         </div>
         <div class="col-12 col-lg-9 d-flex flex-column justify-content-center">
           <div
@@ -145,11 +145,11 @@
     <div class="container-fluid" style="margin-top: 1rem">
       <div class="row">
         <div class="col-12 fs-6 fw-bold user-select-none pe-2">
-          How will you receive your food: Options - Delivery or Pick Up:
+          <span style="color: #dc3545;">*</span>How will you receive your food: Options - Delivery or Pick Up:
         </div>
         <div class="row" style="margin-left: 0px">
           <div class="form-check mt-2 col-6">
-            <input class="form-check-input" type="checkbox" id="delivery" [disabled] = "cateringForm.get('receiveoptions')?.value === 'delivery'" value = 'delivery' [checked]="cateringForm.get('receiveoptions')?.value === 'delivery'" (change)="onchangeReceiveOption($event,'receiveoptions')"/>
+            <input class="form-check-input"  type="checkbox" id="delivery" [disabled] = "cateringForm.get('receiveoptions')?.value === 'delivery'" value = 'delivery' [checked]="cateringForm.get('receiveoptions')?.value === 'delivery'" (change)="onchangeReceiveOption($event,'receiveoptions')"/>
             <label class="form-check-label" for="delivery"> Delivery </label>
           </div>
           <div class="form-check mt-2 col-6">
@@ -162,7 +162,7 @@
     <div class="container-fluid" style="margin-top: 1rem">
       <div class="row">
         <div class="col-12 fs-6 fw-bold user-select-none pe-2">
-          Will you need Staff:
+          <span style="color: #dc3545;">*</span> Will you need Staff:
         </div>
         <div class="row" style="margin-left: 0px">
           <div class="form-check mt-2 col-6">
